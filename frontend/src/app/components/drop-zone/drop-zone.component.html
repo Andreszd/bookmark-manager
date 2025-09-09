@@ -1,0 +1,13 @@
+<div
+  #dropzone
+  class="dropzone"
+  [ngClass]="{
+    active: hasOverlayElement
+  }"
+  (drop)="handleOnDrop($event)"
+  (dragover)="handleOnDragOver($event)"
+  (dragenter)="handleOnDragEnter($event)"
+  (dragleave)="handleOnDragLeave($event)"
+>
+  <ng-content></ng-content>
+</div>

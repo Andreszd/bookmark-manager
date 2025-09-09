@@ -1,0 +1,7 @@
+.dropzone.active {
+  padding: 0.5rem;
+  border: 2px dashed #c3c3c3;
+  border-radius: 10px;
+}
+.dropzone {
+}

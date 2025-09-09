@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="flex f-direction-col gap-0">
+    <input
+      #ref
+      class="p-3"
+      [ngClass]="{ error: form.get('name')?.hasError('required') }"
+      type="text"
+      formControlName="name"
+    />
+    <small style="color: red" *ngIf="form.get('name')?.hasError('required')"
+      >Inválido</small
+    >
+  </div>
+</form>

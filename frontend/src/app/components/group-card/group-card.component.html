@@ -1,0 +1,43 @@
+<div
+  class="group-card"
+  (mouseenter)="handleMouseEnter($event)"
+  (mouseleave)="handleMouseLeave($event)"
+>
+  <!--
+  <div *ngIf="displayOverlay" class="overlay flex flex-center">
+    <span title="Create group" class="inline">
+      <svg
+        style="width: 40px"
+        focusable="false"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M20 6h-8l-2-2H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2m-1 8h-3v3h-2v-3h-3v-2h3V9h2v3h3z"
+        ></path>
+      </svg>
+    </span>
+  </div>
+ -->
+
+  <div
+    class="flex f-direction-col gap-0"
+    [ngStyle]="{ padding: 'var(--padding-0)' }"
+  >
+    <div class="flex align-items-center gap-0">
+      <svg
+        class="icon-default-color"
+        style="width: 20px"
+        focusable="false"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8z"
+        ></path>
+      </svg>
+      <p class="p-2">{{ group.name }}</p>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

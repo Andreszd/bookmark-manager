@@ -1,0 +1,7 @@
+<div class="container flex f-direction-col justify-content-center">
+  <p class="p-2 f-w-600">{{ page.title }}</p>
+  <div class="flex f-direction-col">
+    <p class="p-3">{{ page.url }}</p>
+    <p *ngIf="!small" class="p-4">creado el</p>
+  </div>
+</div>

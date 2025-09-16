@@ -17,12 +17,10 @@
 }
 .groups-section {
   padding: 1rem;
-  min-width: 330px;
 }
 
 .pages-section {
   position: relative;
-  padding: 1rem;
   flex: 1;
 }
 

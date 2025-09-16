@@ -1,8 +1,9 @@
 export class PanelSizeService {
   panelWidth: number;
+  BASE_WIDTH = 340;
 
   constructor() {
-    this.panelWidth = 330;
+    this.panelWidth = this.BASE_WIDTH;
   }
 
   handleResize(event: any) {

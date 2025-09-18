@@ -274,3 +274,7 @@ input:focus {
 .flex-1 {
   flex: 1;
 }
+
+.border-1 {
+  border-radius: var(--border-radius);
+}

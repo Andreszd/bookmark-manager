@@ -3,9 +3,29 @@
   flex-direction: row;
   min-width: 300px;
   border-radius: 5px;
-  border: 1px solid #c2c2c2;
-  max-width: 400px;
+  border: 1px solid var(--border-color);
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
 }
+.card::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  min-width: 298px;
+  border-radius: 5px;
+  height: 100%;
+}
+.card.active::after {
+  border: 2px solid var(--grey-500);
+}
+.card.active {
+  border-color: transparent;
+}
+
 .card-img {
   color: #f2f2f2;
   background-color: #c2c2c2;

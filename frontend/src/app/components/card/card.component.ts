@@ -1,7 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-interface Props {}
-
 interface PageI {
   title: string;
   imgUrl: string;
@@ -10,9 +8,9 @@ interface PageI {
 @Component({
   selector: 'app-card',
   template: `
-    <div class="card">
+    <div class="card" [ngClass]="{active}">
       <div
-        class="card-img flex f-direction-col justify-content-center"
+        class="card-img flex f-direction-col justify-content-center "
         [ngClass]="{ small: small }"
       >
         <svg
@@ -42,6 +40,7 @@ export class CardComponent implements OnInit {
   @Input() props!: string;
   @Input() small!: boolean;
   @Input() page!: PageI;
+  @Input() active!: boolean;
   constructor() {}
 
   ngOnInit(): void {}

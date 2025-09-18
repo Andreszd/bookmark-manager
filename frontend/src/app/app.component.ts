@@ -1,4 +1,4 @@
-import { Component, inject, Injector } from '@angular/core';
+import { Component, inject, Injector, OnChanges, OnInit } from '@angular/core';
 import { PageService } from './page.service';
 import { PageGroupAdapter } from './pageGroup.adapter';
 import { Page, PageGroup } from './page.model';
@@ -11,26 +11,32 @@ import { PageGroupDialogComponent } from './components/page-group-dialog/page-gr
 import { PagesDragAndDropService } from './pages-drag-and-drop.service';
 import { DialogService } from './dialog.service';
 import { PageApiService } from './page-api.service';
-import { DragSelectService } from './drag-select.service';
+import { PagesListLayoutService } from './pages-list-layout.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [PanelSizeService, PagesDragAndDropService, DragSelectService],
+  providers: [PanelSizeService, PagesDragAndDropService],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   pageService = inject(PageService);
   pageApiService = inject(PageApiService);
   pageGroupAdapter = inject(PageGroupAdapter);
   panelSizeService = inject(PanelSizeService);
   pagesDragAndDropService = inject(PagesDragAndDropService);
   dialogService = inject(DialogService);
-  dragSelectService = inject(DragSelectService);
+  pagesListLayoutService = inject(PagesListLayoutService);
+
+  selectedPageIds: number[] = [];
+
+  layout$ = this.pagesListLayoutService.layout$;
 
   constructor(private injector: Injector) {
     this.pageService.getData();
   }
+
+  ngOnInit(): void {}
 
   handleSubmit(value: GroupFormValues) {
     this.pageApiService.createGroup(value);
@@ -92,5 +98,9 @@ export class AppComponent {
     this.dialogService.open(PageGroupDialogComponent, {
       injector,
     });
+  }
+
+  saveIdsOfSelectedPages(idxs: number[]) {
+    this.selectedPageIds = idxs;
   }
 }

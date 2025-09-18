@@ -17,6 +17,11 @@ import { PageGroupDialogComponent } from './components/page-group-dialog/page-gr
 import { UtilsService } from './utils.service';
 import { PagesDragAndDropService } from './pages-drag-and-drop.service';
 import { PageService } from './page.service';
+import { DragSelectContainerComponent } from './components/drag-select-container/drag-select-container.component';
+import { PagesSectionHeadingComponent } from './components/pages-section-heading/pages-section-heading.component';
+import { PagesListHeadingComponent } from './components/pages-list-heading/pages-list-heading.component';
+import { FilterButtonComponent } from './components/filter-button/filter-button.component';
+import { ActiveIconDirective } from './directives';
 
 @NgModule({
   declarations: [
@@ -29,6 +34,8 @@ import { PageService } from './page.service';
     PageCardBodyComponent,
     RegisterGroupFormComponent,
     PageGroupDialogComponent,
+    PagesSectionHeadingComponent,
+    PagesListHeadingComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +43,9 @@ import { PageService } from './page.service';
     DialogComponent,
     DialogModule,
     ReactiveFormsModule,
+    DragSelectContainerComponent,
+    FilterButtonComponent,
+    ActiveIconDirective
   ],
   providers: [
     { provide: DEFAULT_DIALOG_CONFIG, useValue: { hasBackdrop: false } },

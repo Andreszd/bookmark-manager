@@ -1,0 +1,40 @@
+<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="flex f-direction-col gap-0">
+    <div class="flex f-direction-col gap-0">
+      <label class="p-4">Url</label>
+      <div
+        class="input-with-icon flex align-items-center justify-content-space-between bg-color-grey-200 border-radius"
+      >
+        <input
+          #ref
+          class="p-3 flex-1"
+          [ngClass]="{ error: form.get('url')?.hasError('required') }"
+          type="text"
+          formControlName="url"
+          placeholder="https://www.google.com"
+        />
+        <div class="flex f-direction-col border-radius px-0 color-grey-500">
+          <svg
+            class="icon"
+            focusable="false"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 7v4H5.83l3.58-3.59L8 6l-6 6 6 6 1.41-1.41L5.83 13H21V7z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+      <small
+        style="color: red"
+        *ngIf="
+          form.get('url')?.dirty &&
+          (form.get('url')?.hasError('required') ||
+            form.get('url')?.hasError('pattern'))
+        "
+        >Inválido</small
+      >
+    </div>
+  </div>
+</form>

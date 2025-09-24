@@ -5,18 +5,16 @@ import {
   ElementRef,
   HostListener,
   inject,
-  Input,
   ViewContainerRef,
 } from '@angular/core';
 import { DropdownService } from '../services/Dropdown.service';
 
-@Directive({ selector: '[dropdown-origin]' })
+@Directive({ selector: '[dropdown-origin]', exportAs: 'dropdown-origin' })
 export class DropdownOriginDirective {
   dropdownService = inject(DropdownService);
   ref!: ElementRef;
   overlay = inject(Overlay);
   viewContainerRef = inject(ViewContainerRef);
-  @Input() dropdownId?: string | number;
 
   constructor(el: ElementRef) {
     this.ref = el.nativeElement;
@@ -43,17 +41,17 @@ export class DropdownOriginDirective {
         ]),
     });
 
-    const portal = new TemplatePortal(
-      this.dropdownService.content,
-      this.viewContainerRef
-    );
+    const content = this.dropdownService.content.get(this);
+    if (!content) return;
 
-    this.dropdownService.registerDropdown(this.dropdownId, overlay);
+    const portal = new TemplatePortal(content, this.viewContainerRef);
+
+    this.dropdownService.registerDropdown(this, overlay);
 
     overlay.attach(portal);
 
     overlay.outsidePointerEvents().subscribe(() => {
-      this.dropdownService.unregisterDropdown(this.dropdownId ?? overlay);
+      this.dropdownService.unregisterDropdown(this);
       overlay.detach();
     });
   }

@@ -1,22 +1,23 @@
 import { OverlayRef } from '@angular/cdk/overlay';
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
+import { DropdownOriginDirective } from '../directives/DropdownOriginDirective';
 
 @Injectable()
 export class DropdownService {
-  dropdownsOpened: Map<string | number | OverlayRef, OverlayRef> = new Map();
-  content: any;
+  dropdownsOpened: Map<DropdownOriginDirective, OverlayRef> = new Map();
+  content: Map<DropdownOriginDirective, TemplateRef<any>> = new Map();
 
-  saveDropdownContent(content: any) {
-    this.content = content;
+  saveDropdownContent(origin: DropdownOriginDirective, content: any) {
+    this.content.set(origin, content);
   }
 
-  registerDropdown(id: string | number | undefined, ref: OverlayRef) {
-    this.dropdownsOpened.set(id ?? ref, ref);
+  registerDropdown(origin: DropdownOriginDirective, ref: OverlayRef) {
+    this.dropdownsOpened.set(origin, ref);
   }
 
-  unregisterDropdown(id: string | number | OverlayRef) {
-    if (this.dropdownsOpened.has(id)) {
-      this.dropdownsOpened.delete(id);
+  unregisterDropdown(origin: DropdownOriginDirective) {
+    if (this.dropdownsOpened.has(origin)) {
+      this.dropdownsOpened.delete(origin);
     }
   }
 }

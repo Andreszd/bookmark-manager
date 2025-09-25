@@ -18,6 +18,7 @@
   min-width: 298px;
   border-radius: 5px;
   height: 100%;
+  z-index: 1;
 }
 .card.active::after {
   border: 2px solid var(--grey-500);

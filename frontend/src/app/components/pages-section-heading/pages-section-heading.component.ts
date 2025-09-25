@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { PageService } from 'src/app/page.service';
 import { DropdownService } from '../dropdown/services/Dropdown.service';
+import { DropdownOriginDirective } from '../dropdown/directives/DropdownOriginDirective';
 
 @Component({
   selector: 'app-pages-section-heading',
@@ -10,6 +11,7 @@ import { DropdownService } from '../dropdown/services/Dropdown.service';
 export class PagesSectionHeadingComponent implements OnInit {
   pageService = inject(PageService);
   dropdown = inject(DropdownService);
+  @ViewChild('#dref') dropdownFormRef!: DropdownOriginDirective;
   constructor() {}
 
   ngOnInit(): void {}
@@ -17,7 +19,7 @@ export class PagesSectionHeadingComponent implements OnInit {
   createPage(url?: string | null) {
     if (url) {
       this.pageService.create(url);
-      this.dropdown.dropdownsOpened.get('dropdown-form')?.detach();
+      this.dropdown.dropdownsOpened.get(this.dropdownFormRef)?.detach();
     }
   }
 }

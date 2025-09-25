@@ -32,6 +32,7 @@ interface PageI {
       >
         <ng-content select="[body]"></ng-content>
       </div>
+      <ng-content select="[actions]"></ng-content>
     </div>
   `,
   styleUrls: ['./card.component.css'],

@@ -1,0 +1,46 @@
+<div
+  class="flex h-full f-direction-col justify-content-center py-1 px-1 gap-0"
+  [style]="{ position: 'relative', zIndex: '1000' }"
+>
+  <ng-container *ngIf="collapsed">
+    <button dropdown-origin #dref="dropdown-origin" class="color-grey-500">
+      <svg
+        class="icon"
+        focusable="false"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"
+        ></path>
+      </svg>
+    </button>
+    <ng-template dropdown-content [originConection]="dref">
+      <div
+        class="flex f-direction-col elevation color-grey-600 border-radius"
+        [style]="{
+          backgroundColor: 'white',
+          minWidth: '110px',
+          overflow: 'hidden'
+        }"
+      >
+        <div
+          class="flex justify-content-space-between align-items-center hover-bg-color-primary px-1 py-0 hover-cursor-pointer"
+          *ngFor="let action of actions"
+        >
+          <p>{{ action.label }}</p>
+          <div [innerHTML]="action.icon"></div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <div *ngIf="!collapsed" class="flex">
+    <button
+      *ngFor="let action of actions"
+      [title]="action.label"
+      class="button text color-grey-500 hover-color-grey-600"
+    >
+      <div [innerHTML]="action.icon"></div>
+    </button>
+  </div>
+</div>

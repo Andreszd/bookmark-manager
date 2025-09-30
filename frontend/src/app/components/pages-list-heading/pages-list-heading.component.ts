@@ -1,4 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { map } from 'rxjs';
+import { PageStateService } from 'src/app/page-state.service';
 import { PagesListLayoutService } from 'src/app/pages-list-layout.service';
 
 @Component({
@@ -8,6 +10,13 @@ import { PagesListLayoutService } from 'src/app/pages-list-layout.service';
 })
 export class PagesListHeadingComponent implements OnInit {
   pagesListLayoutService = inject(PagesListLayoutService);
+  pagesStateService = inject(PageStateService);
+
+  selectedPageIds$ = this.pagesStateService.selectedPageIds$;
+
+  selectedPageIdsLength$ = this.selectedPageIds$.pipe(
+    map((value) => value.length)
+  );
 
   layout$ = this.pagesListLayoutService.layout$;
 

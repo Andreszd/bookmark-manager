@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/cdk/overlay-prebuilt.css";
+
 :root {
   --border-radius: 5px;
   --grey-50: #fafafa;
@@ -64,6 +66,10 @@ body {
 .justify-content-space-between {
   justify-content: space-between;
 }
+.justify-content-end {
+  justify-content: flex-end;
+}
+
 .align-items-center {
   align-items: center;
 }
@@ -121,7 +127,6 @@ body {
   left: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 .cdk-global-overlay-wrapper {
@@ -136,6 +141,15 @@ body {
   right: 0;
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.cdk-overlay-container:has(.display-inline-block) {
+  display: inline-block;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
+
 .dialog-container {
   position: relative;
   z-index: 1;
@@ -196,6 +210,14 @@ input {
   border: 1px solid black;
 }
 
+.py-00 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.py-0 {
+  padding-top: var(--padding-0);
+  padding-bottom: var(--padding-0);
+}
 .py-1 {
   padding-top: var(--padding-1);
   padding-bottom: var(--padding-1);
@@ -204,6 +226,11 @@ input {
 .py-2 {
   padding-top: var(--padding-2);
   padding-bottom: var(--padding-2);
+}
+
+.px-00 {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .px-0 {
@@ -229,6 +256,20 @@ input {
 .color-grey-500 {
   color: var(--grey-500);
 }
+.color-grey-600 {
+  color: var(--grey-600);
+}
+
+.color-primary {
+  color: var(--green-300);
+}
+
+.hover-color-grey-600:hover {
+  color: var(--grey-600);
+}
+.hover-cursor-pointer:hover {
+  cursor: pointer;
+}
 
 .button {
   padding: var(--padding-1) var(--padding-2);
@@ -244,11 +285,20 @@ input {
 }
 .button.text:hover {
   box-shadow: none;
+  cursor: pointer;
 }
 
 .button:hover {
   cursor: pointer;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.elevation {
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hover-bg-color-primary:hover {
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .icon {
@@ -275,6 +325,13 @@ input:focus {
   flex: 1;
 }
 
-.border-1 {
+.border {
+  border: 1px solid var(--border-color);
+}
+.border-r {
+  border-right: 1px solid var(--border-color);
+}
+
+.border-radius {
   border-radius: var(--border-radius);
 }

@@ -8,7 +8,12 @@ interface PageI {
 @Component({
   selector: 'app-card',
   template: `
-    <div class="card" [ngClass]="{active}">
+    <div
+      class="card"
+      [ngClass]="{active}"
+      (mouseover)="showActions($event)"
+      (mouseleave)="hideActions($event)"
+    >
       <div
         class="card-img flex f-direction-col justify-content-center "
         [ngClass]="{ small: small }"
@@ -42,7 +47,17 @@ export class CardComponent implements OnInit {
   @Input() small!: boolean;
   @Input() page!: PageI;
   @Input() active!: boolean;
+  mountActions: boolean = false;
   constructor() {}
 
   ngOnInit(): void {}
+
+  showActions(event: MouseEvent) {
+    if (!this.mountActions) {
+      this.mountActions = true;
+    }
+  }
+  hideActions(event: MouseEvent) {
+    this.mountActions = false;
+  }
 }

@@ -51,12 +51,12 @@
       <app-pages-list-heading></app-pages-list-heading>
       <app-drag-select-container
         class="flex f-wrap f-direction-col gap-1 align-items-start align-content-start px-2"
-        [ngClass]="{ 'f-direction-col': (layout$ | async) === 'list' }"
-        (onDetectNodes)="saveIdsOfSelectedPages($event)"
+        [ngClass]="{ 'f-direction-col': !(isGridLayout$ | async) }"
+        (onDetectNodes)="pagesStateService.selectPages($event)"
       >
         <drop-zone
           *ngFor="let page of pageService.pages; let i = index"
-          [ngClass]="{ 'w-full': (layout$ | async) === 'list' }"
+          [ngClass]="{ 'w-full': !(isGridLayout$ | async) }"
           [disabled]="
             page.id === pagesDragAndDropService.dropzoneId ||
             (pagesDragAndDropService.draggableItemData &&
@@ -72,16 +72,29 @@
               pagesDragAndDropService.handleDragStart(page.id, page)
             "
           >
-            <app-card
-              [small]="(layout$ | async) === 'list'"
-              [active]="selectedPageIds.includes(i)"
+            <app-selectable-card
+              (hasHover)="cardHasHover = $event ? i : undefined"
+              [selected]="pagesStateService.isSelected(i)"
+              (onSelect)="pagesStateService.selectPage(i)"
+              (onUnSelect)="pagesStateService.unSelectPage(i)"
             >
-              <app-page-card-body
-                [small]="(layout$ | async) === 'list'"
-                [page]="page"
-                body
-              ></app-page-card-body>
-            </app-card>
+              <app-card [small]="!(isGridLayout$ | async)">
+                <app-page-card-body
+                  [small]="!(isGridLayout$ | async)"
+                  [page]="page"
+                  body
+                ></app-page-card-body>
+                <app-page-card-actions
+                  *ngIf="
+                    (cardHasHover === i &&
+                      !(pagesStateService.pagesLength$ | async)) ||
+                    !!(isGridLayout$ | async)
+                  "
+                  [collapsed]="!!(isGridLayout$ | async)"
+                  actions
+                ></app-page-card-actions>
+              </app-card>
+            </app-selectable-card>
           </draggable-item>
         </drop-zone>
       </app-drag-select-container>

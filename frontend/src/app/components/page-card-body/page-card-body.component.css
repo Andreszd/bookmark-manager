@@ -4,3 +4,7 @@
   gap: 0.2rem;
   margin-left: 1rem;
 }
+
+input {
+  field-sizing: content;
+}

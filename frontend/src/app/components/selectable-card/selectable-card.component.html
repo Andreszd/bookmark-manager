@@ -1,0 +1,25 @@
+<button
+  [title]="selected ? 'Anular selección' : 'Seleccionar'"
+  class="selection-checkbox hover-cursor-pointer"
+  (mouseover)="onMouseOver($event)"
+  (mouseleave)="onMouseLeave($event)"
+  [ngClass]="{ active: showCheckbox || selected, selected }"
+  (click)="selected ? unSelect() : select()"
+>
+  <svg
+    *ngIf="showCheckbox || selected"
+    focusable="false"
+    aria-hidden="true"
+    viewBox="3 2 20 20"
+  >
+    <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+  </svg>
+</button>
+<div
+  class="container"
+  [ngClass]="{ active: selected }"
+  (mouseover)="onMouseOver($event)"
+  (mouseleave)="onMouseLeave($event)"
+>
+  <ng-content></ng-content>
+</div>

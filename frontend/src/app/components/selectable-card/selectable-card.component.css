@@ -1,0 +1,50 @@
+:host {
+  position: relative;
+  width: 100%;
+}
+
+.selection-checkbox {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  transform: translateX(-40%) translateY(-25%);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.selection-checkbox.active {
+  background-color: var(--grey-500);
+}
+.selection-checkbox.selected {
+  background-color: var(--grey-600);
+}
+
+.selection-checkbox svg {
+  width: 12.5px;
+  fill: white;
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  width: 100%;
+  border-radius: 5px;
+  height: 100%;
+  z-index: 1;
+}
+.container.active::after {
+  border: 2px solid var(--grey-500);
+}
+
+.container:hover {
+  background-color: var(--grey-100);
+}

@@ -1,3 +1,8 @@
-<div draggable="true" (dragstart)="handleOnDragStart($event)">
+<div
+  [draggable]="isDraggable ? 'true' : null"
+  (dragstart)="handleOnDragStart($event)"
+  (dragend)="handleOnDragEnd($event)"
+  [style]="{ opacity: isDragging ? '0.5' : '1' }"
+>
   <ng-content></ng-content>
 </div>

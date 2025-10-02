@@ -15,7 +15,10 @@ import {
 })
 export class DropZoneComponent implements OnInit {
   @Input() disabled!: boolean;
+  @Input() activeStyles!: { [key: string]: string };
   @Output() onDrop = new EventEmitter<DragEvent>();
+  @Output() dragEnter = new EventEmitter();
+  @Output() dragLeave = new EventEmitter();
   @ViewChild('dropzone') ref!: ElementRef<HTMLElement>;
 
   hasOverlayElement = false;
@@ -39,16 +42,25 @@ export class DropZoneComponent implements OnInit {
     if (this.disabled) return;
     evt.preventDefault();
     this.hasOverlayElement = true;
+    this.dragEnter.emit();
   }
 
   handleOnDragLeave(evt: DragEvent) {
     if (this.disabled) return;
     const dropzone$ = this.ref.nativeElement;
+
+    this.dragLeave.emit();
     if (
       evt.relatedTarget &&
       !dropzone$.contains(evt.relatedTarget as HTMLElement)
     ) {
       this.hasOverlayElement = false;
     }
+  }
+
+  getClassesCSS() {
+    return {
+      active: this.hasOverlayElement && !this.activeStyles,
+    };
   }
 }

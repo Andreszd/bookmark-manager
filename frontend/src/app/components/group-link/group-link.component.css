@@ -1,0 +1,17 @@
+.group-card {
+  position: relative;
+}
+
+input {
+  padding: 0px;
+  font-family: inherit;
+  font-size: 16px;
+  border-radius: 0px;
+  width: 100%;
+  border-bottom: 1px solid var(--grey-500);
+  outline: none;
+  background-color: transparent;
+}
+p {
+  line-height: 1;
+}

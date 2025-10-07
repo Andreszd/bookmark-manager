@@ -1,7 +1,7 @@
 <div
   #dropzone
   class="dropzone"
-  [style]="hasOverlayElement && activeStyles ? activeStyles : null"
+  [style]="hasOverlayElement && activeStyles ? activeStyles : unactiveStyles"
   [ngClass]="getClassesCSS()"
   (drop)="handleOnDrop($event)"
   (dragover)="handleOnDragOver($event)"

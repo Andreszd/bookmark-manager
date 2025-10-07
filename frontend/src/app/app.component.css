@@ -4,19 +4,31 @@
   height: 100vh;
 }
 .splitter {
-  margin: 0px 5px;
+  position: relative;
   width: 1px;
   background-color: var(--border-color);
   height: 100%;
-}
-
-.splitter:hover {
-  margin: 0px 3.5px;
-  width: 4px;
   cursor: col-resize;
 }
+
+.splitter::after {
+  display: none;
+  top: 0;
+  left: 0;
+  position: absolute;
+  content: "";
+  width: 4px;
+  background-color: var(--border-color);
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.splitter:hover.splitter::after {
+  display: block;
+}
+
 .groups-section {
-  padding: 1rem;
+  background-color: var(--grey-200);
 }
 
 .pages-section {

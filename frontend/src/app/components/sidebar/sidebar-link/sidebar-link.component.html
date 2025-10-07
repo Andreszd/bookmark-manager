@@ -1,9 +1,10 @@
-<div
+<a
+  [routerLink]="link"
+  [ngClass]="{ active: isActive }"
   class="w-full px-1 flex gap-0 hover-bg-color-primary align-items-center py-1"
-  [ngClass]="class"
 >
   <ng-content select="[icon]"></ng-content>
   <p class="p-3">
     <ng-content></ng-content>
   </p>
-</div>
+</a>

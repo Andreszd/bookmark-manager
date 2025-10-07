@@ -1,7 +1,4 @@
 <div class="container">
-  <!--
-    <a [routerLink]="['/detail']"> go to detail</a>
-   -->
   <div
     class="groups-section flex f-wrap align-content-start gap-1"
     [ngStyle]="{
@@ -9,37 +6,7 @@
       minWidth: panelSizeService.BASE_WIDTH + 'px'
     }"
   >
-    <drop-zone
-      *ngFor="let pageGroup of pageService.listPageGroup"
-      [disabled]="pageGroup.id === pagesDragAndDropService.dropzoneId"
-      (onDrop)="handleOnDrop($event, pageGroup)"
-    >
-      <draggable-item
-        [id]="pageGroup.id"
-        (onDragStart)="
-          pagesDragAndDropService.handleDragStart(pageGroup.id, pageGroup)
-        "
-      >
-        <app-group-card [group]="pageGroup">
-          <app-card
-            *ngFor="let page of pageGroup.pages | slice : 0 : 3"
-            [small]="true"
-          >
-            <app-page-card-body
-              [page]="page"
-              [small]="true"
-              body
-            ></app-page-card-body>
-          </app-card>
-          <button
-            *ngIf="pageGroup.pages.length > 3"
-            (click)="openFullInfoGroup(pageGroup)"
-          >
-            Ver mas
-          </button>
-        </app-group-card>
-      </draggable-item>
-    </drop-zone>
+    <sidebar></sidebar>
   </div>
   <div
     class="splitter"
@@ -47,59 +14,8 @@
   ></div>
   <div class="flex f-direction-col pages-section">
     <app-pages-section-heading></app-pages-section-heading>
-    <div class="flex f-direction-col gap-1 flex-1">
-      <app-pages-list-heading></app-pages-list-heading>
-      <app-drag-select-container
-        class="flex f-wrap f-direction-col gap-1 align-items-start align-content-start px-2"
-        [ngClass]="{ 'f-direction-col': !(isGridLayout$ | async) }"
-        (onDetectNodes)="pagesStateService.selectPages($event)"
-      >
-        <drop-zone
-          *ngFor="let page of pageService.pages; let i = index"
-          [ngClass]="{ 'w-full': !(isGridLayout$ | async) }"
-          [disabled]="
-            page.id === pagesDragAndDropService.dropzoneId ||
-            (pagesDragAndDropService.draggableItemData &&
-              pageService.isPageGroup(
-                pagesDragAndDropService.draggableItemData
-              ))
-          "
-          (onDrop)="handleOnDrop($event, page)"
-        >
-          <draggable-item
-            [id]="page.id"
-            (onDragStart)="
-              pagesDragAndDropService.handleDragStart(page.id, page)
-            "
-          >
-            <app-selectable-card
-              (hasHover)="cardHasHover = $event ? i : undefined"
-              [selected]="pagesStateService.isSelected(i)"
-              (onSelect)="pagesStateService.selectPage(i)"
-              (onUnSelect)="pagesStateService.unSelectPage(i)"
-            >
-              <app-card [small]="!(isGridLayout$ | async)">
-                <app-page-card-body
-                  [small]="!(isGridLayout$ | async)"
-                  [page]="page"
-                  body
-                ></app-page-card-body>
-                <app-page-card-actions
-                  *ngIf="
-                    (cardHasHover === i &&
-                      !(pagesStateService.pagesLength$ | async)) ||
-                    !!(isGridLayout$ | async)
-                  "
-                  [collapsed]="!!(isGridLayout$ | async)"
-                  actions
-                ></app-page-card-actions>
-              </app-card>
-            </app-selectable-card>
-          </draggable-item>
-        </drop-zone>
-      </app-drag-select-container>
+    <div class="flex f-direction-col flex-1">
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
-<router-outlet></router-outlet>

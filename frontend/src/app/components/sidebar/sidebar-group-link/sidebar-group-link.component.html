@@ -18,7 +18,7 @@
   </svg>
 
   <p *ngIf="!isEditing" class="p-3" (dblclick)="enableEdition()">
-    {{ group.name }}
+    {{ group?.name }}
   </p>
   <form [formGroup]="form" *ngIf="isEditing" class="flex-1">
     <input #ref autofocus formControlName="name" (blur)="disableEdition()" />

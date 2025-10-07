@@ -1,0 +1,50 @@
+<div class="container flex f-direction-col justify-content-center">
+  <div *ngIf="!editable" class="flex f-direction-col">
+    <p
+      [style]="{ zIndex: '100' }"
+      class="p-2 f-w-600 px-00 py-00"
+      (dblclick)="enableEdition('title')"
+    >
+      {{ page.title }}
+    </p>
+    <p
+      [style]="{ zIndex: '100' }"
+      class="p-3 px-00 py-00"
+      (dblclick)="enableEdition('url')"
+    >
+      {{ page.url }}
+    </p>
+  </div>
+  <form
+    class="flex f-direction-col"
+    *ngIf="editable"
+    [formGroup]="form"
+    (ngSubmit)="saveChanges()"
+  >
+    <input
+      #titleF
+      formControlName="title"
+      (blur)="saveChanges()"
+      class="p-2 f-w-600 px-00 py-00"
+      [ngClass]="{ active: fieldFocus === 'title' }"
+      [style]="{
+        position: 'relative',
+        zIndex: '100',
+        backgroundColor: 'inherit'
+      }"
+    />
+    <input
+      #urlF
+      formControlName="url"
+      class="p-3 px-00 py-00"
+      [ngClass]="{ active: fieldFocus === 'url' }"
+      (blur)="saveChanges()"
+      [style]="{
+        position: 'relative',
+        zIndex: '100',
+        backgroundColor: 'inherit'
+      }"
+    />
+  </form>
+  <p *ngIf="!small" class="p-4">creado el</p>
+</div>

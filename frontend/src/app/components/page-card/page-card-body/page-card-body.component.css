@@ -1,0 +1,19 @@
+.container {
+  height: 100%;
+  flex: 1;
+  gap: 0.2rem;
+  margin-left: 1rem;
+}
+
+input {
+  field-sizing: content;
+  border-bottom: 1px solid transparent;
+  border-radius: 0px;
+}
+.active {
+  border-color: var(--border-color);
+}
+
+p {
+  border-bottom: 1px solid transparent;
+}

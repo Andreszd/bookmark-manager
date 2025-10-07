@@ -16,6 +16,7 @@ import {
 export class DropZoneComponent implements OnInit {
   @Input() disabled!: boolean;
   @Input() activeStyles!: { [key: string]: string };
+  @Input() unactiveStyles!: { [key: string]: string };
   @Output() onDrop = new EventEmitter<DragEvent>();
   @Output() dragEnter = new EventEmitter();
   @Output() dragLeave = new EventEmitter();

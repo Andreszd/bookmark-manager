@@ -6,7 +6,7 @@ interface PageI {
 }
 
 @Component({
-  selector: 'app-card',
+  selector: 'page-card',
   template: `
     <div
       class="card"

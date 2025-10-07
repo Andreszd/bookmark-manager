@@ -178,6 +178,9 @@ input {
 .bg-color-grey-200 {
   background-color: var(--grey-200);
 }
+.bg-color-grey-300 {
+  background-color: var(--grey-300);
+}
 
 .error:focus {
   outline-color: red !important;
@@ -300,6 +303,12 @@ input {
   background-color: var(--primary-color);
   color: white;
 }
+.hover-bg-color-primary:hover svg {
+  fill: white;
+}
+.hover-bg-color-primary:hover p {
+  color: white;
+}
 
 .icon {
   width: 24px;
@@ -330,6 +339,9 @@ input:focus {
 }
 .border-r {
   border-right: 1px solid var(--border-color);
+}
+.border-b {
+  border-bottom: 1px solid var(--border-color);
 }
 
 .border-radius {

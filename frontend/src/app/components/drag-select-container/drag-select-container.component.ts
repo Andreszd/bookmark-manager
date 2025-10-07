@@ -11,11 +11,11 @@ import {
   QueryList,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropZoneComponent } from '../drop-zone/drop-zone.component';
+import { DropZoneComponent } from '../drag-and-drop/drop-zone/drop-zone.component';
 import { DragSelectService } from 'src/app/drag-select.service';
 
 @Component({
-  selector: 'app-drag-select-container',
+  selector: 'drag-select-container',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './drag-select-container.component.html',
@@ -33,6 +33,7 @@ import { DragSelectService } from 'src/app/drag-select.service';
 export class DragSelectContainerComponent implements OnInit, AfterContentInit {
   @Input() class!: string;
   @Output() onDetectNodes = new EventEmitter<number[]>();
+  /* TODO this must be dynamic */
   @ContentChildren(DropZoneComponent) children!: QueryList<DropZoneComponent>;
   dragSelectService = inject(DragSelectService);
   childRefs: HTMLElement[] = [];

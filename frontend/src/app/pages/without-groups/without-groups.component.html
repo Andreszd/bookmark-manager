@@ -1,0 +1,63 @@
+<div class="flex f-direction-col gap-1 flex-1 h-full">
+  <app-pages-list-heading></app-pages-list-heading>
+
+  <div
+    *ngIf="!pageService.pages.length"
+    class="h-full flex f-direction-col justify-content-center"
+  >
+    <empty-state>
+      <div img [style]="{ width: '200px' }" class="color-primary">
+        <svg-loader src="assets/without-pages.svg"> </svg-loader>
+      </div>
+      <p text>No tienes paginas guardadas, empieza añadiendo uno.</p>
+    </empty-state>
+  </div>
+
+  <drag-select-container
+    *ngIf="pageService.pages.length"
+    class="flex f-wrap f-direction-col gap-1 align-items-start align-content-start px-2"
+    [ngClass]="{ 'f-direction-col': !(isGridLayout$ | async) }"
+    (onDetectNodes)="pagesStateService.selectPages($event)"
+  >
+    <drop-zone
+      *ngFor="let page of pageService.pages; let i = index"
+      [ngClass]="{ 'w-full': !(isGridLayout$ | async) }"
+      [disabled]="
+        page.id === pagesDragAndDropService.dropzoneId ||
+        (pagesDragAndDropService.draggableItemData &&
+          pageService.isPageGroup(pagesDragAndDropService.draggableItemData))
+      "
+      (onDrop)="dropActionsPageGroupService.getActionPerformed(page)"
+    >
+      <draggable-item
+        [isDraggable]="!(pagesStateService.pagesLength$ | async)"
+        [id]="page.id"
+        [gosthImgUrl]="'assets/file-link.png'"
+        (onDragStart)="pagesDragAndDropService.handleDragStart(page.id, page)"
+      >
+        <app-selectable-card
+          (hasHover)="cardHasHover = $event ? i : undefined"
+          [selected]="pagesStateService.isSelected(i)"
+          (onSelect)="pagesStateService.selectPage(i)"
+          (onUnSelect)="pagesStateService.unSelectPage(i)"
+        >
+          <page-card [small]="!(isGridLayout$ | async)">
+            <app-page-card-body
+              [small]="!(isGridLayout$ | async)"
+              [page]="page"
+              body
+            ></app-page-card-body>
+            <app-page-card-actions
+              *ngIf="
+                !(pagesStateService.pagesLength$ | async) &&
+                (cardHasHover === i || !!(isGridLayout$ | async))
+              "
+              [collapsed]="!!(isGridLayout$ | async)"
+              actions
+            ></app-page-card-actions>
+          </page-card>
+        </app-selectable-card>
+      </draggable-item>
+    </drop-zone>
+  </drag-select-container>
+</div>

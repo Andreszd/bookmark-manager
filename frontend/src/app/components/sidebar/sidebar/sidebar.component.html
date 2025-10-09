@@ -15,7 +15,12 @@
         </svg>
         <p class="p-4 py-0">José Andres</p>
       </div>
-      <button actions class="button text color-grey-500">
+      <button
+        #dref="dropdown-origin"
+        dropdown-origin
+        actions
+        class="button text color-grey-500"
+      >
         <svg
           class="icon"
           style="width: 20px"
@@ -28,6 +33,27 @@
           ></path>
         </svg>
       </button>
+      <ng-template dropdown-content [originConection]="dref">
+        <dropdown-container>
+          <div class="flex f-direction-col p-4" [style]="{ width: '200px' }">
+            <div
+              class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-0 hover-cursor-pointer"
+            >
+              <svg-loader
+                class="icon"
+                src="assets/extension-icon.svg"
+              ></svg-loader>
+              <p>Descargar extensión</p>
+            </div>
+            <div
+              class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-0 hover-cursor-pointer"
+            >
+              <svg-loader class="icon" src="assets/quit-icon.svg"></svg-loader>
+              <p>Cerrar sesión</p>
+            </div>
+          </div>
+        </dropdown-container>
+      </ng-template>
     </app-sidebar-section-heading>
     <div content>
       <app-sidebar-link routerLink="">

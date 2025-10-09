@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { EmptyStateComponent } from '../empty-state/empty-state.component';
 import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
+import { DropdownModule } from '../dropdown/dropdown.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
     AppRoutingModule,
     EmptyStateComponent,
     SvgLoaderComponent,
+    DropdownModule,
   ],
   exports: [SidebarComponent],
 })

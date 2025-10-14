@@ -1,5 +1,5 @@
-import { UrlsRepository } from "../repositories/urls.repository";
-import { ImgService } from "./imgs.service";
+import { UrlsRepository } from '../repositories/urls.repository';
+import { ImgService } from './imgs.service';
 
 const create = async (url: any) => {
   try {
@@ -26,9 +26,9 @@ const getById = async (urlId: string) => {
     throw error;
   }
 };
-const getAll = async () => {
+const getAll = async (queries: Parameters<typeof UrlsRepository.getAll>[0]) => {
   try {
-    const urls = await UrlsRepository.getAll();
+    const urls = await UrlsRepository.getAll(queries);
     return urls;
   } catch (error) {
     throw error;

@@ -27,7 +27,14 @@ const getById = async (req: Request, res: Response) => {
 
 const getAll = async (req: Request, res: Response) => {
   try {
-    const urls = await UrlsService.getAll();
+    const { groupId, size = 50, sortCreatedAt } = req.query;
+
+    const urls = await UrlsService.getAll({
+      groupId: groupId ? String(groupId) : undefined,
+      size: parseInt(String(size)),
+      sortCreatedAt: sortCreatedAt === 'desc' ? 'desc' : 'asc',
+    });
+
     res.status(200).json({
       urls,
     });

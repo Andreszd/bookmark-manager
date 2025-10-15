@@ -7,5 +7,5 @@ export const errorsHandler = (error: Error, req: Request, res: Response, next: N
     return;
   }
 
-  res.status(500).json({ message: 'internal error' });
+  res.status(500).json({ message: error.message ?? 'internal error' });
 };

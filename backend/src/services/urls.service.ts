@@ -1,13 +1,22 @@
 import { UrlsRepository } from '../repositories/urls.repository';
 import { ImgService } from './imgs.service';
+import { ScrapperService } from './scrapper.service';
 
 const create = async (url: any) => {
   try {
     const fileName = `thumbnail-${new Date().getTime()}.png`;
 
-    const file = await ImgService.captureWebFromUrl(url?.url, fileName);
+    let file, thumbnailUrl;
 
-    const thumbnailUrl = await ImgService.save(file, fileName);
+    file = await ScrapperService.captureFaviconFromUrl(url?.url);
+
+    if (!file) {
+      file = await ScrapperService.takeSnapshootByUrl(url?.url);
+    }
+
+    if (file) {
+      thumbnailUrl = await ImgService.save(file, fileName);
+    }
 
     await UrlsRepository.create({
       ...url,

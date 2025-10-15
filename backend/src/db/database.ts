@@ -1,8 +1,9 @@
-import { Db, DbOptions, MongoClient } from "mongodb";
-import { UrlModel } from "../models/url.model";
-import { GroupModel } from "../models/group.model";
+import { Db, MongoClient } from 'mongodb';
+import { UrlModel } from '../models/url.model';
+import { GroupModel } from '../models/group.model';
+import { UserModel } from '../models/user.model';
 
-const CONNECTION_URI = "mongodb://127.0.0.1:27017/bookmark";
+const CONNECTION_URI = 'mongodb://127.0.0.1:27017/bookmark';
 
 export class Database {
   static connection?: MongoClient;
@@ -10,25 +11,40 @@ export class Database {
 
   constructor() {}
 
-  createCollections() {
+  async createCollections() {
     if (Database.operations) {
-      Database.operations
-        .createCollection("url", {
-          validator: {
-            $jsonSchema: UrlModel.jsonScheme,
-          },
-        })
-        .catch(() => {});
+      const collections = await Database.operations.listCollections().toArray();
+      const collectionsName = collections.map(({ name }) => name);
 
-      Database.operations
-        .createCollection("group", {
+      if (!collectionsName.includes('user')) {
+        Database.operations.createCollection('user', {
           validator: {
-            $jsonSchema: GroupModel.jsonScheme,
+            $jsonSchema: UserModel.jsonScheme,
           },
-        })
-        .catch(() => {});
+        });
+      }
 
-      console.log("created collections");
+      if (!collectionsName.includes('url')) {
+        Database.operations
+          .createCollection('url', {
+            validator: {
+              $jsonSchema: UrlModel.jsonScheme,
+            },
+          })
+          .catch(() => {});
+      }
+
+      if (!collectionsName.includes('group')) {
+        Database.operations
+          .createCollection('group', {
+            validator: {
+              $jsonSchema: GroupModel.jsonScheme,
+            },
+          })
+          .catch(() => {});
+      }
+
+      console.log('created collections');
     }
   }
 
@@ -37,10 +53,10 @@ export class Database {
       const client = new MongoClient(CONNECTION_URI);
       client.connect().then((connection) => {
         Database.connection = connection;
-        Database.operations = connection.db("bookmark-project");
+        Database.operations = connection.db('bookmark-project');
 
         this.createCollections();
-        console.log("database connected");
+        console.log('database connected');
       });
     }
   }

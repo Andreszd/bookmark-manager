@@ -1,10 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import { NextFunction, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { NoAuthorizationError } from '../errors/no-authorization';
-
-interface AuthRequest extends Request {
-  user?: string | JwtPayload;
-}
+import { AuthRequest } from '../types';
 
 export const checkAuthentication = (req: AuthRequest, res: Response, next: NextFunction) => {
   const [_, token] = req.headers['authorization']?.split(' ') ?? [];

@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 export type Group = {
   _id: ObjectId;
   name: string;
+  userId: ObjectId | string;
   createdAt: Date;
 };
 

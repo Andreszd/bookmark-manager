@@ -10,5 +10,7 @@ router.post('/', checkAuthentication, GroupsController.create);
 router.put('/:id', checkAuthentication, GroupsController.update);
 router.get('/:id', checkAuthentication, GroupsController.getById);
 router.delete('/:id', checkAuthentication, GroupsController.remove);
+router.post('/merge', checkAuthentication, GroupsController.merge);
+router.post('/:id/addUrls', checkAuthentication, GroupsController.addUrls);
 
 export const groupRoutes = router;

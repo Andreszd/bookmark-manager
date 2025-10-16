@@ -1,19 +1,15 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
 
 import { GroupsService } from '../services/groups.service';
 import { InputCreateGroupDto } from '../dtos/create-group/input-create-group.dto';
+import { AuthRequest } from '../types';
 
-const create = async (req: Request, res: Response, next: NextFunction) => {
+const create = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const body = req.body as InputCreateGroupDto;
+    const userId = req.user as string;
 
-    await GroupsService.create(
-      {
-        name: body.name,
-        createdAt: new Date(),
-      },
-      body.urlIds
-    );
+    await GroupsService.create(userId, body, body.urlIds);
 
     res.status(200).json({
       message: 'created',
@@ -23,24 +19,87 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getById = async (req: Request, res: Response, next: NextFunction) => {
+const getById = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
+    const userId = req.user as string;
 
-    const group = await GroupsService.getById(id);
+    const group = await GroupsService.getById(id, userId);
 
     res.status(200).json({
       data: group,
     });
   } catch (error) {
-    throw error
+    next(error);
   }
 };
 
-const update = () => {};
+const update = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id;
+    const userId = req.user as string;
+    const body = req.body;
 
-const remove = () => {};
+    const group = await GroupsService.update(id, userId, body);
 
-const getAll = () => {};
+    res.status(200).json({
+      message: 'group updated',
+      data: group,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-export const GroupsController = { create, getById, getAll, update, remove };
+const getAll = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user as string;
+
+    const groups = await GroupsService.getAll({ userId });
+
+    res.status(200).json({ data: groups });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const remove = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user as string;
+    const id = req.params.id;
+
+    await GroupsService.remove(id, userId);
+
+    res.status(200).json({ message: 'Group removed' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const merge = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const body = req.body as { groupIds: string[] };
+
+    await GroupsService.merge(body.groupIds);
+
+    res.status(200).json({ message: 'Data merged' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const addUrls = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id;
+
+    const body = req.body as { urlIds: string[] };
+
+    await GroupsService.addUrls(id, body.urlIds);
+
+    res.status(200).json({ message: 'urls added' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const GroupsController = { create, getById, getAll, update, remove, merge, addUrls };

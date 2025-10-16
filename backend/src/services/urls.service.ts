@@ -1,8 +1,10 @@
+import { Url } from '../models/url.model';
 import { UrlsRepository } from '../repositories/urls.repository';
+import { OmitGenData } from '../types';
 import { ImgService } from './imgs.service';
 import { ScrapperService } from './scrapper.service';
 
-const create = async (url: any) => {
+const create = async (url: OmitGenData<Url>) => {
   try {
     const fileName = `thumbnail-${new Date().getTime()}.png`;
 
@@ -27,9 +29,9 @@ const create = async (url: any) => {
     throw error;
   }
 };
-const getById = async (urlId: string) => {
+const getById = async (urlId: string, userId: string) => {
   try {
-    const url = await UrlsRepository.getById(urlId);
+    const url = await UrlsRepository.getById(urlId, userId);
     return url;
   } catch (error) {
     throw error;

@@ -1,8 +1,12 @@
 import { ObjectId } from 'mongodb';
 import { Database } from '../db/database';
 import { DBError } from '../errors/db-error';
+import { Url } from '../models/url.model';
+import { OmitGenData, OmitId, OmitIds } from '../types';
+import { NoReadAuthorizationError } from '../errors/no-read-authorization.error';
+import { group } from 'console';
 
-const create = async (url: any) => {
+const create = async (url: OmitId<Url>) => {
   try {
     const collection = await Database.operations?.collection('url');
     await collection?.insertOne(url);
@@ -11,12 +15,14 @@ const create = async (url: any) => {
   }
 };
 
-const getById = async (urlId: string) => {
+const getById = async (urlId: string, userId: string) => {
   try {
-    const collection = await Database.operations?.collection('url');
+    const collection = await Database.operations?.collection<Url>('url');
     const url = await collection?.findOne({
       _id: new ObjectId(urlId),
     });
+    if (url?.userId !== userId) throw new NoReadAuthorizationError();
+
     if (!url) throw 'Url not found';
 
     return url;
@@ -25,13 +31,12 @@ const getById = async (urlId: string) => {
   }
 };
 
-const getAll = async (
-  queries: {
-    groupId?: string;
-    size: number;
-    sortCreatedAt?: 'asc' | 'desc';
-  } = { size: 50, sortCreatedAt: 'desc' }
-) => {
+const getAll = async (queries: {
+  userId: string;
+  groupId?: string;
+  size: number;
+  sortCreatedAt?: 'asc' | 'desc';
+}) => {
   try {
     const collection = await Database.operations?.collection('url');
     const urls = await collection
@@ -39,6 +44,7 @@ const getAll = async (
         removed: {
           $exists: false,
         },
+        userId: new ObjectId(queries.userId),
         groupId: queries.groupId ?? { $exists: false },
       })
       .sort({
@@ -69,9 +75,51 @@ const update = async (urlId: string, updates: object) => {
   }
 };
 
+const updateManyByGroupId = async (
+  groupIds: string[],
+  values: Partial<OmitGenData<OmitId<Url>>>
+) => {
+  try {
+    const collection = await Database.operations?.collection('url');
+    await collection?.updateMany(
+      {
+        groupId: { $in: groupIds.map((id) => new ObjectId(id)) },
+      },
+      {
+        $set: {
+          ...values,
+        },
+      }
+    );
+  } catch (error) {
+    throw new DBError();
+  }
+};
+
+const updateManyById = async (ids: string[], values: Partial<OmitGenData<OmitId<Url>>>) => {
+  try {
+    const collection = await Database.operations?.collection('url');
+    const res = await collection?.updateMany(
+      {
+        _id: { $in: ids.map((id) => new ObjectId(id)) },
+      },
+      {
+        $set: {
+          ...values,
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    throw new DBError();
+  }
+};
+
 export const UrlsRepository = {
   getById,
   getAll,
   create,
   update,
+  updateManyByGroupId,
+  updateManyById,
 };

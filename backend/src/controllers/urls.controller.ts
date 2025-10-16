@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { UrlsService } from '../services/urls.service';
+import { AuthRequest } from '../types';
 
-const create = async (req: Request, res: Response) => {
+const create = async (req: AuthRequest, res: Response) => {
   try {
-    await UrlsService.create(req.body);
+    const userId = req.user;
+    await UrlsService.create({ ...req.body, userId });
     res.status(200).json({
       message: 'created',
     });
@@ -14,9 +16,10 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-const getById = async (req: Request, res: Response) => {
+const getById = async (req: AuthRequest, res: Response) => {
   try {
-    const url = await UrlsService.getById(req.params.id);
+    const userId = req.user as string;
+    const url = await UrlsService.getById(req.params.id, userId);
     res.status(200).json(url);
   } catch (error) {
     res.status(404).json({
@@ -25,11 +28,13 @@ const getById = async (req: Request, res: Response) => {
   }
 };
 
-const getAll = async (req: Request, res: Response) => {
+const getAll = async (req: AuthRequest, res: Response) => {
   try {
     const { groupId, size = 50, sortCreatedAt } = req.query;
+    const userId = req.user as string;
 
     const urls = await UrlsService.getAll({
+      userId,
       groupId: groupId ? String(groupId) : undefined,
       size: parseInt(String(size)),
       sortCreatedAt: sortCreatedAt === 'desc' ? 'desc' : 'asc',

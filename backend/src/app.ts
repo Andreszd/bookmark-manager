@@ -4,6 +4,9 @@ import { Database } from './db/database';
 import { groupRoutes } from './routes/groups.route';
 import { userRoutes } from './routes/user.route';
 
+import 'dotenv/config';
+import { authRoutes } from './routes/auth.route';
+
 const app = Server.getInstance();
 const database = new Database();
 
@@ -11,6 +14,7 @@ database.run();
 
 /* routes defintion */
 
+app.setRoute('/api/auth', authRoutes);
 app.setRoute('/api/url', webUrlRoutes);
 app.setRoute('/api/group', groupRoutes);
 app.setRoute('/api/user', userRoutes);

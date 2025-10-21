@@ -22,6 +22,8 @@ import { PageCardModule } from './components/page-card/page-card.module';
 import { TrashModule } from './pages/trash/trash.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { RootComponent } from './root.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { UrlInterceptor } from './shared/http/url-interceptor.http';
 
 @NgModule({
   declarations: [
@@ -47,9 +49,11 @@ import { RootComponent } from './root.component';
     WithoutGroupsModule,
     TrashModule,
     PageCardModule,
+    HttpClientModule,
     AuthModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: UrlInterceptor, multi: true },
     { provide: DEFAULT_DIALOG_CONFIG, useValue: { hasBackdrop: false } },
     UtilsService,
   ],

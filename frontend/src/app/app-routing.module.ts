@@ -4,21 +4,28 @@ import { WithoutGroupsComponent } from './pages/without-groups/without-groups.co
 import { TrashComponent } from './pages/trash/trash.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { RootComponent } from './root.component';
+import { CanActivatePrivateRoutes } from './shared/services/can-activate-private-routes.service';
 
 const routes: Routes = [
   {
     path: '',
     component: RootComponent,
+    canActivate: [CanActivatePrivateRoutes],
     children: [
       { path: '', component: WithoutGroupsComponent },
       { path: 'trash', component: TrashComponent },
     ],
   },
-  { path: 'auth', component: AuthComponent },
+  {
+    path: 'auth',
+    component: AuthComponent,
+    canActivate: [CanActivatePrivateRoutes],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
+  providers: [CanActivatePrivateRoutes],
 })
 export class AppRoutingModule {}

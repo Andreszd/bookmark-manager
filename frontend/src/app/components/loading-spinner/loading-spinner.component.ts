@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class LoadingSpinnerComponent implements OnInit {
   @Input() size: string | number = '40px';
+  @Input() color?: string;
 
   constructor() {}
 

@@ -20,9 +20,11 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
     "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.2",
     "capture-website": "^0.1.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",

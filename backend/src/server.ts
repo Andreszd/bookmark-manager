@@ -1,14 +1,18 @@
 import express, { Router } from 'express';
+import cors from 'cors';
 import { errorsHandler } from './middlewares/errors-handler.middleware';
+import 'dotenv/config';
 
 /* singleton */
 
 export class Server {
   static serverInstance: Server;
+
   public server;
   private constructor() {
     /*  */
     this.server = express();
+    this.server.use(cors({ origin: process.env.FRONT_END_ENV_URL }));
     this.server.use(express.static('public'));
     this.server.use(express.json());
   }

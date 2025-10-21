@@ -1,22 +1,35 @@
 <div class="flex f-direction-col gap-4">
   <p class="p-0 text-align-center">Inicia sesión</p>
-  <div class="flex f-direction-col gap-4">
+  <form
+    [formGroup]="form"
+    class="flex f-direction-col gap-4"
+    (submit)="login()"
+  >
     <div class="flex f-direction-col gap-1">
       <div class="flex f-direction-col gap-0">
         <label class="p-3">Email</label>
-        <input class="p-2 py-2" />
+        <input formControlName="email" class="p-2 py-2" />
       </div>
       <div class="flex f-direction-col gap-0">
         <label class="p-3">Contraseña</label>
-        <input class="p-2 py-2" />
+        <input formControlName="password" class="p-2 py-2" />
       </div>
     </div>
 
     <button
-      class="button bg-color-primary color-white p-2"
+      class="button bg-color-primary color-white p-2 flex justify-content-center"
       [style]="{ fontWeight: '600' }"
     >
-      <p class="w-full text-align-center py-0">Iniciar sesion</p>
+      <loading-spinner
+        *ngIf="authService.isAuthenticating"
+        size="30px"
+      ></loading-spinner>
+      <p
+        *ngIf="!authService.isAuthenticating"
+        class="w-full text-align-center py-0"
+      >
+        Iniciar sesion
+      </p>
     </button>
-  </div>
+  </form>
 </div>

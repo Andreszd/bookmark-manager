@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
-import { Page, PageGroup } from './page.model';
-import { PageService } from './page.service';
+import { PageGroup } from './page.model';
+import { Page } from './pages/types';
+import { PageService } from './pages/pages/services/page.service';
 
 export class PagesDragAndDropService {
   dropzoneId!: string | number;
@@ -21,6 +22,7 @@ export class PagesDragAndDropService {
     action: 'merge' | 'create' | 'update';
     data: (string | number)[];
   } | void {
+    /*
     if (
       (this.pageService.isPageGroup(this.draggableItemData) &&
         this.pageService.isPageGroup(dropzoneData)) ||
@@ -62,5 +64,7 @@ export class PagesDragAndDropService {
         data: [this.draggableItemData.id, dropzoneData.id],
       };
     }
+
+     */
   }
 }

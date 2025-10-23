@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WithoutGroupsComponent } from './pages/without-groups/without-groups.component';
+import { PagesComponent } from './pages/pages/pages.component';
 import { TrashComponent } from './pages/trash/trash.component';
 import { AuthComponent } from './pages/auth/auth.component';
-import { RootComponent } from './root.component';
+import { RootComponent } from './core/layout/root/root.component';
 import { CanActivatePrivateRoutes } from './shared/services/can-activate-private-routes.service';
 import { UserResolver } from './shared/resolvers/user.resolve';
 import { UserService } from './shared/services/user.service';
@@ -17,7 +17,7 @@ const routes: Routes = [
       user: UserResolver,
     },
     children: [
-      { path: '', component: WithoutGroupsComponent },
+      { path: '', component: PagesComponent },
       { path: 'trash', component: TrashComponent },
     ],
   },

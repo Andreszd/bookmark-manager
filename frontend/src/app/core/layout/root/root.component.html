@@ -1,0 +1,23 @@
+<div class="container">
+  <div
+    class="groups-section flex f-wrap align-content-start gap-1"
+    [ngStyle]="{
+      width: panelSizeService.panelWidth + 'px',
+      minWidth: panelSizeService.BASE_WIDTH + 'px'
+    }"
+  >
+    <sidebar>
+      <group-sidebar-section></group-sidebar-section>
+    </sidebar>
+  </div>
+  <div
+    class="splitter"
+    (mousedown)="panelSizeService.handleResize($event)"
+  ></div>
+  <div class="flex f-direction-col pages-section">
+    <pages-section-heading></pages-section-heading>
+    <div class="flex f-direction-col flex-1">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

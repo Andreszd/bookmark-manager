@@ -1,6 +1,6 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { inject, Injectable } from '@angular/core';
-import { DialogComponent } from './components/dialog/dialog.component';
+import { DialogComponent } from './shared/components/dialog/dialog.component';
 
 @Injectable({
   providedIn: 'root',

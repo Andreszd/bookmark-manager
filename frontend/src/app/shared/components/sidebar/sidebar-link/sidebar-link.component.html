@@ -3,6 +3,7 @@
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
   class="w-full px-1 flex gap-0 hover-bg-color-grey-300 align-items-center py-1"
+  [ngClass]="ngClass"
 >
   <ng-content select="[icon]"></ng-content>
   <p class="p-3">

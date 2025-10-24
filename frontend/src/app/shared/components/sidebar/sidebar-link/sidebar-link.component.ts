@@ -16,6 +16,8 @@ import { filter, Subscription } from 'rxjs';
 })
 export class SidebarLinkComponent implements OnInit, AfterViewInit {
   @Input('routerLink') link?: string | string[] | null;
+  @Input() ngClass?: string | string[] | Set<string> | { [klass: string]: any };
+
   //isActive = false;
   //private routerSubscription?: Subscription;
   router = inject(Router);

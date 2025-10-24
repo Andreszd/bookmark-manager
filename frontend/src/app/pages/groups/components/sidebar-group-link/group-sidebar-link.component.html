@@ -1,5 +1,8 @@
 <app-sidebar-link
   [routerLink]="formActive || isEditing ? null : ['/group', group._id]"
+  [ngClass]="{
+    'bg-color-grey-300': formActive || isEditing
+  }"
 >
   <svg
     icon

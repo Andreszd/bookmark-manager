@@ -42,7 +42,9 @@ const getImgResourceByUrl = async (url: string): Promise<string> => {
   });
 };
 
-const captureFaviconFromUrl = (url: string): Promise<string | null> => {
+const captureTitleAndFaviconFromUrl = (
+  url: string
+): Promise<Partial<{ url: string; name: string }>> => {
   const baseUrl = new URL(url).origin;
 
   return new Promise((resolve, reject) => {
@@ -53,6 +55,10 @@ const captureFaviconFromUrl = (url: string): Promise<string | null> => {
             .text()
             .then((res) => {
               //const regex = /(?<=rel\=\"icon\" href\=\")(.*?)(?=\")/g;
+              const regexToCatchTitleTagContent = /<title\b[^>]*>([\s\S]*?)<\/title>/i;
+
+              const match = res.match(regexToCatchTitleTagContent) ?? [];
+              const title = match[1];
 
               const regex =
                 /<link\b[^>]*\brel=["'](?:shortcut\s+icon|icon)["'][^>]*\bhref=["']([^"']+)["'][^>]*>/gi;
@@ -82,13 +88,15 @@ const captureFaviconFromUrl = (url: string): Promise<string | null> => {
                     URL = `${faviconUrl}`;
                   }
                   if (URL) {
-                    getImgResourceByUrl(URL).then(resolve).catch(reject);
+                    getImgResourceByUrl(URL)
+                      .then((url) => resolve({ url: url ?? '', name: title }))
+                      .catch(reject);
                   } else {
-                    resolve(null);
+                    resolve({ name: title });
                   }
                 }
               } else {
-                resolve(null);
+                resolve({ name: title });
               }
             })
             .catch(reject);
@@ -100,5 +108,5 @@ const captureFaviconFromUrl = (url: string): Promise<string | null> => {
 
 export const ScrapperService = {
   takeSnapshootByUrl,
-  captureFaviconFromUrl,
+  captureTitleAndFaviconFromUrl,
 };

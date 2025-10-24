@@ -17,11 +17,9 @@ export class PageService {
     map((value) => value.length)
   );
 
-  route = inject(ActivatedRoute);
-
   getAll(param?: { groupId: string; queries?: Record<string, any> }) {
     this.loadingFlagService.toggle();
-    return this.pageApiService.getAll<Page[]>(param?.groupId).pipe(
+    return this.pageApiService.getAll<Page[]>({ groupId: param?.groupId }).pipe(
       map((value) => value.data),
       finalize(() => {
         this.loadingFlagService.toggle();
@@ -29,17 +27,15 @@ export class PageService {
     );
   }
 
-  refresh() {
-    const groupId = this.route.snapshot.paramMap.get('id')!;
-
-    this.getAll({ groupId }).subscribe((value) => {
+  refresh(param: Parameters<typeof this.getAll>[0]) {
+    this.getAll(param).subscribe((value) => {
       this.pageStateService.setPages(value);
     });
   }
 
-  create(url: string) {
+  create(url: string, groupId?: string) {
     this.loadingFlagService.toggle();
-    return this.pageApiService.create({ url }).pipe(
+    return this.pageApiService.create({ url }, groupId).pipe(
       finalize(() => {
         this.loadingFlagService.toggle();
       })

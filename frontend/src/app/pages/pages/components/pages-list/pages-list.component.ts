@@ -4,15 +4,15 @@ import { PageStateService } from 'src/app/pages/pages/services/page-state.servic
 import { PagesDragAndDropService } from 'src/app/pages-drag-and-drop.service';
 import { PagesListLayoutService } from 'src/app/pages-list-layout.service';
 import { DropActionsPageGroupService } from 'src/app/shared/services/drop-actions-page-group.service';
-import { PageService } from './services/page.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { PageService } from '../../services/page.service';
 
 @Component({
   selector: 'pages',
-  templateUrl: './pages.component.html',
-  styleUrls: ['./pages.component.css'],
+  templateUrl: './pages-list.component.html',
+  styleUrls: ['./pages-list.component.css'],
 })
-export class PagesComponent implements OnInit {
+export class PagesListComponent implements OnInit {
   pageService = inject(PageService);
   pagesListLayoutService = inject(PagesListLayoutService);
   pagesDragAndDropService = inject(PagesDragAndDropService);

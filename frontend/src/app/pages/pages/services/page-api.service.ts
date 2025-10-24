@@ -10,16 +10,20 @@ export class PageApiService {
 
   constructor() {}
 
-  create(body: ICreatePageDto) {
-    return this.http.post('url', body);
+  create(body: ICreatePageDto, groupId?: string) {
+    return this.http.post('url', body, {
+      params: {
+        ...(groupId && { groupId }),
+      },
+    });
   }
 
   update() {}
 
-  getAll<T>(groupId?: string) {
+  getAll<T>(queries?: { groupId?: string }) {
     return this.http.get<OGetAllPageDto<T>>(`url`, {
       params: {
-        ...(groupId && { groupId }),
+        ...(queries?.groupId && { groupId: queries.groupId }),
       },
     });
   }

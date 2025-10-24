@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { DragAndDropModule } from 'src/app/shared/components/drag-and-drop/drag-and-drop.module';
 import { DragSelectContainerComponent } from 'src/app/shared/components/drag-select-container/drag-select-container.component';
-import { PagesComponent } from './pages.component';
 import { CommonModule } from '@angular/common';
 import { SvgLoaderComponent } from 'src/app/shared/components/svg-loader/svg-loader.component';
 import { EmptyStateComponent } from 'src/app/shared/components/empty-state/empty-state.component';
@@ -18,10 +17,14 @@ import { PageService } from './services/page.service';
 import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service';
 import { PageRegisterForm } from './components/page-register-form/page-register-form.component';
 import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
+import { PagesRootComponent } from './pages-root-component';
+import { PagesListComponent } from './components/pages-list/pages-list.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    PagesComponent,
+    PagesRootComponent,
+    PagesListComponent,
     CardComponent,
     PageCardActionsComponent,
     PageCardBodyComponent,
@@ -40,9 +43,11 @@ import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinn
     DropdownModule,
     FilterButtonComponent,
     LoadingSpinnerComponent,
+    RouterModule,
   ],
   exports: [
-    PagesComponent,
+    PagesRootComponent,
+    PagesListComponent,
     PagesSectionHeadingComponent,
     PagesListHeadingComponent,
   ],

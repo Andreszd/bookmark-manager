@@ -6,10 +6,15 @@ import { finalize, map } from 'rxjs';
 import { PageStateService } from './page-state.service';
 
 export class PageService {
-  pages: Page[] = [];
   pageStateService = inject(PageStateService);
   pageApiService = inject(PageApiService);
   loadingFlagService = inject(LoadingFlagService);
+
+  isLoading$ = this.loadingFlagService.$isLoading;
+  pages$ = this.pageStateService.pages$;
+  pagesLength$ = this.pageStateService.pages$.pipe(
+    map((value) => value.length)
+  );
 
   getAll() {
     this.loadingFlagService.toggle();
@@ -22,8 +27,17 @@ export class PageService {
         })
       )
       .subscribe((value) => {
-        this.pages = value;
+        this.pageStateService.setPages(value);
       });
+  }
+
+  create(url: string) {
+    this.loadingFlagService.toggle();
+    return this.pageApiService.create({ url }).pipe(
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
   }
 
   isPageGroup(data: any) {

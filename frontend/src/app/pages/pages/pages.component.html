@@ -2,7 +2,7 @@
   <pages-list-heading></pages-list-heading>
 
   <div
-    *ngIf="!pageService.pages.length"
+    *ngIf="!(pageService.pagesLength$ | async)"
     class="h-full flex f-direction-col justify-content-center"
   >
     <empty-state>
@@ -14,13 +14,13 @@
   </div>
 
   <drag-select-container
-    *ngIf="pageService.pages.length"
+    *ngIf="pageService.pagesLength$ | async"
     class="flex f-wrap f-direction-col gap-1 align-items-start align-content-start px-2"
     [ngClass]="{ 'f-direction-col': !(isGridLayout$ | async) }"
     (onDetectNodes)="pagesStateService.selectPages($event)"
   >
     <drop-zone
-      *ngFor="let page of pageService.pages; let i = index"
+      *ngFor="let page of pageService.pages$ | async; let i = index"
       [ngClass]="{ 'w-full': !(isGridLayout$ | async) }"
       [disabled]="
         page._id === pagesDragAndDropService.dropzoneId ||

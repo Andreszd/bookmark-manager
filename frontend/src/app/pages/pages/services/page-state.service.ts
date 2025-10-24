@@ -4,13 +4,21 @@ import { Page } from '../../types';
 
 @Injectable({ providedIn: 'root' })
 export class PageStateService {
+  private pages = new BehaviorSubject<Page[]>([]);
+
   private selectedPages = new BehaviorSubject<number[]>([]);
+
+  pages$ = this.pages.asObservable();
 
   selectedPageIds$ = this.selectedPages.asObservable();
 
   pagesLength$ = this.selectedPageIds$.pipe(map((value) => value.length));
 
   constructor() {}
+
+  setPages(pages: Page[]) {
+    this.pages.next(pages);
+  }
 
   selectPage(id: number) {
     this.selectedPages.next([...this.selectedPages.value, id]);

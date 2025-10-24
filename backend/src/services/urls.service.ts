@@ -8,20 +8,21 @@ const create = async (url: OmitGenData<Url>) => {
   try {
     const fileName = `thumbnail-${new Date().getTime()}.png`;
 
-    let file, thumbnailUrl;
+    let thumbnailUrl;
 
-    file = await ScrapperService.captureFaviconFromUrl(url?.url);
+    let { name, url: urlBase64 } = await ScrapperService.captureTitleAndFaviconFromUrl(url?.url);
 
-    if (!file) {
-      file = await ScrapperService.takeSnapshootByUrl(url?.url);
+    if (!urlBase64) {
+      urlBase64 = await ScrapperService.takeSnapshootByUrl(url?.url);
     }
 
-    if (file) {
-      thumbnailUrl = await ImgService.save(file, fileName);
+    if (urlBase64) {
+      thumbnailUrl = await ImgService.save(urlBase64, fileName);
     }
 
     await UrlsRepository.create({
       ...url,
+      name,
       thumbnailUrl,
       createdAt: new Date(),
     });

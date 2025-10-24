@@ -41,7 +41,7 @@ const getAll = async (req: AuthRequest, res: Response) => {
     });
 
     res.status(200).json({
-      urls,
+      data: urls,
     });
   } catch (error) {
     res.status(404).json({

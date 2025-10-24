@@ -1,7 +1,7 @@
 export type Url = {
   userId: string;
   url: string;
-  name: string;
+  name?: string;
   groupId: string;
   thumbnailUrl?: string;
   createdAt: Date;
@@ -9,16 +9,20 @@ export type Url = {
 
 export const jsonScheme = {
   title: 'Url object validation',
-  required: ['url', 'name', 'createdAt'],
+  required: [
+    'url',
+    //'name',
+    'createdAt',
+  ],
   properties: {
     url: {
       bsonType: 'string',
       description: 'Must be a string',
     },
-    name: {
-      bsonType: 'string',
-      description: 'Must be a string',
-    },
+    //name: {
+    //bsonType: 'string',
+    //description: 'Must be a string',
+    //},
     createdAt: {
       bsonType: 'date',
       description: 'Must be a string',

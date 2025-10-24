@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GroupService } from './services/group.service';
 import { GroupApiService } from './services/group-api.service';
 import { RegisterGroupFormComponent } from './components/register-group-form/register-group-form.component';
+import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { RegisterGroupFormComponent } from './components/register-group-form/reg
     EmptyStateComponent,
     SvgLoaderComponent,
     DragAndDropModule,
+    LoadingSpinnerComponent,
   ],
 })
 export class GroupModule {}

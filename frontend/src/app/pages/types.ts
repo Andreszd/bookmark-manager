@@ -5,3 +5,9 @@ export type Page = {
   thumbnailUrl: string;
   createdAt: Date;
 };
+
+export interface SaveGroupEventPayload {
+  name: string;
+  onSuccess: () => void;
+  onError: () => void;
+}

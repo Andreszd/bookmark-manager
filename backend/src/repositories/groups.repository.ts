@@ -9,7 +9,7 @@ import { NoWriteAuthorizationError } from '../errors/no-write-authorization.erro
 const create = async (group: OmitId<Group>): Promise<string | undefined> => {
   try {
     const collection = await Database.operations?.collection('group');
-    const record = await collection?.insertOne(group);
+    const record = await collection?.insertOne({ ...group, userId: new ObjectId(group.userId) });
     return record?.insertedId.toString();
   } catch (error) {
     throw new DBError();
@@ -42,7 +42,7 @@ const update = async (
 
     const group = await collection?.findOne({ _id: new ObjectId(id) });
 
-    if (group?.userId !== userId) throw new NoWriteAuthorizationError();
+    if (group?.userId.toString() !== userId) throw new NoWriteAuthorizationError();
 
     return await collection?.updateOne({ _id: new ObjectId(id) }, { $set: body });
   } catch (error) {

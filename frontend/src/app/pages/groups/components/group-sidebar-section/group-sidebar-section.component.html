@@ -1,11 +1,18 @@
 <app-sidebar-section [style]="{ flex: '1' }">
   <app-sidebar-section-heading heading>
     Grupos
+    <loading-spinner
+      actions
+      *ngIf="groupService.loading$ | async"
+      size="20px"
+      color="var(--grey-500)"
+    ></loading-spinner>
     <button
+      *ngIf="!(groupService.loading$ | async)"
       actions
       title="Añadir"
       class="button text color-grey-500"
-      (click)="addGroup()"
+      (click)="showForm()"
     >
       <svg
         class="icon"
@@ -25,6 +32,7 @@
     <group-sidebar-link
       [form]="true"
       (blur)="showGroupForm = false"
+      (save)="createGroup($event)"
       *ngIf="showGroupForm"
     >
     </group-sidebar-link>
@@ -41,19 +49,20 @@
         <p text class="p-4">Agrupa tus paginas creando grupos.</p>
       </empty-state>
     </div>
+    <!--
+        (onDragStart)="
+          pagesDragAndDropService.handleDragStart(group._id, group)
+        "
+    (onDrop)="dropActionsPageGroupService.getActionPerformed(group)"
+     -->
     <drop-zone
       *ngFor="let group of groupService.groups"
       [activeStyles]="{ backgroundColor: 'var(--grey-300)' }"
       [disabled]="group._id === pagesDragAndDropService.dropzoneId"
-      x-(onDrop)="dropActionsPageGroupService.getActionPerformed(group)"
     >
-      <draggable-item
-        [id]="group._id"
-        x-(onDragStart)="
-          pagesDragAndDropService.handleDragStart(group._id, group)
-        "
-      >
-        <group-sidebar-link [group]="group"> </group-sidebar-link>
+      <draggable-item [id]="group._id">
+        <group-sidebar-link [group]="group" (save)="update(group._id, $event)">
+        </group-sidebar-link>
       </draggable-item>
     </drop-zone>
   </div>

@@ -13,10 +13,15 @@
   </svg>
 
   <p *ngIf="!isEditing" class="p-3" (dblclick)="enableEdition()">
-    {{ group?.name }}
+    {{ name }}
   </p>
-  <form [formGroup]="form" *ngIf="isEditing" class="flex-1">
-    <input #ref autofocus formControlName="name" (blur)="disableEdition()" />
+  <form
+    [formGroup]="form"
+    *ngIf="isEditing"
+    class="flex-1"
+    (ngSubmit)="emitSubmitEvent()"
+  >
+    <input #ref autofocus formControlName="name" (blur)="triggerBlurEvent()" />
   </form>
   <ng-content></ng-content>
 </app-sidebar-link>

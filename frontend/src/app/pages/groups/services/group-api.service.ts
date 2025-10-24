@@ -24,5 +24,9 @@ export class GroupApiService {
     return this.http.post<OAddUrlGroupDto>(`group/${groupId}/addUrls`, body);
   }
 
+  update(id: string, body: { name: string }) {
+    return this.http.put<OCreateGroupDto>(`group/${id}`, body);
+  }
+
   removeGroup(groupId: number) {}
 }

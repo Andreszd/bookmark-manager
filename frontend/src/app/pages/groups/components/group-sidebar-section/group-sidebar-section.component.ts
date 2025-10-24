@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service';
 import { PagesDragAndDropService } from 'src/app/pages-drag-and-drop.service';
 import { DropActionsPageGroupService } from 'src/app/shared/services/drop-actions-page-group.service';
+import { SaveGroupEventPayload } from 'src/app/pages/types';
 
 @Component({
   selector: 'group-sidebar-section',
@@ -20,5 +21,19 @@ export class GroupSidebarSectionComponent implements OnInit {
     this.groupService.getAll();
   }
 
-  addGroup() {}
+  showForm() {
+    this.showGroupForm = true;
+  }
+
+  createGroup(payload: SaveGroupEventPayload) {
+    this.groupService.create(payload.name).subscribe(() => {
+      this.showGroupForm = false;
+      this.groupService.getAll();
+    });
+  }
+  update(id: string, payload: SaveGroupEventPayload) {
+    this.groupService
+      .update(id, payload.name)
+      .subscribe({ error: payload.onError });
+  }
 }

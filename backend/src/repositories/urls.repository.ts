@@ -2,14 +2,17 @@ import { ObjectId } from 'mongodb';
 import { Database } from '../db/database';
 import { DBError } from '../errors/db-error';
 import { Url } from '../models/url.model';
-import { OmitGenData, OmitId, OmitIds } from '../types';
+import { OmitGenData, OmitId } from '../types';
 import { NoReadAuthorizationError } from '../errors/no-read-authorization.error';
-import { group } from 'console';
 
 const create = async (url: OmitId<Url>) => {
   try {
     const collection = await Database.operations?.collection('url');
-    await collection?.insertOne(url);
+    await collection?.insertOne({
+      ...url,
+      userId: url.userId ? new ObjectId(url.userId) : undefined,
+      ...(url.groupId && { groupId: new ObjectId(url.groupId) }),
+    });
   } catch (error) {
     throw new DBError();
   }
@@ -39,6 +42,7 @@ const getAll = async (queries: {
 }) => {
   try {
     const collection = await Database.operations?.collection('url');
+
     const urls = await collection
       ?.find({
         removed: {

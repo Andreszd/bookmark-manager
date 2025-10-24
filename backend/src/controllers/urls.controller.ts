@@ -5,7 +5,9 @@ import { AuthRequest } from '../types';
 const create = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user;
-    await UrlsService.create({ ...req.body, userId });
+    const groupId = req.query.groupId ? String(req.query.groupId) : undefined;
+
+    await UrlsService.create({ ...req.body, userId, groupId });
     res.status(200).json({
       message: 'created',
     });

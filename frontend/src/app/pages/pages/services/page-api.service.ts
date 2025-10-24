@@ -16,7 +16,11 @@ export class PageApiService {
 
   update() {}
 
-  getAll<T>() {
-    return this.http.get<OGetAllPageDto<T>>('url');
+  getAll<T>(groupId?: string) {
+    return this.http.get<OGetAllPageDto<T>>(`url`, {
+      params: {
+        ...(groupId && { groupId }),
+      },
+    });
   }
 }

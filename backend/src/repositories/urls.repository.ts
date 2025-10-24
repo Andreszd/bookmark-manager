@@ -49,7 +49,7 @@ const getAll = async (queries: {
           $exists: false,
         },
         userId: new ObjectId(queries.userId),
-        groupId: queries.groupId ?? { $exists: false },
+        groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
       })
       .sort({
         createdAt: queries.sortCreatedAt === 'asc' ? 1 : -1,

@@ -19,6 +19,7 @@ const routes: Routes = [
     children: [
       { path: '', component: PagesComponent },
       { path: 'trash', component: TrashComponent },
+      { path: 'group/:id', component: PagesComponent },
     ],
   },
   {

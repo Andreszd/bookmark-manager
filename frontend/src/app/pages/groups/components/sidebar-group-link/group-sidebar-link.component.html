@@ -1,7 +1,9 @@
-<app-sidebar-link [class]="{}">
+<app-sidebar-link
+  [routerLink]="formActive || isEditing ? null : ['/group', group._id]"
+>
   <svg
     icon
-    class="icon-default-color"
+    class="icon"
     style="width: 20px; height: 20px"
     focusable="false"
     aria-hidden="true"
@@ -12,7 +14,12 @@
     ></path>
   </svg>
 
-  <p *ngIf="!isEditing" class="p-3" (dblclick)="enableEdition()">
+  <p
+    *ngIf="!isEditing"
+    [style.color]="'inherit'"
+    class="p-3"
+    (dblclick)="enableEdition()"
+  >
     {{ name }}
   </p>
   <form

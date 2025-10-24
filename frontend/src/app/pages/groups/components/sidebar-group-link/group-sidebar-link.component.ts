@@ -21,7 +21,7 @@ type Form = {
   styleUrls: ['./group-sidebar-link.component.css'],
 })
 export class GroupSidebarLinkComponent implements OnInit {
-  @Input() group?: Group;
+  @Input() group!: Group;
   @Input('form') formActive?: boolean;
   @Output() blur = new EventEmitter();
   @Output() save = new EventEmitter<SaveGroupEventPayload>();

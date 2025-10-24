@@ -17,6 +17,7 @@ import { FilterButtonComponent } from 'src/app/shared/components/filter-button/f
 import { PageService } from './services/page.service';
 import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service';
 import { PageRegisterForm } from './components/page-register-form/page-register-form.component';
+import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { PageRegisterForm } from './components/page-register-form/page-register-
     SelectableCardComponent,
     DropdownModule,
     FilterButtonComponent,
+    LoadingSpinnerComponent,
   ],
   exports: [
     PagesComponent,

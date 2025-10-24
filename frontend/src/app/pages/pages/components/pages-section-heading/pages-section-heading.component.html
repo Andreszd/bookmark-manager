@@ -27,6 +27,7 @@
       [style]="{ minWidth: '320px', backgroundColor: 'var(--grey-50)' }"
     >
       <page-register-form
+        [submitting]="(pageService.isLoading$ | async) ?? false"
         (onSubmit)="createPage($event.url)"
       ></page-register-form>
     </div>

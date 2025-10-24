@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Input,
   OnInit,
   Output,
   ViewChild,
@@ -29,6 +30,7 @@ export class PageRegisterForm implements OnInit, AfterViewInit {
     ]),
   });
   @Output() onSubmit = new EventEmitter<FormValues>();
+  @Input() submitting: boolean = false;
 
   @ViewChild('ref') ref!: ElementRef<HTMLInputElement>;
 
@@ -41,6 +43,7 @@ export class PageRegisterForm implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   handleSubmit() {
+    if (this.submitting) return;
     if (this.form.valid) {
       this.onSubmit.emit(this.form.value);
     }

@@ -54,12 +54,14 @@ const getAll = async (query: { userId: string }) => {
   try {
     const collection = await Database.operations?.collection<Group>('group');
 
-    const groups = await collection?.find({
-      userId: new ObjectId(query.userId),
-      removed: {
-        $exists: false,
-      },
-    });
+    const groups = await collection
+      ?.find({
+        userId: new ObjectId(query.userId),
+        removed: {
+          $exists: false,
+        },
+      })
+      .toArray();
 
     return groups;
   } catch (error) {

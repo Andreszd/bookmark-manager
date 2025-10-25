@@ -6,6 +6,7 @@ import { PagesListLayoutService } from 'src/app/pages-list-layout.service';
 import { DropActionsPageGroupService } from 'src/app/shared/services/drop-actions-page-group.service';
 import { ActivatedRoute } from '@angular/router';
 import { PageService } from '../../services/page.service';
+import { actionPerformedEventPayload } from 'src/app/pages/types';
 
 @Component({
   selector: 'pages',
@@ -35,11 +36,24 @@ export class PagesListComponent implements OnInit {
       .pipe(
         switchMap((params) => {
           const id = params.get('id')!;
-          return this.pageService.getAll({ groupId: id });
+          const category = params.get('category')!;
+          return this.pageService.getAll({
+            groupId: id,
+            removed: category === 'trash',
+          });
         })
       )
       .subscribe((values) => {
         this.pagesStateService.setPages(values);
       });
+  }
+
+  handleAction(pageId: string, action: actionPerformedEventPayload) {
+    if (action === 'remove') {
+      this.pageService.delete(pageId).subscribe(() => {
+        const groupId = this.route.snapshot.paramMap.get('id')!;
+        this.pageService.refresh({ groupId });
+      });
+    }
   }
 }

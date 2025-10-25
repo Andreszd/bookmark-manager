@@ -11,3 +11,5 @@ export interface SaveGroupEventPayload {
   onSuccess: () => void;
   onError: () => void;
 }
+
+export type actionPerformedEventPayload = 'remove';

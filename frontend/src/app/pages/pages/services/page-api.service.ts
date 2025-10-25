@@ -20,10 +20,19 @@ export class PageApiService {
 
   update() {}
 
-  getAll<T>(queries?: { groupId?: string }) {
+  delete(id: string) {
+    return this.http.delete(`url/${id}`);
+  }
+
+  getAll<T>(queries?: { groupId?: string; removed?: boolean }) {
     return this.http.get<OGetAllPageDto<T>>(`url`, {
       params: {
-        ...(queries?.groupId && { groupId: queries.groupId }),
+        ...(queries?.groupId && {
+          groupId: queries.groupId,
+        }),
+        ...(queries?.removed && {
+          removed: queries.removed,
+        }),
       },
     });
   }

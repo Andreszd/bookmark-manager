@@ -53,6 +53,7 @@
                 (cardHasHover === i || !!(isGridLayout$ | async))
               "
               [collapsed]="!!(isGridLayout$ | async)"
+              (actionPerformed)="handleAction(page._id, $event)"
               actions
             ></page-card-actions>
           </page-card>

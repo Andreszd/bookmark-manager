@@ -38,6 +38,7 @@
     <button
       *ngFor="let action of actions"
       [title]="action.label"
+      (click)="performAction(action.key)"
       class="button text color-grey-500 hover-color-grey-600"
     >
       <div [innerHTML]="action.icon"></div>

@@ -17,14 +17,16 @@ export class PageService {
     map((value) => value.length)
   );
 
-  getAll(param?: { groupId: string; queries?: Record<string, any> }) {
+  getAll(param?: Parameters<typeof this.pageApiService.getAll>[0]) {
     this.loadingFlagService.toggle();
-    return this.pageApiService.getAll<Page[]>({ groupId: param?.groupId }).pipe(
-      map((value) => value.data),
-      finalize(() => {
-        this.loadingFlagService.toggle();
-      })
-    );
+    return this.pageApiService
+      .getAll<Page[]>({ groupId: param?.groupId, removed: param?.removed })
+      .pipe(
+        map((value) => value.data),
+        finalize(() => {
+          this.loadingFlagService.toggle();
+        })
+      );
   }
 
   refresh(param: Parameters<typeof this.getAll>[0]) {
@@ -36,6 +38,15 @@ export class PageService {
   create(url: string, groupId?: string) {
     this.loadingFlagService.toggle();
     return this.pageApiService.create({ url }, groupId).pipe(
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
+  }
+
+  delete(id: string) {
+    this.loadingFlagService.toggle();
+    return this.pageApiService.delete(id).pipe(
       finalize(() => {
         this.loadingFlagService.toggle();
       })

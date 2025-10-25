@@ -1,5 +1,13 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { actionPerformedEventPayload } from 'src/app/pages/types';
 
 const actions = [
   {
@@ -60,6 +68,7 @@ export class PageCardActionsComponent implements OnInit {
   actions = actions;
   sanitizer = inject(DomSanitizer);
   @Input() collapsed!: boolean;
+  @Output() actionPerformed = new EventEmitter<actionPerformedEventPayload>();
 
   constructor() {}
 
@@ -68,5 +77,9 @@ export class PageCardActionsComponent implements OnInit {
       ...action,
       icon: this.sanitizer.bypassSecurityTrustHtml(action.icon) as string,
     }));
+  }
+
+  performAction(key: string) {
+    this.actionPerformed.emit(key as 'remove');
   }
 }

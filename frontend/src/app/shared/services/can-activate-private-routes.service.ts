@@ -24,7 +24,9 @@ export class CanActivatePrivateRoutes implements CanActivate {
     if (route.url[0]?.path === 'auth') {
       return this.userStateService.$state.pipe(
         map((value) =>
-          value.isAuthenticated ? this.router.createUrlTree(['/']) : true
+          value.isAuthenticated
+            ? this.router.createUrlTree(['/page/all'])
+            : true
         )
       );
     } else {

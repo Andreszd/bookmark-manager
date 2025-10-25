@@ -18,12 +18,12 @@ const routes: Routes = [
     },
     children: [
       {
-        path: ':category/:id',
+        path: 'page/:category/:id',
         component: PagesRootComponent,
         children: [{ path: '', component: PagesListComponent }],
       },
       {
-        path: ':category',
+        path: 'page/:category',
         component: PagesRootComponent,
         children: [{ path: '', component: PagesListComponent }],
       },

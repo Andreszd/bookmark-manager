@@ -31,7 +31,7 @@ export class LoginFormComponent implements OnInit {
             password: values.password,
           })
           .subscribe(() => {
-            this.router.navigate(['/'], { replaceUrl: true });
+            this.router.navigate(['/page/all'], { replaceUrl: true });
           });
       }
     }

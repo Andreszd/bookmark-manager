@@ -1,3 +1,5 @@
 export type UserOutputDto = {
-  email: string;
+  data: {
+    email: string;
+  };
 };

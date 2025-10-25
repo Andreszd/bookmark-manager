@@ -4,6 +4,9 @@ import { BehaviorSubject } from 'rxjs';
 type UserState = {
   isAuthenticated?: boolean;
   isLoading?: boolean;
+  user?: {
+    email: string;
+  };
 };
 @Injectable({ providedIn: 'root' })
 export class UserStateService {

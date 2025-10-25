@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserStateService } from 'src/app/shared/services/user-state.service';
 
 @Component({
   selector: 'sidebar',
@@ -8,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
   route = inject(ActivatedRoute);
+  userStateService = inject(UserStateService);
+
+  userState$ = this.userStateService.$state;
 
   constructor() {}
 

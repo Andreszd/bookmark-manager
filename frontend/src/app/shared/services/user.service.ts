@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { finalize } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { UserStateService } from './user-state.service';
 import { UserOutputDto } from '../dtos/user.dto';
 
@@ -12,6 +12,9 @@ export class UserService {
   getData() {
     this.userState.set({ isLoading: true });
     return this.http.get<UserOutputDto>('user').pipe(
+      tap((values) => {
+        this.userState.set({ user: { email: values.data?.email } });
+      }),
       finalize(() => {
         this.userState.set({ isLoading: false });
       })

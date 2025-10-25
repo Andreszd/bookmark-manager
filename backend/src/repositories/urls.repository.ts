@@ -39,17 +39,20 @@ const getAll = async (queries: {
   groupId?: string;
   size: number;
   sortCreatedAt?: 'asc' | 'desc';
+  removed?: boolean;
 }) => {
   try {
     const collection = await Database.operations?.collection('url');
 
     const urls = await collection
       ?.find({
-        removed: {
+        removed: queries.removed ?? {
           $exists: false,
         },
         userId: new ObjectId(queries.userId),
-        groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
+        ...(!queries.removed && {
+          groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
+        }),
       })
       .sort({
         createdAt: queries.sortCreatedAt === 'asc' ? 1 : -1,

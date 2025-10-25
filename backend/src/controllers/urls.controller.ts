@@ -32,7 +32,7 @@ const getById = async (req: AuthRequest, res: Response) => {
 
 const getAll = async (req: AuthRequest, res: Response) => {
   try {
-    const { groupId, size = 50, sortCreatedAt } = req.query;
+    const { groupId, size = 50, sortCreatedAt, removed } = req.query;
     const userId = req.user as string;
 
     const urls = await UrlsService.getAll({
@@ -40,6 +40,7 @@ const getAll = async (req: AuthRequest, res: Response) => {
       groupId: groupId ? String(groupId) : undefined,
       size: parseInt(String(size)),
       sortCreatedAt: sortCreatedAt === 'desc' ? 'desc' : 'asc',
+      removed: removed === 'true' ? true : undefined,
     });
 
     res.status(200).json({

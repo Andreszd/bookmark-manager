@@ -36,6 +36,16 @@ export class GroupService {
     );
   }
 
+  addPages(groupId: string, pageIds: string[]) {
+    this.loadingFlagService.toggle();
+    return this.groupApiService.addPages(groupId, { pageIds }).pipe(
+      map((value) => value.data),
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
+  }
+
   update(id: string, name: string) {
     this.loadingFlagService.toggle();
     return this.groupApiService.update(id, { name }).pipe(

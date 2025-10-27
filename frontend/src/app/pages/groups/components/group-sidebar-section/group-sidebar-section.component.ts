@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service';
-import { PagesDragAndDropService } from 'src/app/pages-drag-and-drop.service';
-import { DropActionsPageGroupService } from 'src/app/shared/services/drop-actions-page-group.service';
 import { SaveGroupEventPayload } from 'src/app/pages/types';
+import { DragAndDropService } from 'src/app/shared/services/drag-and-drop.service';
+import { Group } from '../../types';
 
 @Component({
   selector: 'group-sidebar-section',
@@ -10,8 +10,7 @@ import { SaveGroupEventPayload } from 'src/app/pages/types';
   styleUrls: ['./group-sidebar-section.component.css'],
 })
 export class GroupSidebarSectionComponent implements OnInit {
-  pagesDragAndDropService = inject(PagesDragAndDropService);
-  dropActionsPageGroupService = inject(DropActionsPageGroupService);
+  dragAndDropService = inject(DragAndDropService);
 
   groupService = inject(GroupService);
   showGroupForm = false;
@@ -35,5 +34,17 @@ export class GroupSidebarSectionComponent implements OnInit {
     this.groupService
       .update(id, payload.name)
       .subscribe({ error: payload.onError });
+  }
+
+  handleDrop(group: Group) {
+    const { intention, data } =
+      this.dragAndDropService.getIntention(group, 'group') ?? {};
+
+    if (intention === 'addUrl' && data?.pageIds?.length) {
+      this.groupService.addPages(group._id, data?.pageIds).subscribe();
+    }
+
+    if (intention === 'merge') {
+    }
   }
 }

@@ -6,7 +6,7 @@ import { Page } from '../../types';
 export class PageStateService {
   private pages = new BehaviorSubject<Page[]>([]);
 
-  private selectedPages = new BehaviorSubject<number[]>([]);
+  private selectedPages = new BehaviorSubject<string[]>([]);
 
   pages$ = this.pages.asObservable();
 
@@ -16,26 +16,30 @@ export class PageStateService {
 
   constructor() {}
 
+  getSelectedPageIds() {
+    return this.selectedPages.value;
+  }
+
   setPages(pages: Page[]) {
     this.pages.next(pages);
   }
 
-  selectPage(id: number) {
+  selectPage(id: string) {
     this.selectedPages.next([...this.selectedPages.value, id]);
   }
 
-  unSelectPage(id: number) {
+  unSelectPage(id: string) {
     this.selectedPages.next(
       this.selectedPages.value.filter((pageId) => pageId !== id)
     );
   }
 
-  selectPages(ids: number[]) {
+  selectPages(ids: string[]) {
     this.selectedPages.next(ids);
   }
 
   /* with this you can create a derived state */
-  isSelected$(id: number) {
+  isSelected$(id: string) {
     return this.selectedPageIds$.pipe(
       // Map the array of IDs to a single boolean value
       map((ids) => {
@@ -45,7 +49,7 @@ export class PageStateService {
     );
   }
 
-  isSelected(id: number) {
+  isSelected(id: string) {
     return (
       this.selectedPages.value.find((pageId) => pageId === id) !== undefined
     );

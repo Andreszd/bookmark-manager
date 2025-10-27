@@ -6,12 +6,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./draggable-item.component.css'],
 })
 export class DraggableItemComponent implements OnInit {
-  @Input() id!: string | number;
+  @Input() data!: { [key: string | 'id']: any };
   @Input() gosthImgUrl?: string;
   @Input() isDraggable = true;
+  @Input() isDraggabling = false;
   @Output() onDragStart = new EventEmitter<DragEvent>();
+  @Output() onDragEnd = new EventEmitter<DragEvent>();
   gosthImg = new Image();
-  isDragging = false;
+  isDraggablingInternal = false;
 
   constructor() {}
 
@@ -24,18 +26,21 @@ export class DraggableItemComponent implements OnInit {
 
   handleOnDragStart(event: DragEvent) {
     if (!this.isDraggable) return;
-
-    this.isDragging = true;
+    this.isDraggablingInternal = true;
     this.onDragStart.emit();
 
     if (this.gosthImgUrl) {
       event.dataTransfer?.setDragImage(this.gosthImg, -5, -5);
     }
 
-    event.dataTransfer?.setData('id', this.id?.toString());
+    event.dataTransfer?.setData(
+      'data',
+      this.data ? JSON.stringify(this.data) : ''
+    );
   }
 
   handleOnDragEnd(event: DragEvent) {
-    this.isDragging = false;
+    this.isDraggablingInternal = false;
+    this.onDragEnd.emit();
   }
 }

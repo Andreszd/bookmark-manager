@@ -14,32 +14,35 @@
   </div>
 
   <drag-select-container
-    *ngIf="pageService.pagesLength$ | async"
+    *ngIf="(pageService.pages$ | async)?.length"
     class="flex f-wrap f-direction-col gap-1 align-items-start align-content-start px-2"
     [ngClass]="{ 'f-direction-col': !(isGridLayout$ | async) }"
     (onDetectNodes)="pagesStateService.selectPages($event)"
   >
     <drop-zone
       *ngFor="let page of pageService.pages$ | async; let i = index"
+      #child
+      [attr.data-id]="page._id"
       [ngClass]="{ 'w-full': !(isGridLayout$ | async) }"
       [disabled]="
-        page._id === pagesDragAndDropService.dropzoneId ||
-        (pagesDragAndDropService.draggableItemData &&
-          pageService.isPageGroup(pagesDragAndDropService.draggableItemData))
+        dragAndDropService.activeDraggableItems.includes(page._id) ||
+        dragAndDropService.draggableItemType !== 'page'
       "
-      (onDrop)="dropActionsPageGroupService.getActionPerformed(page)"
+      (onDrop)="handleDrop(page)"
     >
       <draggable-item
-        [isDraggable]="!(pagesStateService.pagesLength$ | async)"
-        [id]="page._id"
+        [isDraggable]="isDraggable(page._id)"
+        [data]="{ type: 'page', id: page._id }"
+        [isDraggabling]="isDraggabling ? selectedIds.includes(page._id) : false"
         [gosthImgUrl]="'assets/file-link.png'"
-        (onDragStart)="pagesDragAndDropService.handleDragStart(page._id, page)"
+        (onDragStart)="handleDragStart(page._id)"
+        (onDragEnd)="isDraggabling = false"
       >
         <selectable-card
+          [selected]="pagesStateService.isSelected(page._id)"
           (hasHover)="cardHasHover = $event ? i : undefined"
-          [selected]="pagesStateService.isSelected(i)"
-          (onSelect)="pagesStateService.selectPage(i)"
-          (onUnSelect)="pagesStateService.unSelectPage(i)"
+          (onSelect)="pagesStateService.selectPage(page._id)"
+          (onUnSelect)="pagesStateService.unSelectPage(page._id)"
         >
           <page-card [small]="!(isGridLayout$ | async)">
             <page-card-body

@@ -10,7 +10,7 @@ export interface ICreateGroupDto {
 }
 
 export interface IAddPageToGroupDto {
-  groupIds: string[];
+  pageIds: string[];
 }
 
 export type OGetAllGroupDto = OutputApi<GroupDto[]>;

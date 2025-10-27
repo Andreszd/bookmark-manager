@@ -2,8 +2,8 @@ import {
   AfterContentInit,
   Component,
   ContentChildren,
+  ElementRef,
   EventEmitter,
-  HostBinding,
   inject,
   Input,
   OnInit,
@@ -11,7 +11,6 @@ import {
   QueryList,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropZoneComponent } from '../drag-and-drop/drop-zone/drop-zone.component';
 import { DragSelectService } from 'src/app/drag-select.service';
 
 @Component({
@@ -32,25 +31,23 @@ import { DragSelectService } from 'src/app/drag-select.service';
 })
 export class DragSelectContainerComponent implements OnInit, AfterContentInit {
   @Input() class!: string;
-  @Output() onDetectNodes = new EventEmitter<number[]>();
-  /* TODO this must be dynamic */
-  @ContentChildren(DropZoneComponent) children!: QueryList<DropZoneComponent>;
+  @Output() onDetectNodes = new EventEmitter<string[]>();
+  @ContentChildren('child', { descendants: true, read: ElementRef })
+  children!: QueryList<ElementRef>;
   dragSelectService = inject(DragSelectService);
   childRefs: HTMLElement[] = [];
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.class);
-  }
+  ngOnInit(): void {}
 
-  triggerEventIfChildrenAreInSelectionZone(idxs: number[]) {
+  triggerEventIfChildrenAreInSelectionZone(idxs: string[]) {
     this.onDetectNodes.emit(idxs);
   }
 
   ngAfterContentInit(): void {
     this.children.forEach((child) => {
-      this.childRefs.push(child.ref.nativeElement);
+      this.childRefs.push(child.nativeElement);
     });
   }
 }

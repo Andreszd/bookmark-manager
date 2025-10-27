@@ -3,7 +3,6 @@ import { SidebarLinkComponent } from './sidebar-link/sidebar-link.component';
 import { SidebarSectionComponent } from './sidebar-section/sidebar-section.component';
 import { SidebarSectionHeadingComponent } from './sidebar-section-heading/sidebar-section-heading.component';
 import { DragAndDropModule } from '../drag-and-drop/drag-and-drop.module';
-import { PagesDragAndDropService } from 'src/app/pages-drag-and-drop.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from 'src/app/app-routing.module';
@@ -18,7 +17,6 @@ import { DropdownModule } from '../dropdown/dropdown.module';
     SidebarSectionHeadingComponent,
     SidebarLinkComponent,
   ],
-  providers: [PagesDragAndDropService],
   imports: [
     DragAndDropModule,
     CommonModule,

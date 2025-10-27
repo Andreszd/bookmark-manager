@@ -1,10 +1,12 @@
+type CoordenatesAndId = DOMRect & { id: string };
+
 export class DragSelectService {
-  idxs: number[] = [];
+  idxs: string[] = [];
   getChildrenIdxsThatOverlapWithSelectionBox(
     selectionBoxCoordenates: DOMRect,
-    childrenCoordenates: DOMRect[]
+    childrenCoordenates: CoordenatesAndId[]
   ) {
-    const idxs = new Set<number>();
+    const idxs = new Set<string>();
 
     childrenCoordenates.forEach((childRect, index) => {
       const isIntersecting = !(
@@ -15,7 +17,7 @@ export class DragSelectService {
       );
 
       if (isIntersecting) {
-        idxs.add(index);
+        idxs.add(childRect.id ?? index);
       }
     });
     return [...idxs];
@@ -24,7 +26,7 @@ export class DragSelectService {
   startSelection(
     event: MouseEvent,
     childRefs: HTMLElement[],
-    triggerEventIfChildrenAreInSelectionZone: (idxs: number[]) => void
+    triggerEventIfChildrenAreInSelectionZone: (idxs: string[]) => void
   ) {
     if (
       !(event.target as HTMLDivElement).classList.contains(
@@ -44,9 +46,10 @@ export class DragSelectService {
 
     const leftOffset = container?.getBoundingClientRect().left || 0;
 
-    const childrenCoordenates = childRefs.map((child) =>
-      child.getBoundingClientRect()
-    );
+    const childrenCoordenates = childRefs.map((child) => ({
+      ...child.getBoundingClientRect().toJSON(),
+      id: child.dataset['id'],
+    })) as CoordenatesAndId[];
 
     const mousemove = (event: MouseEvent) => {
       const x = event.clientX;

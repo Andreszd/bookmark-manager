@@ -3,6 +3,8 @@ import { GroupService } from '../../services/group.service';
 import { SaveGroupEventPayload } from 'src/app/pages/types';
 import { DragAndDropService } from 'src/app/shared/services/drag-and-drop.service';
 import { Group } from '../../types';
+import { PageService } from 'src/app/pages/pages/services/page.service';
+import { RouteStateService } from 'src/app/shared/services/route-state.service';
 
 @Component({
   selector: 'group-sidebar-section',
@@ -13,6 +15,8 @@ export class GroupSidebarSectionComponent implements OnInit {
   dragAndDropService = inject(DragAndDropService);
 
   groupService = inject(GroupService);
+  pageService = inject(PageService);
+  routeStateService = inject(RouteStateService);
   showGroupForm = false;
   constructor() {}
 
@@ -41,7 +45,11 @@ export class GroupSidebarSectionComponent implements OnInit {
       this.dragAndDropService.getIntention(group, 'group') ?? {};
 
     if (intention === 'addUrl' && data?.pageIds?.length) {
-      this.groupService.addPages(group._id, data?.pageIds).subscribe();
+      this.groupService.addPages(group._id, data?.pageIds).subscribe(() => {
+        const groupId = this.routeStateService.getValues().get('id')!;
+
+        this.pageService.refresh({ groupId });
+      });
     }
 
     if (intention === 'merge') {

@@ -1,8 +1,10 @@
+import { ObjectId } from 'mongodb';
+
 export type Url = {
   userId: string;
   url: string;
   name?: string;
-  groupId: string;
+  groupId: string | ObjectId;
   thumbnailUrl?: string;
   createdAt: Date;
 };

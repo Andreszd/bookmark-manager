@@ -4,15 +4,19 @@ import { DBError } from '../errors/db-error';
 import { Url } from '../models/url.model';
 import { OmitGenData, OmitId } from '../types';
 import { NoReadAuthorizationError } from '../errors/no-read-authorization.error';
+import { cleanObject } from '../utils/cleanObjects';
 
 const create = async (url: OmitId<Url>) => {
   try {
     const collection = await Database.operations?.collection('url');
-    await collection?.insertOne({
+
+    let body = {
       ...url,
       userId: url.userId ? new ObjectId(url.userId) : undefined,
       ...(url.groupId && { groupId: new ObjectId(url.groupId) }),
-    });
+    };
+
+    await collection?.insertOne(cleanObject(body));
   } catch (error) {
     throw new DBError();
   }
@@ -106,13 +110,22 @@ const updateManyByGroupId = async (
 const updateManyById = async (ids: string[], values: Partial<OmitGenData<OmitId<Url>>>) => {
   try {
     const collection = await Database.operations?.collection('url');
+
+    const formatted = {
+      ...values,
+    };
+
+    if ('groupId' in formatted) {
+      formatted.groupId = new ObjectId(values.groupId as string);
+    }
+
     const res = await collection?.updateMany(
       {
         _id: { $in: ids.map((id) => new ObjectId(id)) },
       },
       {
         $set: {
-          ...values,
+          ...formatted,
         },
       }
     );

@@ -38,7 +38,7 @@ export class GroupService {
 
   addPages(groupId: string, pageIds: string[]) {
     this.loadingFlagService.toggle();
-    return this.groupApiService.addPages(groupId, { pageIds }).pipe(
+    return this.groupApiService.addPages(groupId, { urlIds: pageIds }).pipe(
       map((value) => value.data),
       finalize(() => {
         this.loadingFlagService.toggle();

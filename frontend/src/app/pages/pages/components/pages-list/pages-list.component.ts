@@ -8,6 +8,7 @@ import { PageService } from '../../services/page.service';
 import { actionPerformedEventPayload, Page } from 'src/app/pages/types';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { RegisterGroupFormComponent } from 'src/app/pages/groups/components/register-group-form/register-group-form.component';
+import { RouteStateService } from 'src/app/shared/services/route-state.service';
 
 @Component({
   selector: 'pages',
@@ -22,6 +23,7 @@ export class PagesListComponent implements OnInit, OnDestroy {
   dialogService = inject(DialogService);
 
   route = inject(ActivatedRoute);
+  routeStateService = inject(RouteStateService);
 
   isDraggabling = false;
   selectedIds: string[] = [];
@@ -46,7 +48,9 @@ export class PagesListComponent implements OnInit, OnDestroy {
     this.route.paramMap
       .pipe(
         switchMap((params) => {
+          this.routeStateService.save(params);
           const id = params.get('id')!;
+
           const category = params.get('category')!;
           return this.pageService.getAll({
             groupId: id,

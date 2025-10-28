@@ -70,7 +70,7 @@ const getAll = async (queries: {
   }
 };
 
-const update = async (urlId: string, updates: object) => {
+const update = async (urlId: string, updates: Partial<Url>) => {
   try {
     const collection = await Database.operations?.collection('url');
     await collection?.updateOne(

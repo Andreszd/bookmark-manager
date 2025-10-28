@@ -7,6 +7,7 @@ type GroupDto = {
 
 export interface ICreateGroupDto {
   name: string;
+  urlIds?: string[];
 }
 
 export interface IAddPageToGroupDto {

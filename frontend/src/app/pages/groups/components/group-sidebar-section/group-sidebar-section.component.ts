@@ -15,6 +15,7 @@ export class GroupSidebarSectionComponent implements OnInit {
   dragAndDropService = inject(DragAndDropService);
 
   groupService = inject(GroupService);
+  groups$ = this.groupService.groups$;
   pageService = inject(PageService);
   routeStateService = inject(RouteStateService);
   showGroupForm = false;

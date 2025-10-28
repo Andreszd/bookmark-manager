@@ -1,13 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Group } from '../types';
 import { GroupApiService } from './group-api.service';
-import { finalize, map, tap } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service';
+import { GroupStateService } from './group-state.service';
 
 @Injectable()
 export class GroupService {
-  groups: Group[] = [];
   private groupApiService = inject(GroupApiService);
+  groupStateService = inject(GroupStateService);
+  groups$ = this.groupStateService.groups$;
   loadingFlagService = inject(LoadingFlagService);
   loading$ = this.loadingFlagService.$isLoading;
 
@@ -22,13 +24,13 @@ export class GroupService {
         })
       )
       .subscribe((value) => {
-        this.groups = value;
+        this.groupStateService.save(value);
       });
   }
 
-  create(name: string) {
+  create(name: string, pageIds?: string[]) {
     this.loadingFlagService.toggle();
-    return this.groupApiService.create({ name }).pipe(
+    return this.groupApiService.create({ name, urlIds: pageIds }).pipe(
       map((value) => value.data),
       finalize(() => {
         this.loadingFlagService.toggle();

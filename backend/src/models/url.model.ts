@@ -7,6 +7,7 @@ export type Url = {
   groupId: string | ObjectId;
   thumbnailUrl?: string;
   createdAt: Date;
+  removed?: boolean;
 };
 
 export const jsonScheme = {

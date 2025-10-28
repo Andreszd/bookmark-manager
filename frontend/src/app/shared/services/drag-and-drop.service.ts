@@ -58,7 +58,7 @@ export class DragAndDropService {
         return {
           intention: 'createGroup',
           data: {
-            // pageIds: [this.activeDraggableItem],
+            pageIds: [targetData._id, ...this.activeDraggableItems],
           },
         };
       }

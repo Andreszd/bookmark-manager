@@ -11,13 +11,12 @@ const create = async (userId: string, group: InputCreateGroupDto, urlIds?: strin
       createdAt: new Date(),
     });
 
-    if (urlIds) {
-      for (const id of urlIds) {
-        await UrlsRepository.update(id, {
-          groupId,
-        });
-      }
+    if (urlIds?.length) {
+      await UrlsRepository.updateManyById(urlIds, {
+        groupId,
+      });
     }
+    return groupId;
   } catch (error) {
     throw error;
   }

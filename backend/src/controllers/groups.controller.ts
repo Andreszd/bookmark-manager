@@ -9,10 +9,13 @@ const create = async (req: AuthRequest, res: Response, next: NextFunction) => {
     const body = req.body as InputCreateGroupDto;
     const userId = req.user as string;
 
-    await GroupsService.create(userId, body, body.urlIds);
+    const groupId = await GroupsService.create(userId, body, body.urlIds);
 
     res.status(200).json({
       message: 'created',
+      data: {
+        _id: groupId,
+      },
     });
   } catch (error) {
     next(error);

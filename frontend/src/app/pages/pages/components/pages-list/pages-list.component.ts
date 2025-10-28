@@ -9,6 +9,7 @@ import { actionPerformedEventPayload, Page } from 'src/app/pages/types';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { RegisterGroupFormComponent } from 'src/app/pages/groups/components/register-group-form/register-group-form.component';
 import { RouteStateService } from 'src/app/shared/services/route-state.service';
+import { GroupService } from 'src/app/pages/groups/services/group.service';
 
 @Component({
   selector: 'pages',
@@ -21,6 +22,7 @@ export class PagesListComponent implements OnInit, OnDestroy {
   dragAndDropService = inject(DragAndDropService);
   pagesStateService = inject(PageStateService);
   dialogService = inject(DialogService);
+  groupService = inject(GroupService);
 
   route = inject(ActivatedRoute);
   routeStateService = inject(RouteStateService);
@@ -102,13 +104,21 @@ export class PagesListComponent implements OnInit, OnDestroy {
         providers: [
           {
             provide: 'onSubmit',
-            useValue: () => {},
+            useValue: (name: string) => {
+              this.groupService.create(name, data?.pageIds).subscribe(() => {
+                this.groupService.getAll();
+                this.dialogService.close();
+                const groupId = this.routeStateService.getValues().get('id')!;
+                this.pageService.getAll({
+                  groupId,
+                });
+              });
+            },
           },
           {
             provide: 'getInitialValues',
             useValue: () => ({
               name: 'Grupo',
-              pageIds: data as number[],
             }),
           },
         ],

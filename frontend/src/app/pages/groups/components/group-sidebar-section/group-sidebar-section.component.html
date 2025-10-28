@@ -39,7 +39,7 @@
       </group-sidebar-link>
 
       <div
-        *ngIf="!groupService.groups.length"
+        *ngIf="!(groupService.groups$ | async)?.length"
         content
         class="flex f-direction-col justify-content-center h-full"
       >
@@ -51,7 +51,7 @@
         </empty-state>
       </div>
       <drop-zone
-        *ngFor="let group of groupService.groups"
+        *ngFor="let group of groupService.groups$ | async"
         [activeStyles]="{ backgroundColor: 'var(--grey-300)' }"
         [disabled]="dragAndDropService.activeDraggableItems.includes(group._id)"
         (onDrop)="handleDrop(group)"

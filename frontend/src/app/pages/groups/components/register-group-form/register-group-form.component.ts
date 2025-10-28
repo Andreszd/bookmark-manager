@@ -22,14 +22,13 @@ export type GroupFormValues = FormGroup<Group>['value'];
 export class RegisterGroupFormComponent implements AfterViewInit {
   form = new FormGroup<Group>({
     name: new FormControl('Grupo', Validators.required),
-    pageIds: new FormControl([]),
   });
   @ViewChild('ref') ref!: ElementRef<HTMLInputElement>;
-  onSubmit!: (value: GroupFormValues) => void;
+  onSubmit!: (value: string) => void;
 
   constructor(
     @Inject('onSubmit')
-    onSubmit: (value: GroupFormValues) => void,
+    onSubmit: (value: string) => void,
     @Inject('getInitialValues')
     getInitialValues: () => GroupFormValues | undefined
   ) {
@@ -43,7 +42,9 @@ export class RegisterGroupFormComponent implements AfterViewInit {
 
   handleSubmit() {
     if (this.form.valid) {
-      this.onSubmit(this.form.value);
+      if (this.form.value.name) {
+        this.onSubmit(this.form.value.name);
+      }
     }
   }
 }

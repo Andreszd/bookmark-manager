@@ -40,25 +40,30 @@ const getById = async (urlId: string, userId: string) => {
 
 const getAll = async (queries: {
   userId: string;
+  search?: string;
   groupId?: string;
   size: number;
   sortCreatedAt?: 'asc' | 'desc';
+  sortName?: 'asc' | 'desc';
   removed?: boolean;
 }) => {
   try {
     const collection = await Database.operations?.collection('url');
 
+    console.log(queries);
     const urls = await collection
       ?.find({
         removed: queries.removed ?? {
           $exists: false,
         },
+        ...(queries.search && { name: { $regex: queries.search, $options: 'i' } }),
         userId: new ObjectId(queries.userId),
         ...(!queries.removed && {
           groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
         }),
       })
       .sort({
+        ...(queries.sortName && { name: queries.sortName === 'asc' ? 1 : -1 }),
         createdAt: queries.sortCreatedAt === 'asc' ? 1 : -1,
       })
       .limit(queries.size)

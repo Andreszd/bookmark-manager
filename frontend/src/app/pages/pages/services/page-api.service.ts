@@ -24,14 +24,29 @@ export class PageApiService {
     return this.http.delete(`url/${id}`);
   }
 
-  getAll<T>(queries?: { groupId?: string; removed?: boolean }) {
+  getAll<T>(queries?: {
+    groupId?: string;
+    removed?: boolean;
+    search?: string;
+    sortCreatedAt?: 'asc' | 'desc' | undefined;
+    sortName?: 'asc' | 'desc' | undefined;
+  }) {
     return this.http.get<OGetAllPageDto<T>>(`url`, {
       params: {
+        ...(queries?.search?.length && {
+          search: queries.search,
+        }),
         ...(queries?.groupId && {
           groupId: queries.groupId,
         }),
         ...(queries?.removed && {
           removed: queries.removed,
+        }),
+        ...(queries?.sortCreatedAt && {
+          sortCreatedAt: queries.sortCreatedAt,
+        }),
+        ...(queries?.sortName && {
+          sortName: queries.sortName,
         }),
       },
     });

@@ -4,7 +4,6 @@ import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service
 import { Page } from '../../types';
 import { finalize, map } from 'rxjs';
 import { PageStateService } from './page-state.service';
-import { ActivatedRoute } from '@angular/router';
 
 export class PageService {
   pageStateService = inject(PageStateService);
@@ -19,14 +18,12 @@ export class PageService {
 
   getAll(param?: Parameters<typeof this.pageApiService.getAll>[0]) {
     this.loadingFlagService.toggle();
-    return this.pageApiService
-      .getAll<Page[]>({ groupId: param?.groupId, removed: param?.removed })
-      .pipe(
-        map((value) => value.data),
-        finalize(() => {
-          this.loadingFlagService.toggle();
-        })
-      );
+    return this.pageApiService.getAll<Page[]>(param).pipe(
+      map((value) => value.data),
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
   }
 
   refresh(param: Parameters<typeof this.getAll>[0]) {

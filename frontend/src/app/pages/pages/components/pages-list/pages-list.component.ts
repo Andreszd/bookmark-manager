@@ -1,5 +1,5 @@
 import { Component, inject, Injector, OnDestroy, OnInit } from '@angular/core';
-import { map, startWith, Subscription, switchMap } from 'rxjs';
+import { combineLatest, map, startWith, Subscription, switchMap } from 'rxjs';
 import { PageStateService } from 'src/app/pages/pages/services/page-state.service';
 import { DragAndDropService } from 'src/app/shared/services/drag-and-drop.service';
 import { PagesListLayoutService } from 'src/app/pages-list-layout.service';
@@ -47,16 +47,24 @@ export class PagesListComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.route.paramMap
+    combineLatest([this.route.paramMap, this.route.queryParamMap])
       .pipe(
-        switchMap((params) => {
+        switchMap(([params, queryParams]) => {
           this.routeStateService.save(params);
-          const id = params.get('id')!;
 
+          const id = params.get('id')!;
           const category = params.get('category')!;
+
+          const search = queryParams.get('search')!;
+          const sortCreatedAt = queryParams.get('createdAt')! as 'asc' | 'desc';
+          //const sortName = queryParams.get('name')! as 'asc' | 'desc';
+
           return this.pageService.getAll({
             groupId: id,
             removed: category === 'trash',
+            search,
+            sortCreatedAt,
+            //sortName,
           });
         })
       )

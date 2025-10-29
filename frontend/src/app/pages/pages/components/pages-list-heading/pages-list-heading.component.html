@@ -39,7 +39,11 @@
     </div>
   </div>
   <div class="flex gap-1" *ngIf="!(selectedPageIdsLength$ | async)">
-    <app-filter-button [filter]="{ name: 'name', actions: ['asc', 'desc'] }">
+    <!--
+    <app-filter-button
+      [filter]="{ name: 'name', actions: ['asc', 'desc'] }"
+      (onFilterChange)="setFilter($event)"
+    >
       <svg
         icon
         class="icon"
@@ -64,9 +68,10 @@
       </svg>
       Nombre
     </app-filter-button>
-
+     -->
     <app-filter-button
       [filter]="{ name: 'createdAt', actions: ['asc', 'desc'] }"
+      (onFilterChange)="setFilter($event)"
     >
       <svg
         icon

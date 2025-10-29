@@ -67,4 +67,13 @@ export class GroupService {
       })
     );
   }
+
+  remove(id: string) {
+    this.loadingFlagService.toggle();
+    return this.groupApiService.remove(id).pipe(
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
+  }
 }

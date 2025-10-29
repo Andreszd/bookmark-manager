@@ -57,6 +57,7 @@
         (onDrop)="handleDrop(group)"
       >
         <draggable-item
+          [data]="group._id"
           (onDragStart)="dragAndDropService.handleDragStart(group._id, 'group')"
           (onDragEnd)="dragAndDropService.clean()"
         >
@@ -89,6 +90,7 @@
         backgroundColor: 'var(--grey-500)',
         color: 'white'
       }"
+      (onDrop)="remove($event)"
     >
       <div
         class="flex f-direction-col justify-content-center align-items-center gap-0 py-2"

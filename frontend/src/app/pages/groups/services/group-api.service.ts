@@ -32,5 +32,7 @@ export class GroupApiService {
     return this.http.post<OCreateGroupDto>(`group/merge`, body);
   }
 
-  removeGroup(groupId: number) {}
+  remove(groupId: string) {
+    return this.http.delete(`group/${groupId}`);
+  }
 }

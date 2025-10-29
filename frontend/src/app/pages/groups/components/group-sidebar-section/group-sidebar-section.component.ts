@@ -47,6 +47,20 @@ export class GroupSidebarSectionComponent implements OnInit {
       .subscribe({ error: payload.onError });
   }
 
+  remove(evt: DragEvent) {
+    const groupId = evt.dataTransfer?.getData('data');
+    const pathId = this.routeStateService.getValues().get('id')!;
+
+    if (!groupId) return;
+
+    this.groupService.remove(groupId).subscribe(() => {
+      this.groupService.getAll();
+      if (groupId === pathId) {
+        this.router.navigate(['/page', 'all'], { replaceUrl: true });
+      }
+    });
+  }
+
   handleDrop(group: Group) {
     const { intention, data } =
       this.dragAndDropService.getIntention(group, 'group') ?? {};

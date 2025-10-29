@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./draggable-item.component.css'],
 })
 export class DraggableItemComponent implements OnInit {
-  @Input() data!: { [key: string | 'id']: any };
+  @Input() data!: { [key: string | 'id']: any } | string;
   @Input() gosthImgUrl?: string;
   @Input() isDraggable = true;
   @Input() isDraggabling = false;
@@ -35,7 +35,7 @@ export class DraggableItemComponent implements OnInit {
 
     event.dataTransfer?.setData(
       'data',
-      this.data ? JSON.stringify(this.data) : ''
+      typeof this.data === 'object' ? JSON.stringify(this.data) : this.data
     );
   }
 

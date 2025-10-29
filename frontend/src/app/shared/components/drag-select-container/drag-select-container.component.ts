@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragSelectService } from 'src/app/drag-select.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'drag-select-container',
@@ -36,6 +37,7 @@ export class DragSelectContainerComponent implements OnInit, AfterContentInit {
   children!: QueryList<ElementRef>;
   dragSelectService = inject(DragSelectService);
   childRefs: HTMLElement[] = [];
+  suscription!: Subscription;
 
   constructor() {}
 
@@ -46,8 +48,17 @@ export class DragSelectContainerComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    this.children.forEach((child) => {
-      this.childRefs.push(child.nativeElement);
+    if (!this.suscription) {
+      this.children.forEach((child) => {
+        this.childRefs.push(child.nativeElement);
+      });
+    }
+
+    this.suscription = this.children.changes.subscribe(() => {
+      this.childRefs = [];
+      this.children.forEach((child) => {
+        this.childRefs.push(child.nativeElement);
+      });
     });
   }
 }

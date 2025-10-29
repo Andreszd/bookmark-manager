@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { PageStateService } from './services/page-state.service';
 
 @Component({
   selector: 'pages-root',
@@ -19,4 +21,15 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class PagesRootComponent {}
+export class PagesRootComponent {
+  router = inject(Router);
+  pageState = inject(PageStateService);
+
+  constructor() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.pageState.clearSelection();
+      }
+    });
+  }
+}

@@ -21,32 +21,34 @@
     <input placeholder="Buscar" [formControl]="searchControl" />
   </div>
 
-  <ng-template dropdown-content [originConection]="dref">
-    <div
-      class="py-1 px-1 border border-radius elevation"
-      [style]="{ minWidth: '320px', backgroundColor: 'var(--grey-50)' }"
-    >
-      <page-register-form
-        [submitting]="(pageService.isLoading$ | async) ?? false"
-        (onSubmit)="createPage($event.url)"
-      ></page-register-form>
-    </div>
-  </ng-template>
+  <ng-container *ngIf="(route.params | async)?.['category'] !== 'trash'">
+    <ng-template dropdown-content [originConection]="dref">
+      <div
+        class="py-1 px-1 border border-radius elevation"
+        [style]="{ minWidth: '320px', backgroundColor: 'var(--grey-50)' }"
+      >
+        <page-register-form
+          [submitting]="(pageService.isLoading$ | async) ?? false"
+          (onSubmit)="createPage($event.url)"
+        ></page-register-form>
+      </div>
+    </ng-template>
 
-  <button
-    #dref="dropdown-origin"
-    dropdown-origin
-    class="button bg-color-primary color-white"
-  >
-    <svg
-      class="icon"
-      focusable="false"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      color
+    <button
+      #dref="dropdown-origin"
+      dropdown-origin
+      class="button bg-color-primary color-white"
     >
-      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path>
-    </svg>
-    Añadir
-  </button>
+      <svg
+        class="icon"
+        focusable="false"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        color
+      >
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"></path>
+      </svg>
+      Añadir
+    </button>
+  </ng-container>
 </div>

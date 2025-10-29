@@ -1,5 +1,4 @@
 <button class="button text color-grey-500" (click)="toggleActive()">
-  <ng-content *ngIf="active || !activeIconElem" select="[icon]"></ng-content>
-  <ng-content *ngIf="!active" select="[active-icon]"></ng-content>
+  <ng-content select="[icon]"></ng-content>
   <ng-content></ng-content>
 </button>

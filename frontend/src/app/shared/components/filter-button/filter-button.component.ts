@@ -9,7 +9,6 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActiveIconDirective } from 'src/app/directives';
 
 type Filter = {
   name: string;
@@ -25,7 +24,6 @@ type Filter = {
 })
 export class FilterButtonComponent implements OnInit, AfterContentInit {
   active: boolean = false;
-  @ContentChild(ActiveIconDirective) activeIconElem!: ElementRef;
   @Input() filter!: Filter;
   @Output() onFilterChange = new EventEmitter<{
     name: string;

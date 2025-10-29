@@ -94,6 +94,7 @@
       (onFilterChange)="pagesListLayoutService.changeLayout()"
     >
       <svg
+        *ngIf="(layout$ | async) === 'grid'"
         icon
         class="icon"
         focusable="false"
@@ -105,7 +106,8 @@
         ></path>
       </svg>
       <svg
-        active-icon
+        *ngIf="(layout$ | async) !== 'grid'"
+        icon
         class="icon"
         focusable="false"
         aria-hidden="true"

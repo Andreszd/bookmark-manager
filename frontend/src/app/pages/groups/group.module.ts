@@ -11,12 +11,14 @@ import { GroupService } from './services/group.service';
 import { GroupApiService } from './services/group-api.service';
 import { RegisterGroupFormComponent } from './components/register-group-form/register-group-form.component';
 import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
+import { WarningMergeGroupDialogComponent } from './components/warning-merge-group-dialog/warning-merge-group-dialog.component';
 
 @NgModule({
   declarations: [
     GroupSidebarSectionComponent,
     GroupSidebarLinkComponent,
     RegisterGroupFormComponent,
+    WarningMergeGroupDialogComponent,
   ],
   providers: [GroupService, GroupApiService],
   exports: [GroupSidebarSectionComponent],

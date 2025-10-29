@@ -57,4 +57,14 @@ export class GroupService {
       })
     );
   }
+
+  merge(groupIds: string[]) {
+    this.loadingFlagService.toggle();
+    return this.groupApiService.merge({ groupIds }).pipe(
+      map((value) => value.data),
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
+  }
 }

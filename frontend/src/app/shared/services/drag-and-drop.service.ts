@@ -46,8 +46,7 @@ export class DragAndDropService {
         return {
           intention: 'merge',
           data: {
-            pageIds: this.activeDraggableItems,
-            //groupIds: [targetData._id, this.activeDraggableItem],
+            groupIds: [targetData._id, ...this.activeDraggableItems],
           },
         };
       }

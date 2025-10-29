@@ -1,10 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Injector, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service';
 import { SaveGroupEventPayload } from 'src/app/pages/types';
 import { DragAndDropService } from 'src/app/shared/services/drag-and-drop.service';
 import { Group } from '../../types';
 import { PageService } from 'src/app/pages/pages/services/page.service';
 import { RouteStateService } from 'src/app/shared/services/route-state.service';
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { WarningMergeGroupDialogComponent } from '../warning-merge-group-dialog/warning-merge-group-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'group-sidebar-section',
@@ -18,8 +21,11 @@ export class GroupSidebarSectionComponent implements OnInit {
   groups$ = this.groupService.groups$;
   pageService = inject(PageService);
   routeStateService = inject(RouteStateService);
+  dialogService = inject(DialogService);
+  router = inject(Router);
+
   showGroupForm = false;
-  constructor() {}
+  constructor(private injector: Injector) {}
 
   ngOnInit(): void {
     this.groupService.getAll();
@@ -54,6 +60,35 @@ export class GroupSidebarSectionComponent implements OnInit {
     }
 
     if (intention === 'merge') {
+      const injector = Injector.create({
+        providers: [
+          {
+            provide: 'onOk',
+            useValue: () => {
+              if (!data?.groupIds?.length) return;
+              this.groupService.merge(data?.groupIds).subscribe(() => {
+                this.router.navigate(['/page', 'group', data?.groupIds?.[0]], {
+                  replaceUrl: true,
+                });
+                this.dialogService.close();
+                this.groupService.getAll();
+              });
+            },
+          },
+          {
+            provide: 'close',
+            useValue: () => {
+              this.dialogService.close();
+            },
+          },
+        ],
+        parent: this.injector,
+      });
+
+      this.dialogService.open(WarningMergeGroupDialogComponent, {
+        title: 'Advertencia de fusión',
+        injector,
+      });
     }
   }
 }

@@ -99,6 +99,7 @@ const updateManyByGroupId = async (
       {
         $set: {
           ...values,
+          groupId: values.groupId ? new ObjectId(values.groupId) : undefined,
         },
       }
     );

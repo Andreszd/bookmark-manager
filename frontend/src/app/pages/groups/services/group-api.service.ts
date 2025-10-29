@@ -28,5 +28,9 @@ export class GroupApiService {
     return this.http.put<OCreateGroupDto>(`group/${id}`, body);
   }
 
+  merge(body: { groupIds: string[] }) {
+    return this.http.post<OCreateGroupDto>(`group/merge`, body);
+  }
+
   removeGroup(groupId: number) {}
 }

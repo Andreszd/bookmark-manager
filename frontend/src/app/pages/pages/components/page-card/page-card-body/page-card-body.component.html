@@ -3,7 +3,7 @@
     <p
       [style]="{ zIndex: '100' }"
       class="p-2 f-w-600 px-00 py-00"
-      (dblclick)="enableEdition('title')"
+      (dblclick)="enableEdition('name')"
     >
       {{ page.name }}
     </p>
@@ -15,18 +15,15 @@
       {{ page.url }}
     </p>
   </div>
-  <form
-    class="flex f-direction-col"
-    *ngIf="editable"
-    [formGroup]="form"
-    (ngSubmit)="saveChanges()"
-  >
+  <!-- note: if you have more than one input so ngsubmit dosent triggered when press enter -->
+  <form class="flex f-direction-col" *ngIf="editable" [formGroup]="form">
     <input
       #titleF
-      formControlName="title"
-      (blur)="saveChanges()"
+      formControlName="name"
+      (blur)="saveChanges($event)"
+      (keydown.enter)="saveChanges($event)"
       class="p-2 f-w-600 px-00 py-00"
-      [ngClass]="{ active: fieldFocus === 'title' }"
+      [ngClass]="{ active: fieldFocus === 'name' }"
       [style]="{
         position: 'relative',
         zIndex: '100',
@@ -38,7 +35,8 @@
       formControlName="url"
       class="p-3 px-00 py-00"
       [ngClass]="{ active: fieldFocus === 'url' }"
-      (blur)="saveChanges()"
+      (keydown.enter)="saveChanges($event)"
+      (blur)="saveChanges($event)"
       [style]="{
         position: 'relative',
         zIndex: '100',

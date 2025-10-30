@@ -7,7 +7,7 @@ const router = app.getRouter();
 
 router.get('/', checkAuthentication, UrlsController.getAll);
 router.post('/', checkAuthentication, UrlsController.create);
-router.put('/:id', checkAuthentication, UrlsController.update);
+router.patch('/:id', checkAuthentication, UrlsController.update);
 router.get('/:id', checkAuthentication, UrlsController.getById);
 router.delete('/:id', checkAuthentication, UrlsController.remove);
 

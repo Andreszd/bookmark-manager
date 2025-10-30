@@ -11,6 +11,7 @@ export class PageService {
   loadingFlagService = inject(LoadingFlagService);
 
   isLoading$ = this.loadingFlagService.$isLoading;
+  action$ = this.loadingFlagService.$action;
   pages$ = this.pageStateService.pages$;
   pagesLength$ = this.pageStateService.pages$.pipe(
     map((value) => value.length)
@@ -50,7 +51,13 @@ export class PageService {
     );
   }
 
-  isPageGroup(data: any) {
-    return false;
+  update(...params: Parameters<typeof this.pageApiService.update>) {
+    this.loadingFlagService.setAction('editing');
+    return this.pageApiService.update(...params).pipe(
+      map((value) => value.data as Page),
+      finalize(() => {
+        this.loadingFlagService.setAction('');
+      })
+    );
   }
 }

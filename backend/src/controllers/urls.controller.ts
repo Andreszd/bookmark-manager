@@ -55,11 +55,13 @@ const getAll = async (req: AuthRequest, res: Response) => {
   }
 };
 
-const update = async (req: Request, res: Response) => {
+const update = async (req: AuthRequest, res: Response) => {
   try {
-    await UrlsService.update(req.params.id, req.body);
+    const userId = req.user as string;
+    const url = await UrlsService.update(req.params.id, req.body, userId);
     res.status(200).json({
       message: 'updated Url',
+      data: url,
     });
   } catch (error) {
     res.status(404).json({

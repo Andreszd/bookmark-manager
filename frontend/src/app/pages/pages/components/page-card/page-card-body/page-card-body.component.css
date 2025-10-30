@@ -11,7 +11,7 @@ input {
   border-radius: 0px;
 }
 .active {
-  border-color: var(--border-color);
+  background-color: var(--grey-200) !important;
 }
 
 p {

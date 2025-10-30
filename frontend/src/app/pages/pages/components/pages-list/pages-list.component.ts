@@ -10,6 +10,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { RegisterGroupFormComponent } from 'src/app/pages/groups/components/register-group-form/register-group-form.component';
 import { RouteStateService } from 'src/app/shared/services/route-state.service';
 import { GroupService } from 'src/app/pages/groups/services/group.service';
+import { SubmitChangesPayload } from '../page-card/page-card-body/page-card-body.component';
 
 @Component({
   selector: 'pages',
@@ -30,6 +31,9 @@ export class PagesListComponent implements OnInit, OnDestroy {
   isDraggabling = false;
   selectedIds: string[] = [];
   suscription!: Subscription;
+
+  pageIdInEditing?: string;
+  pageIdWithFormOpen?: string;
 
   cardHasHover?: number;
   layout$ = this.pagesListLayoutService.layout$;
@@ -138,5 +142,22 @@ export class PagesListComponent implements OnInit, OnDestroy {
         injector,
       });
     }
+  }
+
+  updatePage(value: SubmitChangesPayload) {
+    this.pageIdInEditing = value._id;
+    this.pageService.update(value._id, value.body).subscribe({
+      error: value.error,
+      next: (values) => {
+        value.success(values);
+      },
+      complete: () => {
+        this.pageIdInEditing = undefined;
+      },
+    });
+  }
+
+  hideActions(editing: boolean, id: string) {
+    this.pageIdWithFormOpen = editing ? id : undefined;
   }
 }

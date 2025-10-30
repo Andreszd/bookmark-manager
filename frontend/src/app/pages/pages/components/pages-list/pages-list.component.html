@@ -48,10 +48,26 @@
             <page-card-body
               [small]="!(isGridLayout$ | async)"
               [page]="page"
+              [isFormDisabled]="(pageService.action$ | async) === 'editing'"
+              (isEditing)="hideActions($event, page._id)"
+              (submitChanges)="updatePage($event)"
               body
             ></page-card-body>
+
+            <div
+              *ngIf="
+                (pageService.action$ | async) === 'editing' &&
+                pageIdInEditing === page._id
+              "
+              actions
+              class="flex justify-content-center align-items-center px-2"
+            >
+              <loading-spinner size="30px"></loading-spinner>
+            </div>
             <page-card-actions
               *ngIf="
+                !pageIdInEditing &&
+                pageIdWithFormOpen !== page._id &&
                 !(pagesStateService.pagesLength$ | async) &&
                 (cardHasHover === i || !!(isGridLayout$ | async))
               "

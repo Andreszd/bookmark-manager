@@ -4,21 +4,29 @@ import { OmitGenData } from '../types';
 import { ImgService } from './imgs.service';
 import { ScrapperService } from './scrapper.service';
 
+const getMetadata = async (url: string) => {
+  const fileName = `thumbnail-${new Date().getTime()}.png`;
+  let thumbnailUrl;
+
+  let { name, url: urlBase64 } = await ScrapperService.captureTitleAndFaviconFromUrl(url);
+
+  if (!urlBase64) {
+    urlBase64 = await ScrapperService.takeSnapshootByUrl(url);
+  }
+
+  if (urlBase64) {
+    thumbnailUrl = await ImgService.save(urlBase64, fileName);
+  }
+
+  return {
+    thumbnailUrl,
+    name,
+  };
+};
+
 const create = async (url: OmitGenData<Url>) => {
   try {
-    const fileName = `thumbnail-${new Date().getTime()}.png`;
-
-    let thumbnailUrl;
-
-    let { name, url: urlBase64 } = await ScrapperService.captureTitleAndFaviconFromUrl(url?.url);
-
-    if (!urlBase64) {
-      urlBase64 = await ScrapperService.takeSnapshootByUrl(url?.url);
-    }
-
-    if (urlBase64) {
-      thumbnailUrl = await ImgService.save(urlBase64, fileName);
-    }
+    const { name, thumbnailUrl } = await getMetadata(url.url);
 
     await UrlsRepository.create({
       ...url,
@@ -46,9 +54,17 @@ const getAll = async (queries: Parameters<typeof UrlsRepository.getAll>[0]) => {
     throw error;
   }
 };
-const update = async (urlId: string, body: object) => {
+const update = async (urlId: string, body: Partial<Url>, userId: string) => {
   try {
-    await UrlsRepository.update(urlId, body);
+    const url = await UrlsRepository.getById(urlId, userId);
+
+    let genData = {};
+
+    if (body.url && url.url !== body.url) {
+      genData = await getMetadata(body.url);
+    }
+    const res = await UrlsRepository.update(urlId, { ...body, ...genData });
+    return res;
   } catch (error) {
     throw error;
   }

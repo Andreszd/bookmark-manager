@@ -1,6 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ICreatePageDto, OGetAllPageDto } from '../dto/page.dto';
+import {
+  ICreatePageDto,
+  IUpdatePageDto,
+  OGetAllPageDto,
+  PageDto,
+} from '../dto/page.dto';
+import { OutputApi } from 'src/app/types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +24,9 @@ export class PageApiService {
     });
   }
 
-  update() {}
+  update(id: string, body: IUpdatePageDto) {
+    return this.http.patch<OutputApi<PageDto>>(`url/${id}`, body);
+  }
 
   delete(id: string) {
     return this.http.delete(`url/${id}`);

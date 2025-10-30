@@ -28,7 +28,7 @@ const getById = async (urlId: string, userId: string) => {
     const url = await collection?.findOne({
       _id: new ObjectId(urlId),
     });
-    if (url?.userId !== userId) throw new NoReadAuthorizationError();
+    if (url?.userId.toString() !== userId) throw new NoReadAuthorizationError();
 
     if (!url) throw 'Url not found';
 
@@ -50,7 +50,6 @@ const getAll = async (queries: {
   try {
     const collection = await Database.operations?.collection('url');
 
-    console.log(queries);
     const urls = await collection
       ?.find({
         removed: queries.removed ?? {
@@ -77,15 +76,19 @@ const getAll = async (queries: {
 
 const update = async (urlId: string, updates: Partial<Url>) => {
   try {
-    const collection = await Database.operations?.collection('url');
-    await collection?.updateOne(
+    const collection = await Database.operations?.collection<Url>('url');
+    const res = await collection?.findOneAndUpdate(
       {
         _id: new ObjectId(urlId),
       },
       {
         $set: updates,
+      },
+      {
+        returnDocument: 'after',
       }
     );
+    return res;
   } catch (error) {
     throw new DBError();
   }

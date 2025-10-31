@@ -51,6 +51,15 @@ export class PageService {
     );
   }
 
+  deleteMultiple(ids: string[]) {
+    this.loadingFlagService.toggle();
+    return this.pageApiService.deleteMultiple(ids).pipe(
+      finalize(() => {
+        this.loadingFlagService.toggle();
+      })
+    );
+  }
+
   update(...params: Parameters<typeof this.pageApiService.update>) {
     this.loadingFlagService.setAction('editing');
     return this.pageApiService.update(...params).pipe(

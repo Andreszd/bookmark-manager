@@ -32,6 +32,10 @@ export class PageApiService {
     return this.http.delete(`url/${id}`);
   }
 
+  deleteMultiple(ids: string[]) {
+    return this.http.delete(`url/multiple`, { body: { ids } });
+  }
+
   getAll<T>(queries?: {
     groupId?: string;
     removed?: boolean;

@@ -70,9 +70,22 @@ const update = async (urlId: string, body: Partial<Url>, userId: string) => {
   }
 };
 const remove = async (urlId: string) => {
-  await UrlsRepository.update(urlId, {
-    removed: true,
-  });
+  try {
+    await UrlsRepository.update(urlId, {
+      removed: true,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+const removeMultiple = async (urlIds: string[]) => {
+  try {
+    await UrlsRepository.updateManyById(urlIds, {
+      removed: true,
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const UrlsService = { create, getById, getAll, update, remove };
+export const UrlsService = { create, getById, getAll, update, remove, removeMultiple };

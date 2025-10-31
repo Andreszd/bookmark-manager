@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UrlsService } from '../services/urls.service';
 import { AuthRequest } from '../types';
 
@@ -70,17 +70,34 @@ const update = async (req: AuthRequest, res: Response) => {
   }
 };
 
-const remove = async (req: Request, res: Response) => {
+const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await UrlsService.remove(req.params.id);
     res.status(200).json({
       message: 'removed Url',
     });
   } catch (error) {
+    console.log(error, 0.1);
+    next(error);
+  }
+};
+
+const removeMultiple = async (req: Request, res: Response) => {
+  console.log(12321321);
+  try {
+    const ids = req.body.ids as string[];
+
+    await UrlsService.removeMultiple(ids);
+
+    res.status(200).json({
+      message: 'removed Urls',
+    });
+  } catch (error) {
+    console.log(error);
     res.status(404).json({
       message: error,
     });
   }
 };
 
-export const UrlsController = { create, getById, getAll, update, remove };
+export const UrlsController = { create, getById, getAll, update, remove, removeMultiple };

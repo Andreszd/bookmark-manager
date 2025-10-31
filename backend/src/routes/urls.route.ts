@@ -9,6 +9,7 @@ router.get('/', checkAuthentication, UrlsController.getAll);
 router.post('/', checkAuthentication, UrlsController.create);
 router.patch('/:id', checkAuthentication, UrlsController.update);
 router.get('/:id', checkAuthentication, UrlsController.getById);
+router.delete('/multiple', checkAuthentication, UrlsController.removeMultiple);
 router.delete('/:id', checkAuthentication, UrlsController.remove);
 
 export const webUrlRoutes = router;

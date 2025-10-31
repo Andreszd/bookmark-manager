@@ -44,5 +44,7 @@
       }"
     />
   </form>
-  <p *ngIf="!small" class="p-4">creado el</p>
+  <p *ngIf="!small" class="p-4">
+    Creado el {{ page.createdAt | date : "dd/MM/yyyy HH:mm" }}
+  </p>
 </div>

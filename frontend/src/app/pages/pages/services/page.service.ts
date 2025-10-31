@@ -4,6 +4,7 @@ import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service
 import { Page } from '../../types';
 import { finalize, map } from 'rxjs';
 import { PageStateService } from './page-state.service';
+import { environment } from 'src/environments/environment';
 
 export class PageService {
   pageStateService = inject(PageStateService);
@@ -20,7 +21,17 @@ export class PageService {
   getAll(param?: Parameters<typeof this.pageApiService.getAll>[0]) {
     this.loadingFlagService.toggle();
     return this.pageApiService.getAll<Page[]>(param).pipe(
-      map((value) => value.data),
+      map((value) =>
+        value.data.map(
+          (item) =>
+            ({
+              ...item,
+              thumbnailUrl: item?.thumbnailUrl
+                ? `${environment.imgsBucketUrl}/${item?.thumbnailUrl}`
+                : undefined,
+            } as Page)
+        )
+      ),
       finalize(() => {
         this.loadingFlagService.toggle();
       })

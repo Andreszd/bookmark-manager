@@ -44,7 +44,7 @@
           (onSelect)="pagesStateService.selectPage(page._id)"
           (onUnSelect)="pagesStateService.unSelectPage(page._id)"
         >
-          <page-card [small]="!(isGridLayout$ | async)">
+          <page-card [small]="!(isGridLayout$ | async)" [page]="page">
             <page-card-body
               [small]="!(isGridLayout$ | async)"
               [page]="page"

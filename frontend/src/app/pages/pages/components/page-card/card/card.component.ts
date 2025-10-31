@@ -1,9 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-
-interface PageI {
-  title: string;
-  imgUrl: string;
-}
+import { Page } from 'src/app/pages/types';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'page-card',
@@ -19,6 +16,7 @@ interface PageI {
         [ngClass]="{ small: small }"
       >
         <svg
+          *ngIf="!page?.thumbnailUrl"
           class="svg-placeholder"
           focusable="false"
           aria-hidden="true"
@@ -29,6 +27,9 @@ interface PageI {
             d="M21 5c0-1.1-.9-2-2-2H5.83L21 18.17zM2.81 2.81 1.39 4.22 3 5.83V19c0 1.1.9 2 2 2h13.17l1.61 1.61 1.41-1.41zM6 17l3-4 2.25 3 .82-1.1 2.1 2.1z"
           ></path>
         </svg>
+        <div *ngIf="page?.thumbnailUrl" class="img-container">
+          <img [src]="page.thumbnailUrl" />
+        </div>
       </div>
       <div
         class="card-body"
@@ -45,7 +46,7 @@ interface PageI {
 export class CardComponent implements OnInit {
   @Input() props!: string;
   @Input() small!: boolean;
-  @Input() page!: PageI;
+  @Input() page!: Page;
   @Input() active!: boolean;
   mountActions: boolean = false;
   constructor() {}

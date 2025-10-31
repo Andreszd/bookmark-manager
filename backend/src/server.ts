@@ -14,6 +14,7 @@ export class Server {
     this.server = express();
     this.server.use(cors({ origin: process.env.FRONT_END_ENV_URL }));
     this.server.use(express.static('public'));
+    this.server.use(express.static('public/thumbnails'));
     this.server.use(express.json());
   }
   static getInstance() {

@@ -21,6 +21,8 @@ import { PagesRootComponent } from './pages-root-component';
 import { PagesListComponent } from './components/pages-list/pages-list.component';
 import { RouterModule } from '@angular/router';
 
+import { TextFieldModule } from '@angular/cdk/text-field';
+
 @NgModule({
   declarations: [
     PagesRootComponent,
@@ -44,6 +46,7 @@ import { RouterModule } from '@angular/router';
     FilterButtonComponent,
     LoadingSpinnerComponent,
     RouterModule,
+    TextFieldModule,
   ],
   exports: [
     PagesRootComponent,

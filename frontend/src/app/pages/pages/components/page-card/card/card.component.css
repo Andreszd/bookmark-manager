@@ -1,44 +1,24 @@
+:host {
+  display: block;
+  height: 100%;
+}
 .card {
   display: flex;
   flex-direction: row;
-  min-width: 300px;
+  height: 100%;
   border-radius: 5px;
   border: 1px solid var(--border-color);
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
 }
-/*
-.card:hover {
-  background-color: var(--grey-100);
-}
-.card::after {
-  content: "";
-  position: absolute;
-  box-sizing: border-box;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-  min-width: 298px;
-  border-radius: 5px;
-  height: 100%;
-  z-index: 1;
-}
-
-.card.active::after {
-  border: 2px solid var(--grey-500);
-}
-.card.active {
-  border-color: transparent;
-}
-*/
 
 .card-img {
   color: #f2f2f2;
   background-color: var(--grey-200);
   display: flex;
   justify-content: center;
-  width: 90px;
+  min-width: 90px;
 }
 .card-img svg {
   width: 100%;
@@ -51,7 +31,7 @@
   padding: 0.5rem;
 }
 .card-body {
-  flex: 1;
+  width: calc(100% - 90px);
   border-left: 1px solid #c2c2c2;
 }
 

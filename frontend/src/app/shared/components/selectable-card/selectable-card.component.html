@@ -3,7 +3,7 @@
   class="selection-checkbox hover-cursor-pointer"
   (mouseover)="onMouseOver($event)"
   (mouseleave)="onMouseLeave($event)"
-  [ngClass]="{ active: showCheckbox || selected, selected }"
+  [ngClass]="{ active: (showCheckbox || selected) && !isDisabled, selected }"
   (click)="selected ? unSelect() : select()"
 >
   <svg

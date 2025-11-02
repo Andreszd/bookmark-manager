@@ -1,13 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Page } from 'src/app/pages/types';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'page-card',
   template: `
     <div
       class="card"
-      [ngClass]="{active}"
+      [ngClass]="{active }"
       (mouseover)="showActions($event)"
       (mouseleave)="hideActions($event)"
     >
@@ -38,7 +37,9 @@ import { environment } from 'src/environments/environment';
       >
         <ng-content select="[body]"></ng-content>
       </div>
-      <ng-content select="[actions]"></ng-content>
+      <div class="card-actions">
+        <ng-content select="[actions]"></ng-content>
+      </div>
     </div>
   `,
   styleUrls: ['./card.component.css'],

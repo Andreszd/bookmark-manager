@@ -15,8 +15,8 @@
 
   <drag-select-container
     *ngIf="(pageService.pages$ | async)?.length"
-    class="flex f-wrap f-direction-col gap-1 align-items-start align-content-start px-2"
-    [ngClass]="{ 'f-direction-col': !(isGridLayout$ | async) }"
+    class="list-container gap-1 px-2"
+    [ngClass]="{ 'one-column': !(isGridLayout$ | async) }"
     (onDetectNodes)="pagesStateService.selectPages($event)"
   >
     <drop-zone
@@ -39,6 +39,7 @@
         (onDragEnd)="isDraggabling = false"
       >
         <selectable-card
+          [isDisabled]="!!pageIdWithFormOpen"
           [selected]="pagesStateService.isSelected(page._id)"
           (hasHover)="cardHasHover = $event ? i : undefined"
           (onSelect)="pagesStateService.selectPage(page._id)"
@@ -53,7 +54,6 @@
               (submitChanges)="updatePage($event)"
               body
             ></page-card-body>
-
             <div
               *ngIf="
                 (pageService.action$ | async) === 'editing' &&

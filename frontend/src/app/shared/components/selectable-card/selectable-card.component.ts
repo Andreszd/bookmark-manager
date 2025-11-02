@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SelectableCardComponent implements OnInit {
   @Input() selected: boolean = false;
+  @Input() isDisabled: boolean = false;
   showCheckbox: boolean = false;
   @Output() hasHover = new EventEmitter<boolean>();
   @Output() onSelect = new EventEmitter();
@@ -20,6 +21,7 @@ export class SelectableCardComponent implements OnInit {
   ngOnInit(): void {}
 
   onMouseOver(event: MouseEvent) {
+    if (this.isDisabled) return;
     this.hasHover.emit(true);
     this.showCheckbox = true;
   }

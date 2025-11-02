@@ -1,15 +1,18 @@
-<div class="container flex f-direction-col justify-content-center">
-  <div *ngIf="!editable" class="flex f-direction-col">
+<div
+  class="container flex f-direction-col justify-content-center py-2 gap-0"
+  [ngClass]="{ 'py-2': !small }"
+>
+  <div *ngIf="!editable" class="flex f-direction-col" [style]="{ gap: '5px' }">
     <p
-      [style]="{ zIndex: '100' }"
+      title="Doble click para editar"
       class="p-2 f-w-600 px-00 py-00"
       (dblclick)="enableEdition('name')"
     >
       {{ page.name }}
     </p>
     <p
-      [style]="{ zIndex: '100' }"
-      class="p-3 px-00 py-00"
+      title="Doble click para editar"
+      class="p-3 px-00 py-00 ellipsis"
       (dblclick)="enableEdition('url')"
     >
       {{ page.url }}
@@ -17,34 +20,44 @@
   </div>
   <!-- note: if you have more than one input so ngsubmit dosent triggered when press enter -->
   <form class="flex f-direction-col" *ngIf="editable" [formGroup]="form">
-    <input
+    <textarea
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="10"
+      *ngIf="fieldFocus === 'name'"
       #titleF
       formControlName="name"
       (blur)="saveChanges($event)"
       (keydown.enter)="saveChanges($event)"
       class="p-2 f-w-600 px-00 py-00"
       [ngClass]="{ active: fieldFocus === 'name' }"
-      [style]="{
-        position: 'relative',
-        zIndex: '100',
-        backgroundColor: 'inherit'
-      }"
-    />
+    ></textarea>
+
+    <p
+      *ngIf="fieldFocus !== 'name'"
+      title="Doble click para editar"
+      class="p-2 f-w-600 px-00 py-00"
+    >
+      {{ page.name }}
+    </p>
     <input
+      *ngIf="fieldFocus === 'url'"
       #urlF
       formControlName="url"
       class="p-3 px-00 py-00"
       [ngClass]="{ active: fieldFocus === 'url' }"
       (keydown.enter)="saveChanges($event)"
       (blur)="saveChanges($event)"
-      [style]="{
-        position: 'relative',
-        zIndex: '100',
-        backgroundColor: 'inherit'
-      }"
     />
+    <p
+      *ngIf="fieldFocus !== 'url'"
+      title="Doble click para editar"
+      class="p-3 px-00 py-00 ellipsis"
+    >
+      {{ page.url }}
+    </p>
   </form>
-  <p *ngIf="!small" class="p-4">
+  <p *ngIf="!small" class="p-5">
     Creado el {{ page.createdAt | date : "dd/MM/yyyy HH:mm" }}
   </p>
 </div>

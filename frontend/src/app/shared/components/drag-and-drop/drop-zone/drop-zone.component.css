@@ -8,4 +8,5 @@
 .dropzone {
   border-radius: 5px;
   border: 1px solid transparent;
+  height: 100%;
 }

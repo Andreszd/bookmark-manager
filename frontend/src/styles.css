@@ -108,6 +108,10 @@ body {
   font-size: 14px;
   color: var(--grey-700);
 }
+.p-5 {
+  font-size: 12px;
+  color: var(--grey-700);
+}
 
 .f-w-600 {
   font-weight: 600;
@@ -201,6 +205,7 @@ input {
 
 .selection-box {
   position: absolute;
+  z-index: 2000;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   background-color: var(--grey-100);

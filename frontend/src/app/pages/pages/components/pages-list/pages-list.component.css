@@ -1,3 +1,34 @@
 :host {
   height: 100%;
 }
+
+.list-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 500px)); /* 4 equal columns */
+  align-content: start;
+}
+
+.one-column {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 2000px) {
+  .list-container {
+    grid-template-columns: repeat(4, minmax(0, 600px));
+  }
+
+  .one-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .list-container {
+    grid-template-columns: repeat(2, minmax(0, 400px));
+  }
+
+  .one-column {
+    grid-template-columns: 1fr;
+  }
+}

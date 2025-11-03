@@ -42,6 +42,7 @@ export class PageApiService {
     search?: string;
     sortCreatedAt?: 'asc' | 'desc' | undefined;
     sortName?: 'asc' | 'desc' | undefined;
+    page?: number;
   }) {
     return this.http.get<OGetAllPageDto<T>>(`url`, {
       params: {
@@ -60,6 +61,7 @@ export class PageApiService {
         ...(queries?.sortName && {
           sortName: queries.sortName,
         }),
+        page: queries?.page ?? 1,
       },
     });
   }

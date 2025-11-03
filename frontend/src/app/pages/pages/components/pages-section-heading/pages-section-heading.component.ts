@@ -5,6 +5,7 @@ import { PageService } from '../../services/page.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subscription } from 'rxjs';
+import { RefreshPagesService } from '../../services/refresh-pages.service';
 
 @Component({
   selector: 'pages-section-heading',
@@ -18,6 +19,7 @@ export class PagesSectionHeadingComponent implements OnInit {
   route = inject(ActivatedRoute);
   router = inject(Router);
   searchControl = new FormControl('');
+  refreshPagesService = inject(RefreshPagesService);
 
   suscription!: Subscription;
 
@@ -36,10 +38,11 @@ export class PagesSectionHeadingComponent implements OnInit {
 
   createPage(url?: string | null) {
     const groupId = this.route.snapshot.paramMap.get('id')!;
+
     if (url) {
       this.pageService.create(url, groupId).subscribe(() => {
         this.dropdown.dropdownsOpened.get(this.dropdownFormRef)?.detach();
-        this.pageService.refresh({ groupId });
+        this.refreshPagesService.refresh();
       });
     }
   }

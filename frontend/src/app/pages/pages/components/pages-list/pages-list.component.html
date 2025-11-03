@@ -80,4 +80,9 @@
       </draggable-item>
     </drop-zone>
   </drag-select-container>
+  <app-custom-pagination
+    [itemsPerPage]="pageService.paginationService.size"
+    [totalItems]="(pageService.paginationService.total$ | async) || 0"
+    (pageChange)="changePage($event)"
+  ></app-custom-pagination>
 </div>

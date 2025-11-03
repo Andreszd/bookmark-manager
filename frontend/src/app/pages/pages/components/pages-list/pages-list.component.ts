@@ -11,6 +11,7 @@ import { RegisterGroupFormComponent } from 'src/app/pages/groups/components/regi
 import { RouteStateService } from 'src/app/shared/services/route-state.service';
 import { GroupService } from 'src/app/pages/groups/services/group.service';
 import { SubmitChangesPayload } from '../page-card/page-card-body/page-card-body.component';
+import { RefreshPagesService } from '../../services/refresh-pages.service';
 
 @Component({
   selector: 'pages',
@@ -42,6 +43,8 @@ export class PagesListComponent implements OnInit, OnDestroy {
     startWith(false)
   );
 
+  refreshPagesService = inject(RefreshPagesService);
+
   constructor(private injector: Injector) {}
 
   ngOnInit(): void {
@@ -51,9 +54,13 @@ export class PagesListComponent implements OnInit, OnDestroy {
       }
     );
 
-    combineLatest([this.route.paramMap, this.route.queryParamMap])
+    combineLatest([
+      this.route.paramMap,
+      this.route.queryParamMap,
+      this.pageService.paginationService.page$,
+    ])
       .pipe(
-        switchMap(([params, queryParams]) => {
+        switchMap(([params, queryParams, page]) => {
           this.routeStateService.save(params);
 
           const id = params.get('id')!;
@@ -64,6 +71,7 @@ export class PagesListComponent implements OnInit, OnDestroy {
           //const sortName = queryParams.get('name')! as 'asc' | 'desc';
 
           return this.pageService.getAll({
+            page,
             groupId: id,
             removed: category === 'trash',
             search,
@@ -88,8 +96,7 @@ export class PagesListComponent implements OnInit, OnDestroy {
   handleAction(pageId: string, action: actionPerformedEventPayload) {
     if (action === 'remove') {
       this.pageService.delete(pageId).subscribe(() => {
-        const groupId = this.route.snapshot.paramMap.get('id')!;
-        this.pageService.refresh({ groupId });
+        this.refreshPagesService.refresh();
       });
     }
   }
@@ -159,5 +166,9 @@ export class PagesListComponent implements OnInit, OnDestroy {
 
   hideActions(editing: boolean, id: string) {
     this.pageIdWithFormOpen = editing ? id : undefined;
+  }
+
+  changePage(value: number) {
+    this.pageService.paginationService.setPage(value);
   }
 }

@@ -32,13 +32,14 @@ const getById = async (req: AuthRequest, res: Response) => {
 
 const getAll = async (req: AuthRequest, res: Response) => {
   try {
-    const { groupId, size = 50, sortCreatedAt, sortName, removed, search } = req.query;
+    const { groupId, size = 50, sortCreatedAt, sortName, removed, search, page } = req.query;
     const userId = req.user as string;
 
     const urls = await UrlsService.getAll({
       userId,
       groupId: groupId ? String(groupId) : undefined,
       size: parseInt(String(size)),
+      page: parseInt(String(page)) || 1,
       sortCreatedAt: sortCreatedAt === 'desc' ? 'desc' : 'asc',
       sortName: sortName ? (sortName === 'desc' ? 'desc' : 'asc') : undefined,
       removed: removed === 'true' ? true : undefined,

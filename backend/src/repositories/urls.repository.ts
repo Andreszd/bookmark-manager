@@ -43,6 +43,7 @@ const getAll = async (queries: {
   search?: string;
   groupId?: string;
   size: number;
+  page: number;
   sortCreatedAt?: 'asc' | 'desc';
   sortName?: 'asc' | 'desc';
   removed?: boolean;
@@ -50,25 +51,33 @@ const getAll = async (queries: {
   try {
     const collection = await Database.operations?.collection('url');
 
+    const totalQueries = {
+      removed: queries.removed ?? {
+        $exists: false,
+      },
+      ...(queries.search && { name: { $regex: queries.search, $options: 'i' } }),
+      userId: new ObjectId(queries.userId),
+      ...(!queries.removed && {
+        groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
+      }),
+    };
+
+    const total = await collection?.countDocuments(totalQueries);
+
     const urls = await collection
-      ?.find({
-        removed: queries.removed ?? {
-          $exists: false,
-        },
-        ...(queries.search && { name: { $regex: queries.search, $options: 'i' } }),
-        userId: new ObjectId(queries.userId),
-        ...(!queries.removed && {
-          groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
-        }),
-      })
+      ?.find(totalQueries)
       .sort({
         ...(queries.sortName && { name: queries.sortName === 'asc' ? 1 : -1 }),
         createdAt: queries.sortCreatedAt === 'asc' ? 1 : -1,
       })
+      .skip(queries.size * (queries.page - 1))
       .limit(queries.size)
       .toArray();
 
-    return urls;
+    return {
+      urls,
+      total,
+    };
   } catch (error) {
     throw new DBError();
   }

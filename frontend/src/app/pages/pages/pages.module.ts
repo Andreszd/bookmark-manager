@@ -22,6 +22,9 @@ import { PagesListComponent } from './components/pages-list/pages-list.component
 import { RouterModule } from '@angular/router';
 
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { CustomPaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
+import { PaginationService } from 'src/app/shared/services/pagination.service';
+import { RefreshPagesService } from './services/refresh-pages.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     LoadingSpinnerComponent,
     RouterModule,
     TextFieldModule,
+    CustomPaginationComponent,
   ],
   exports: [
     PagesRootComponent,
@@ -54,6 +58,11 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     PagesSectionHeadingComponent,
     PagesListHeadingComponent,
   ],
-  providers: [LoadingFlagService, PageService],
+  providers: [
+    LoadingFlagService,
+    PageService,
+    PaginationService,
+    RefreshPagesService,
+  ],
 })
 export class PagesModule {}

@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmark Extension",
+  "version": "1.0",
+  "description": "A browser extension to manage bookmarks.",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["activeTab", "webNavigation"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}

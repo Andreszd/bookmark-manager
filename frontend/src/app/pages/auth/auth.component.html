@@ -1,22 +1,13 @@
-<div
-  [style]="{
-    position: 'relative',
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: 'var(--grey-50)'
-  }"
-  class="flex px-1 py-1"
->
+<div class="container flex px-1 py-1">
   <div
-    [style]="{ width: '50%', height: '100%' }"
-    class="flex f-direction-col justify-content-center align-items-center"
+    class="form-section flex f-direction-col justify-content-center align-items-center"
   >
-    <div [style]="{ width: '500px' }">
+    <div>
       <login-form></login-form>
     </div>
   </div>
 
-  <div [style]="{ width: '50%' }" class="flex gap-0">
+  <div class="info-section flex gap-0">
     <div class="flex f-direction-col gap-0 flex-1">
       <div
         class="flex f-direction-col flex-1"
@@ -34,7 +25,7 @@
             Muestra a tus amigos tus páginas favoritas 🌐💫
           </p>
         </div>
-        <div [style]="{ width: '400px', margin: 'auto' }" class="color-primary">
+        <div class="color-primary svg">
           <svg-loader src="assets/source-5.svg"></svg-loader>
         </div>
       </div>
@@ -54,7 +45,7 @@
             Agrupa tus páginas y trabaja de manera más fluida 🚀
           </p>
         </div>
-        <div [style]="{ width: '400px', margin: 'auto' }" class="color-primary">
+        <div class="color-primary svg">
           <svg-loader src="assets/source-6.svg"></svg-loader>
         </div>
       </div>
@@ -78,7 +69,7 @@
           📚
         </p>
       </div>
-      <div [style]="{ width: '400px', margin: 'auto' }" class="color-primary">
+      <div class="color-primary svg">
         <svg-loader src="assets/source-4.svg"></svg-loader>
       </div>
     </div>

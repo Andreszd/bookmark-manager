@@ -10,3 +10,73 @@
   background-color: white;
   border-radius: 10px;
 }
+.form-section > div {
+  width: 500px;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--grey-50);
+}
+
+.form-section {
+  width: 50%;
+  height: 100%;
+}
+
+.info-section {
+  width: 50%;
+}
+
+.svg {
+  width: 300px;
+  margin: auto;
+}
+
+@media (max-width: 1400px) {
+  .svg {
+    width: 200px;
+  }
+
+  .form-section > div {
+    width: 400px;
+  }
+  .p-0 {
+    font-size: 24px;
+  }
+
+  .p-2 {
+    font-size: 16px;
+  }
+  /*
+  .form-section {
+    width: 40%;
+  }
+  .info-section {
+    width: 60%;
+  }
+   */
+}
+
+@media (max-width: 1200px) {
+  .form-section > div {
+    width: 350px;
+  }
+  .form-section {
+    width: 40%;
+  }
+  .info-section {
+    width: 60%;
+  }
+}
+
+@media (max-width: 999px) {
+  .form-section {
+    width: 100%;
+  }
+  .info-section {
+    display: none;
+  }
+}

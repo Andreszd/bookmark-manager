@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { map, mergeAll, Observable } from 'rxjs';
 import { UserStateService } from './user-state.service';
 import { inject, Injectable } from '@angular/core';
 
@@ -23,11 +23,11 @@ export class CanActivatePrivateRoutes implements CanActivate {
     | UrlTree {
     if (route.url[0]?.path === 'auth') {
       return this.userStateService.$state.pipe(
-        map((value) =>
-          value.isAuthenticated
+        map((value) => {
+          return value.isAuthenticated
             ? this.router.createUrlTree(['/page/all'])
-            : true
-        )
+            : true;
+        })
       );
     } else {
       return this.userStateService.$state.pipe(

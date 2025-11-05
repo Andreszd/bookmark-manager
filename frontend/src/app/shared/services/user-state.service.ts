@@ -18,7 +18,7 @@ export class UserStateService {
 
   constructor() {
     const token = window.localStorage.getItem('token');
-    this.state.next({ isAuthenticated: Boolean(token), isLoading: false });
+    this.state.next({ isAuthenticated: false, isLoading: false });
   }
   set(newState: UserState) {
     this.state.next({ ...this.state.value, ...newState });

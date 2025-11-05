@@ -84,7 +84,6 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const removeMultiple = async (req: Request, res: Response) => {
-  console.log(12321321);
   try {
     const ids = req.body.ids as string[];
 

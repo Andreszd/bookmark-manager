@@ -6,9 +6,13 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["activeTab", "webNavigation"],
+  "permissions": ["activeTab", "webNavigation", "windows", "storage", "tabs"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
-  }
+  },
+  "externally_connectable": {
+    "matches": ["http://localhost:4200/*"]
+  },
+  "host_permissions": ["http://localhost:3000/*"]
 }

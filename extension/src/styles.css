@@ -1,4 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #81c784;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0;
+}
+
 body {
-  width: 500px;
+  width: 250px;
+  font-family: system-ui;
+  padding: 0;
+  margin: 0;
+  background-color: var(--grey-50);
+}
+
+html {
+  min-height: 90px;
+}
+
+.p-2 {
+  font-size: 18px;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.bg-color-primary {
+  background-color: var(--primary-color);
+}
+
+.color-white {
+  color: white;
+}
+
+button {
+  background-color: transparent;
+  padding: 10px;
+  font-weight: 600;
+  border: none;
+  font-family: inherit;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }

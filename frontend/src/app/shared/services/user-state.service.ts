@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 type UserState = {
@@ -16,10 +17,7 @@ export class UserStateService {
   });
   $state = this.state.asObservable();
 
-  constructor() {
-    const token = window.localStorage.getItem('token');
-    this.state.next({ isAuthenticated: false, isLoading: false });
-  }
+  constructor() {}
   set(newState: UserState) {
     this.state.next({ ...this.state.value, ...newState });
   }

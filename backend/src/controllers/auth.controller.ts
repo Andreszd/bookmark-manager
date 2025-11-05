@@ -13,4 +13,14 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export const AuthController = { auth };
+const status = async (req: Request, res: Response) => {
+  try {
+    const token = req.headers.authorization as string;
+
+    const data = await AuthService.checkStatus(token);
+
+    res.status(200).json({ data });
+  } catch (error) {}
+};
+
+export const AuthController = { auth, status };

@@ -45,12 +45,13 @@
               ></svg-loader>
               <p>Descargar extensión</p>
             </div>
-            <div
-              class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-0 hover-cursor-pointer"
+            <button
+              (click)="authService.logout()"
+              class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-0 hover-cursor-pointer color-grey-600"
             >
               <svg-loader class="icon" src="assets/quit-icon.svg"></svg-loader>
-              <p>Cerrar sesión</p>
-            </div>
+              <span>Cerrar sesión</span>
+            </button>
           </div>
         </dropdown-container>
       </ng-template>

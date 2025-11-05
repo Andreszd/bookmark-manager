@@ -4,15 +4,15 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { UserStateService } from '../services/user-state.service';
 import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  userStateService = inject(UserStateService);
   router = inject(Router);
+  injector = inject(Injector);
 
   intercept(
     req: HttpRequest<any>,
@@ -25,8 +25,9 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(cloned).pipe(
         catchError((error) => {
+          const userStateService = this.injector.get(UserStateService);
           if (error.error?.error === 'SESSION_EXPIRED') {
-            this.userStateService.set({
+            userStateService.set({
               isAuthenticated: false,
               user: undefined,
             });

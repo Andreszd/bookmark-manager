@@ -1,6 +1,6 @@
 import { UserRepository } from '../repositories/user.repository';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { TokenExpiredError } from 'jsonwebtoken';
 
 const auth = async ({ email, password }: { email: string; password: string }) => {
   try {
@@ -22,4 +22,15 @@ const auth = async ({ email, password }: { email: string; password: string }) =>
   }
 };
 
-export const AuthService = { auth };
+const checkStatus = async (token: string) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_KEY ?? '', (err, data) => {
+      if (err) {
+        resolve({ valid: false, message: 'Token isnt valid' });
+      }
+      resolve({ valid: true, message: 'Token is valid' });
+    });
+  });
+};
+
+export const AuthService = { auth, checkStatus };

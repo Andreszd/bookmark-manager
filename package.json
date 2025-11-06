@@ -1,0 +1,17 @@
+{
+  "name": "bookmark",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "frontend",
+    "extension"
+  ],
+  "scripts": {
+    "start": "turbo run dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.6.0"
+  },
+  "packageManager": "pnpm@10.0.0"
+}

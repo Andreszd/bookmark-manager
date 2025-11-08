@@ -5,12 +5,14 @@
   "workspaces": [
     "backend",
     "frontend",
-    "extension"
+    "extension",
+    "libs/*"
   ],
   "scripts": {
     "start": "turbo run dev"
   },
   "devDependencies": {
+    "@angular/cli": "14",
     "turbo": "^2.6.0"
   },
   "packageManager": "pnpm@10.0.0"

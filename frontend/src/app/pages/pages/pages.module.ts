@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { DragAndDropModule } from 'src/app/shared/components/drag-and-drop/drag-and-drop.module';
 import { DragSelectContainerComponent } from 'src/app/shared/components/drag-select-container/drag-select-container.component';
 import { CommonModule } from '@angular/common';
-import { SvgLoaderComponent } from 'src/app/shared/components/svg-loader/svg-loader.component';
 import { EmptyStateComponent } from 'src/app/shared/components/empty-state/empty-state.component';
 import { PagesListHeadingComponent } from 'src/app/pages/pages/components/pages-list-heading/pages-list-heading.component';
 import { CardComponent } from './components/page-card/card/card.component';
@@ -16,7 +15,6 @@ import { FilterButtonComponent } from 'src/app/shared/components/filter-button/f
 import { PageService } from './services/page.service';
 import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service';
 import { PageRegisterForm } from './components/page-register-form/page-register-form.component';
-import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
 import { PagesRootComponent } from './pages-root-component';
 import { PagesListComponent } from './components/pages-list/pages-list.component';
 import { RouterModule } from '@angular/router';
@@ -25,6 +23,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { CustomPaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { PaginationService } from 'src/app/shared/services/pagination.service';
 import { RefreshPagesService } from './services/refresh-pages.service';
+import { LoadingSpinnerComponent, SvgLoaderComponent } from 'libs/ui';
 
 @NgModule({
   declarations: [

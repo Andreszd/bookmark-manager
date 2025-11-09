@@ -1,0 +1,14 @@
+{
+  "name": "libs/shared-types",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "typescript": "~4.7.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  }
+}

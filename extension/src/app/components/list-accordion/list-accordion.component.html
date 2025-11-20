@@ -1,0 +1,39 @@
+<div class="flex f-direction-col">
+  <button
+    (click)="handleClick()"
+    class="flex px-1 align-items-center justify-content-space-between p-4 py-1 w-full bg-color-grey-200"
+  >
+    <div class="flex align-items-center gap-0">
+      <ng-content select="[icon]"></ng-content>
+
+      {{ header }}
+    </div>
+
+    <svg
+      *ngIf="active"
+      class="icon"
+      focusable="false"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M8.12 9.29 12 13.17l3.88-3.88c.39-.39 1.02-.39 1.41 0s.39 1.02 0 1.41l-4.59 4.59c-.39.39-1.02.39-1.41 0L6.7 10.7a.996.996 0 0 1 0-1.41c.39-.38 1.03-.39 1.42 0"
+      ></path>
+    </svg>
+
+    <svg
+      *ngIf="!active"
+      class="icon"
+      focusable="false"
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M8.12 14.71 12 10.83l3.88 3.88c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L12.7 8.71a.996.996 0 0 0-1.41 0L6.7 13.3c-.39.39-.39 1.02 0 1.41.39.38 1.03.39 1.42 0"
+      ></path>
+    </svg>
+  </button>
+  <div *ngIf="active">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -7,10 +7,17 @@ import { BookmarkService } from './shared/services/bookmark.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UrlInterceptor } from './shared/http/interceptors/url-interceptor.http';
 import { AuthInterceptor } from './shared/http/interceptors/auth.interceptor';
+import { ListAccordionModule } from './components/list-accordion/list-accordion.module';
+import { MainComponent } from './pages/main/main.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [AppComponent, MainComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ListAccordionModule,
+  ],
   providers: [
     BookmarkService,
     { provide: HTTP_INTERCEPTORS, useClass: UrlInterceptor, multi: true },

@@ -1,26 +1,16 @@
 <div class="app-container">
-  <h1 class="p-2">Bookmark</h1>
-  <div *ngIf="!(authService.isAuthenticated$ | async)" class="login-section">
-    <button class="w-full color-white bg-color-primary" (click)="login()">
-      Inicia sesión
-    </button>
+  <div class="px-1">
+    <h1 class="p-3">Bookmark</h1>
+    <div *ngIf="!(authService.isAuthenticated$ | async)" class="login-section">
+      <button
+        class="button w-full color-white bg-color-primary"
+        (click)="login()"
+      >
+        Inicia sesión
+      </button>
+    </div>
   </div>
   <div *ngIf="authService.isAuthenticated$ | async" class="main-section">
-    <button
-      *ngIf="bookmarkService.isSaved"
-      class="w-full color-white bg-color-primary"
-      (click)="bookmarkService.open()"
-    >
-      Ver
-    </button>
-    <button
-      *ngIf="!bookmarkService.isSaved"
-      class="w-full color-white bg-color-primary"
-      [disabled]="bookmarkService.loading"
-      (click)="bookmarkService.saveCurrentPage()"
-    >
-      Guardar página <span [style]="{ marginLeft: '5px' }">💾</span>
-    </button>
-    <span *ngIf="bookmarkService.isSaved">✅ Guardado!</span>
+    <app-main></app-main>
   </div>
 </div>

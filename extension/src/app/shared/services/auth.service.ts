@@ -26,8 +26,11 @@ export class AuthService {
     });
   }
 
-  setAuthenticated(token: string) {
-    if (!token) return;
+  setAuthenticated(token?: string) {
+    if (!token) {
+      this.isAuthenticated.next(false);
+      return;
+    }
     this.token = token;
     this.isAuthenticated.next(true);
   }

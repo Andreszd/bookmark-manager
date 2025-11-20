@@ -192,6 +192,9 @@ input {
   border-radius: var(--border-radius);
 }
 
+.bg-color-grey-100 {
+  background-color: var(--grey-100);
+}
 .bg-color-grey-200 {
   background-color: var(--grey-200);
 }

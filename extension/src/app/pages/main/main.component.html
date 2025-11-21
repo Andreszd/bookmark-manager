@@ -1,4 +1,12 @@
-<div class="px-1 py-1 flex f-direction-col gap-1">
+<div
+  class="px-1 py-1"
+  [ngStyle]="{
+    position: 'sticky',
+    top: '0',
+    zIndex: '100',
+    backgroundColor: 'var(--grey-200)'
+  }"
+>
   <button
     *ngIf="!bookmarkService.isSaved"
     class="w-full button color-white bg-color-primary flex justify-content-center"
@@ -7,27 +15,25 @@
   >
     Guardar página <span [style]="{ marginLeft: '5px' }">💾</span>
   </button>
-  <span *ngIf="bookmarkService.isSaved">✅ Guardado!</span>
-
-  <div [ngStyle]="{ position: 'relative' }">
-    <input
-      placeholder="Buscar"
-      [formControl]="searchControl"
-      class="input w-full bg-color-grey-100"
-    />
-    <div
-      *ngIf="loading"
-      class="flex f-direction-col justify-content-center px-1"
-      [ngStyle]="{
-        position: 'absolute',
-        right: '0px',
-        top: '0px',
-        bottom: '0px',
-        background: 'transparent'
-      }"
-    >
-      <loading-spinner size="25px"></loading-spinner>
-    </div>
+</div>
+<div class="px-1 py-1" [ngStyle]="{ position: 'relative' }">
+  <input
+    placeholder="Buscar"
+    [formControl]="searchControl"
+    class="input w-full bg-color-grey-100"
+  />
+  <div
+    *ngIf="loading"
+    class="flex f-direction-col justify-content-center px-1"
+    [ngStyle]="{
+      position: 'absolute',
+      right: '0px',
+      top: '0px',
+      bottom: '0px',
+      background: 'transparent'
+    }"
+  >
+    <loading-spinner size="25px"></loading-spinner>
   </div>
 </div>
 <ng-container *ngIf="!(isSearching | async) ? true : groupId">

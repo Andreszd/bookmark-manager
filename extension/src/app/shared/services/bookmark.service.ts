@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Group, OgetUrlsDto, Url } from 'libs/shared-types';
-import { map } from 'rxjs';
+import { finalize, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -12,6 +12,8 @@ export class BookmarkService {
 
   urls: Url<string>[] = [];
   groups: Group[] = [];
+
+  results: Url<string>[] = [];
 
   urlsByGroup = new Map<string, Url<string>[]>();
 
@@ -35,14 +37,21 @@ export class BookmarkService {
     });
   }
 
-  getAll(queries: { groupId?: string } = {}) {
-    this.http
+  getAll(queries: { groupId?: string; search?: string } = {}) {
+    this.loading = true;
+    return this.http
       .get<OgetUrlsDto>('url', {
         params: {
           ...(queries.groupId && { groupId: queries.groupId }),
+          ...(queries.search && { search: queries.search, searchType: 'all' }),
         },
       })
-      .pipe(map((value) => value?.data))
+      .pipe(
+        map((value) => value?.data),
+        finalize(() => {
+          this.loading = false;
+        })
+      )
       .subscribe((value) => {
         const formatted = value.urls.map((item) => ({
           ...item,
@@ -50,6 +59,11 @@ export class BookmarkService {
             ? `${environment.imgsBucketUrl}/${item?.thumbnailUrl}`
             : undefined,
         }));
+
+        if (queries.search?.length) {
+          this.results = formatted;
+          return;
+        }
 
         if (queries.groupId) {
           this.urlsByGroup.set(queries.groupId, formatted);

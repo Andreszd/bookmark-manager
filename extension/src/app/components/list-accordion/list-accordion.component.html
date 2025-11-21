@@ -1,5 +1,6 @@
 <div class="flex f-direction-col">
   <button
+    [disabled]="disabled"
     (click)="handleClick()"
     class="flex px-1 align-items-center justify-content-space-between p-4 py-1 w-full bg-color-grey-200"
   >
@@ -10,7 +11,7 @@
     </div>
 
     <svg
-      *ngIf="active"
+      *ngIf="!active"
       class="icon"
       focusable="false"
       aria-hidden="true"
@@ -22,7 +23,7 @@
     </svg>
 
     <svg
-      *ngIf="!active"
+      *ngIf="active"
       class="icon"
       focusable="false"
       aria-hidden="true"

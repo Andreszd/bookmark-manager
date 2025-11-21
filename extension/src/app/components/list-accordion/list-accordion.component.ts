@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ListAccordionComponent {
   @Input() header?: string;
   @Input() active: boolean = false;
+  @Input() disabled: boolean = false;
   @Output() displayContent = new EventEmitter();
 
   handleClick() {

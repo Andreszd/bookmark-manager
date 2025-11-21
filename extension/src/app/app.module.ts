@@ -9,6 +9,8 @@ import { UrlInterceptor } from './shared/http/interceptors/url-interceptor.http'
 import { AuthInterceptor } from './shared/http/interceptors/auth.interceptor';
 import { ListAccordionModule } from './components/list-accordion/list-accordion.module';
 import { MainComponent } from './pages/main/main.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoadingSpinnerComponent } from 'libs/ui';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -17,6 +19,8 @@ import { MainComponent } from './pages/main/main.component';
     AppRoutingModule,
     HttpClientModule,
     ListAccordionModule,
+    ReactiveFormsModule,
+    LoadingSpinnerComponent,
   ],
   providers: [
     BookmarkService,

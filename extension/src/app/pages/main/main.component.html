@@ -16,7 +16,7 @@
       class="input w-full bg-color-grey-100"
     />
     <div
-      *ngIf="isSearching | async"
+      *ngIf="loading"
       class="flex f-direction-col justify-content-center px-1"
       [ngStyle]="{
         position: 'absolute',
@@ -30,16 +30,34 @@
     </div>
   </div>
 </div>
-
-<extension-list-accordion
-  *ngIf="(searchControl.valueChanges | async)?.length"
-  header="Resultados"
-  [active]="true"
-  [disabled]="true"
->
+<ng-container *ngIf="!(isSearching | async) ? true : groupId">
+  <ng-container *ngFor="let group of bookmarkService.groups">
+    <extension-list-accordion
+      *ngIf="groupId ? groupId === group._id : true"
+      [header]="group.name"
+      (onClick)="listUrlsByGroup(group._id)"
+    >
+      <svg
+        icon
+        class="icon"
+        focusable="false"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        class="icon"
+        style="width: 20px; height: 20px"
+      >
+        <path
+          _ngcontent-lfw-c80=""
+          d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8z"
+        ></path>
+      </svg>
+    </extension-list-accordion>
+  </ng-container>
+</ng-container>
+<ng-container *ngIf="groupId">
   <div class="flex f-direction-col">
     <a
-      *ngFor="let url of bookmarkService.results"
+      *ngFor="let url of bookmarkService.urls"
       [href]="url.url"
       target="_blank"
       class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-1"
@@ -52,10 +70,14 @@
       </div>
     </a>
   </div>
-</extension-list-accordion>
+</ng-container>
 
-<ng-container *ngIf="!(searchControl.valueChanges | async)?.length">
-  <extension-list-accordion header="Bandeja" [active]="true">
+<ng-container *ngIf="!groupId">
+  <extension-list-accordion
+    [header]="(isSearching | async) ? 'Resultados' : 'Bandeja'"
+    [active]="true"
+    [disabled]="true"
+  >
     <svg
       icon
       class="icon"
@@ -73,42 +95,6 @@
     <div class="flex f-direction-col">
       <a
         *ngFor="let url of bookmarkService.urls"
-        [href]="url.url"
-        target="_blank"
-        class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-1"
-      >
-        <div [ngStyle]="{ width: '25px' }">
-          <img [src]="url.thumbnailUrl" class="w-full" />
-        </div>
-        <div>
-          <p class="p-5">{{ url.name }}</p>
-        </div>
-      </a>
-    </div>
-  </extension-list-accordion>
-
-  <extension-list-accordion
-    *ngFor="let group of bookmarkService.groups"
-    [header]="group.name"
-    (displayContent)="listUrlsByGroup(group._id)"
-  >
-    <svg
-      icon
-      class="icon"
-      focusable="false"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      class="icon"
-      style="width: 20px; height: 20px"
-    >
-      <path
-        _ngcontent-lfw-c80=""
-        d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8z"
-      ></path>
-    </svg>
-    <div class="flex f-direction-col">
-      <a
-        *ngFor="let url of bookmarkService.urlsByGroup.get(group._id)"
         [href]="url.url"
         target="_blank"
         class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-1"

@@ -16,8 +16,10 @@ export class MainComponent implements OnInit, OnDestroy {
   loading = this.bookmarkService.loading;
 
   isSearching = this.searchControl.valueChanges.pipe(
-    map((value) => value?.length && this.loading)
+    map((value) => value?.length)
   );
+
+  groupId?: string;
 
   ngOnInit(): void {
     this.bookmarkService.getAll();
@@ -26,8 +28,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.suscription = this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => {
-        console.log(value);
-        this.bookmarkService.getAll({ search: value! });
+        this.bookmarkService.getAll({ search: value!, groupId: this.groupId });
       });
   }
 
@@ -36,8 +37,10 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   listUrlsByGroup(groupId: string) {
-    if (!this.bookmarkService.urlsByGroup.has(groupId)) {
-      this.bookmarkService.getAll({ groupId });
-    }
+    this.searchControl.setValue('', undefined);
+
+    this.groupId = !this.groupId ? groupId : undefined;
+
+    this.bookmarkService.getAll({ groupId: this.groupId });
   }
 }

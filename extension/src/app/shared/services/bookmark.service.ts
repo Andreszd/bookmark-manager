@@ -45,7 +45,7 @@ export class BookmarkService {
           ...(queries.groupId && { groupId: queries.groupId }),
           ...(queries.search && {
             search: queries.search,
-            searchInGroups: true,
+            searchInGroups: !queries.groupId,
           }),
         },
       })
@@ -63,15 +63,6 @@ export class BookmarkService {
             : undefined,
         }));
 
-        if (queries.search?.length) {
-          this.results = formatted;
-          return;
-        }
-
-        if (queries.groupId) {
-          this.urlsByGroup.set(queries.groupId, formatted);
-          return;
-        }
         this.urls = formatted;
       });
   }

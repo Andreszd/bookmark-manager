@@ -8,12 +8,10 @@ export class ListAccordionComponent {
   @Input() header?: string;
   @Input() active: boolean = false;
   @Input() disabled: boolean = false;
-  @Output() displayContent = new EventEmitter();
+  @Output() onClick = new EventEmitter();
 
   handleClick() {
     this.active = !this.active;
-    if (this.active) {
-      this.displayContent.emit();
-    }
+    this.onClick.emit();
   }
 }

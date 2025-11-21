@@ -47,6 +47,7 @@ const getAll = async (queries: {
   sortCreatedAt?: 'asc' | 'desc';
   sortName?: 'asc' | 'desc';
   removed?: boolean;
+  searchInGroups?: boolean;
 }) => {
   try {
     const collection = await Database.operations?.collection('url');
@@ -61,6 +62,10 @@ const getAll = async (queries: {
         groupId: queries.groupId ? new ObjectId(queries.groupId) : { $exists: false },
       }),
     };
+
+    if (queries.searchInGroups) {
+      delete totalQueries.groupId;
+    }
 
     const total = await collection?.countDocuments(totalQueries);
 

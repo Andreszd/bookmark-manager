@@ -43,7 +43,10 @@ export class BookmarkService {
       .get<OgetUrlsDto>('url', {
         params: {
           ...(queries.groupId && { groupId: queries.groupId }),
-          ...(queries.search && { search: queries.search, searchType: 'all' }),
+          ...(queries.search && {
+            search: queries.search,
+            searchInGroups: true,
+          }),
         },
       })
       .pipe(

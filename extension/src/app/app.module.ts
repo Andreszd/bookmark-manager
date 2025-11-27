@@ -11,6 +11,8 @@ import { ListAccordionModule } from './components/list-accordion/list-accordion.
 import { MainComponent } from './pages/main/main.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from 'libs/ui';
+import { InterSectionObserverDirective } from './shared/directives/intersection-observer.directive';
+import { PaginationService } from './shared/services/pagination.service';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -21,9 +23,11 @@ import { LoadingSpinnerComponent } from 'libs/ui';
     ListAccordionModule,
     ReactiveFormsModule,
     LoadingSpinnerComponent,
+    InterSectionObserverDirective,
   ],
   providers: [
     BookmarkService,
+    PaginationService,
     { provide: HTTP_INTERCEPTORS, useClass: UrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

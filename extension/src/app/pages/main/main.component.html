@@ -36,12 +36,16 @@
     <loading-spinner size="25px"></loading-spinner>
   </div>
 </div>
-<ng-container *ngIf="!(isSearching | async) ? true : groupId">
+
+<div *ngIf="loading" class="flex justify-content-center">
+  <loading-spinner></loading-spinner>
+</div>
+<ng-container *ngIf="!(isSearching | async) ? true : (groupId$ | async)">
   <ng-container *ngFor="let group of bookmarkService.groups">
     <extension-list-accordion
-      *ngIf="groupId ? groupId === group._id : true"
+      *ngIf="(groupId$ | async) ? (groupId$ | async) === group._id : true"
       [header]="group.name"
-      (onClick)="listUrlsByGroup(group._id)"
+      (onClick)="selectGroup(group._id)"
     >
       <svg
         icon
@@ -60,10 +64,10 @@
     </extension-list-accordion>
   </ng-container>
 </ng-container>
-<ng-container *ngIf="groupId">
+<ng-container *ngIf="groupId$ | async">
   <div class="flex f-direction-col">
     <a
-      *ngFor="let url of bookmarkService.urls"
+      *ngFor="let url of urls"
       [href]="url.url"
       target="_blank"
       class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-1"
@@ -78,7 +82,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="!groupId">
+<ng-container *ngIf="!(groupId$ | async)">
   <extension-list-accordion
     [header]="(isSearching | async) ? 'Resultados' : 'Bandeja'"
     [active]="true"
@@ -98,9 +102,9 @@
         d="M19 3H4.99c-1.11 0-1.98.89-1.98 2L3 19c0 1.1.88 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2m0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H4.99V5H19z"
       ></path>
     </svg>
-    <div class="flex f-direction-col">
+    <div #container class="flex f-direction-col">
       <a
-        *ngFor="let url of bookmarkService.urls"
+        *ngFor="let url of urls"
         [href]="url.url"
         target="_blank"
         class="flex align-items-center gap-1 hover-bg-color-grey-300 px-1 py-1"
@@ -114,4 +118,14 @@
       </a>
     </div>
   </extension-list-accordion>
+
+  <div
+    *ngIf="urls.length && !stopped"
+    class="px-1 py-1"
+    observe
+    (observed)="getNextPage()"
+    class="flex justify-content-center"
+  >
+    <loading-spinner></loading-spinner>
+  </div>
 </ng-container>

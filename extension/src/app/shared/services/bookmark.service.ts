@@ -10,7 +10,6 @@ export class BookmarkService {
   loading = false;
   isSaved = false;
 
-  urls: Url<string>[] = [];
   groups: Group[] = [];
 
   results: Url<string>[] = [];
@@ -37,11 +36,12 @@ export class BookmarkService {
     });
   }
 
-  getAll(queries: { groupId?: string; search?: string } = {}) {
+  getAll(queries: { groupId?: string; search?: string; page?: number } = {}) {
     this.loading = true;
     return this.http
       .get<OgetUrlsDto>('url', {
         params: {
+          ...(queries.page && { page: queries.page }),
           ...(queries.groupId && { groupId: queries.groupId }),
           ...(queries.search && {
             search: queries.search,
@@ -51,20 +51,18 @@ export class BookmarkService {
       })
       .pipe(
         map((value) => value?.data),
+        map((value) => {
+          return value.urls.map((item) => ({
+            ...item,
+            thumbnailUrl: item?.thumbnailUrl
+              ? `${environment.imgsBucketUrl}/${item?.thumbnailUrl}`
+              : undefined,
+          }));
+        }),
         finalize(() => {
           this.loading = false;
         })
-      )
-      .subscribe((value) => {
-        const formatted = value.urls.map((item) => ({
-          ...item,
-          thumbnailUrl: item?.thumbnailUrl
-            ? `${environment.imgsBucketUrl}/${item?.thumbnailUrl}`
-            : undefined,
-        }));
-
-        this.urls = formatted;
-      });
+      );
   }
 
   getGroups() {

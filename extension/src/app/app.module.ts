@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from 'libs/ui';
 import { InterSectionObserverDirective } from './shared/directives/intersection-observer.directive';
 import { PaginationService } from './shared/services/pagination.service';
+import { ExtensionApiService } from './shared/services/extension-api.service';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -28,6 +29,7 @@ import { PaginationService } from './shared/services/pagination.service';
   providers: [
     BookmarkService,
     PaginationService,
+    ExtensionApiService,
     { provide: HTTP_INTERCEPTORS, useClass: UrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

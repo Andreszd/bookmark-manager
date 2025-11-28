@@ -8,12 +8,18 @@
   }"
 >
   <button
-    *ngIf="!bookmarkService.isSaved"
     class="w-full button color-white bg-color-primary flex justify-content-center"
-    [disabled]="bookmarkService.loading"
-    (click)="bookmarkService.saveCurrentPage()"
+    [disabled]="creating | async"
+    (click)="saveUrl()"
   >
-    Guardar página <span [style]="{ marginLeft: '5px' }">💾</span>
+    <span *ngIf="!(creating | async)">
+      Guardar página <span [style]="{ marginLeft: '5px' }">💾</span>
+    </span>
+    <loading-spinner
+      *ngIf="creating | async"
+      color="var(--grey-200)"
+      size="20px"
+    ></loading-spinner>
   </button>
 </div>
 <div class="px-1 py-1" [ngStyle]="{ position: 'relative' }">
@@ -23,7 +29,7 @@
     class="input w-full bg-color-grey-100"
   />
   <div
-    *ngIf="loading"
+    *ngIf="loading | async"
     class="flex f-direction-col justify-content-center px-1"
     [ngStyle]="{
       position: 'absolute',
@@ -37,7 +43,7 @@
   </div>
 </div>
 
-<div *ngIf="loading" class="flex justify-content-center">
+<div *ngIf="loading | async" class="flex justify-content-center">
   <loading-spinner></loading-spinner>
 </div>
 <ng-container *ngIf="!(isSearching | async) ? true : (groupId$ | async)">

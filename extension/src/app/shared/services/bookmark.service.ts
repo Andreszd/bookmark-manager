@@ -1,13 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, NgZone } from '@angular/core';
 import { Group, OgetUrlsDto, Url } from 'libs/shared-types';
-import { finalize, map } from 'rxjs';
+import { BehaviorSubject, finalize, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class BookmarkService {
   http = inject(HttpClient);
-  loading = false;
+  private loading = new BehaviorSubject<'create' | 'get' | undefined>(
+    undefined
+  );
+  loading$ = this.loading.asObservable();
+
   isSaved = false;
 
   groups: Group[] = [];
@@ -18,26 +22,27 @@ export class BookmarkService {
 
   ngZone = inject(NgZone);
 
-  saveCurrentPage() {
-    this.loading = true;
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      this.ngZone.run(() => {
-        if (tab.url && tab.title) {
-          this.http.post('url', { url: tab.url }).subscribe(() => {
-            this.loading = false;
-            this.isSaved = true;
-
-            window.setTimeout(() => {
-              this.isSaved = false;
-            }, 2000);
-          });
+  save(tab: { url: string; title?: string }, groupId: string) {
+    this.loading.next('create');
+    return this.http
+      .post(
+        'url',
+        { url: tab.url },
+        {
+          params: {
+            ...(groupId && { groupId }),
+          },
         }
-      });
-    });
+      )
+      .pipe(
+        finalize(() => {
+          this.loading.next(undefined);
+        })
+      );
   }
 
   getAll(queries: { groupId?: string; search?: string; page?: number } = {}) {
-    this.loading = true;
+    this.loading.next('get');
     return this.http
       .get<OgetUrlsDto>('url', {
         params: {
@@ -47,6 +52,8 @@ export class BookmarkService {
             search: queries.search,
             searchInGroups: !queries.groupId,
           }),
+          sortCreatedAt: 'desc',
+          size: 10,
         },
       })
       .pipe(
@@ -60,7 +67,7 @@ export class BookmarkService {
           }));
         }),
         finalize(() => {
-          this.loading = false;
+          this.loading.next(undefined);
         })
       );
   }

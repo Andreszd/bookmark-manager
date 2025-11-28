@@ -15,13 +15,13 @@ import {
   distinctUntilChanged,
   map,
   merge,
-  skip,
   startWith,
   Subscription,
   switchMap,
   tap,
 } from 'rxjs';
 import { BookmarkService } from 'src/app/shared/services/bookmark.service';
+import { ExtensionApiService } from 'src/app/shared/services/extension-api.service';
 import { PaginationService } from 'src/app/shared/services/pagination.service';
 
 @Component({
@@ -31,11 +31,16 @@ import { PaginationService } from 'src/app/shared/services/pagination.service';
 export class MainComponent implements OnInit, OnDestroy {
   bookmarkService = inject(BookmarkService);
   paginationService = inject(PaginationService);
+  extensionApiService = inject(ExtensionApiService);
+
   searchControl = new FormControl('');
   @ViewChild('container') el!: ElementRef<HTMLDivElement>;
   suscription!: Subscription;
 
-  loading = this.bookmarkService.loading;
+  loading = this.bookmarkService.loading$.pipe(map((value) => value === 'get'));
+  creating = this.bookmarkService.loading$.pipe(
+    map((value) => value === 'create')
+  );
 
   isSearching = this.searchControl.valueChanges.pipe(
     map((value) => value?.length)
@@ -77,7 +82,7 @@ export class MainComponent implements OnInit, OnDestroy {
       tap(() => {
         this.paginationService.reset();
         this.urls = [];
-        this.stopped = false;
+        this.continueFetchNextPages();
       })
     );
 
@@ -97,12 +102,19 @@ export class MainComponent implements OnInit, OnDestroy {
         if (urls.length) {
           this.urls = [...this.urls, ...urls];
         } else {
-          this.stopped = true;
+          this.stopFetchNextPages();
         }
       })
     );
 
     merge(resetTriggers$, data$).subscribe();
+  }
+
+  stopFetchNextPages() {
+    this.stopped = true;
+  }
+  continueFetchNextPages() {
+    this.stopped = false;
   }
 
   getNextPage() {
@@ -114,6 +126,19 @@ export class MainComponent implements OnInit, OnDestroy {
   selectGroup(groupId: string) {
     this.searchControl.setValue('', undefined);
     this.groupId.next(this.groupId.value ? null : groupId!);
+  }
+
+  async saveUrl() {
+    const url = await this.extensionApiService.getTabUrl();
+    if (url.url) {
+      this.bookmarkService
+        .save({ url: url.url }, this.groupId.value!)
+        .subscribe(() => {
+          this.urls = [];
+          this.paginationService.reset();
+          this.continueFetchNextPages();
+        });
+    }
   }
 
   ngOnDestroy(): void {

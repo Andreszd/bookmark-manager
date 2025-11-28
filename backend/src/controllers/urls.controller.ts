@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { UrlsService } from '../services/urls.service';
 import { AuthRequest } from '../types';
 
-const create = async (req: AuthRequest, res: Response) => {
+const create = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const userId = req.user;
     const groupId = req.query.groupId ? String(req.query.groupId) : undefined;
@@ -12,25 +12,21 @@ const create = async (req: AuthRequest, res: Response) => {
       message: 'created',
     });
   } catch (error) {
-    res.status(500).json({
-      message: 'server internal error',
-    });
+    next(error);
   }
 };
 
-const getById = async (req: AuthRequest, res: Response) => {
+const getById = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const userId = req.user as string;
     const url = await UrlsService.getById(req.params.id, userId);
     res.status(200).json(url);
   } catch (error) {
-    res.status(404).json({
-      message: error,
-    });
+    next(error);
   }
 };
 
-const getAll = async (req: AuthRequest, res: Response) => {
+const getAll = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const {
       groupId,
@@ -60,13 +56,11 @@ const getAll = async (req: AuthRequest, res: Response) => {
       data: urls,
     });
   } catch (error) {
-    res.status(404).json({
-      message: error,
-    });
+    next(error);
   }
 };
 
-const update = async (req: AuthRequest, res: Response) => {
+const update = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const userId = req.user as string;
     const url = await UrlsService.update(req.params.id, req.body, userId);
@@ -75,9 +69,7 @@ const update = async (req: AuthRequest, res: Response) => {
       data: url,
     });
   } catch (error) {
-    res.status(404).json({
-      message: error,
-    });
+    next(error);
   }
 };
 
@@ -88,12 +80,11 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
       message: 'removed Url',
     });
   } catch (error) {
-    console.log(error, 0.1);
     next(error);
   }
 };
 
-const removeMultiple = async (req: Request, res: Response) => {
+const removeMultiple = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const ids = req.body.ids as string[];
 
@@ -103,10 +94,7 @@ const removeMultiple = async (req: Request, res: Response) => {
       message: 'removed Urls',
     });
   } catch (error) {
-    console.log(error);
-    res.status(404).json({
-      message: error,
-    });
+    next(error);
   }
 };
 

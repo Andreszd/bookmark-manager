@@ -1,44 +1,61 @@
 import puppeteer from 'puppeteer';
+import { ScrapperError } from '../errors/scrapper.error';
 
-const takeSnapshootByUrl = async (url: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    puppeteer.launch().then(async (browser) => {
-      try {
-        const page = await browser.newPage();
-
-        await page.goto(url);
-
-        const fileBase64 = await page.screenshot({
-          optimizeForSpeed: true,
-          encoding: 'base64',
-        });
-        await page.close();
-        resolve(fileBase64);
-      } catch (error) {
-        reject(error);
-      }
-    });
-  });
-};
-
-const getImgResourceByUrl = async (url: string): Promise<string> => {
+const takeSnapshootByUrl = async (url: string): Promise<string | undefined> => {
   return new Promise((resolve, reject) => {
     puppeteer.launch().then(async (browser) => {
       try {
         const page = await browser.newPage();
 
         const viewSource = await page.goto(url);
-        const buffer = await viewSource?.buffer();
 
-        await page.close();
-
-        if (buffer) {
-          resolve(buffer?.toString('base64'));
+        if (viewSource?.status() === 404) {
+          page.close();
+          resolve(undefined);
+        } else {
+          const fileBase64 = await page.screenshot({
+            optimizeForSpeed: true,
+            encoding: 'base64',
+          });
+          page.close();
+          resolve(fileBase64);
         }
       } catch (error) {
-        reject(error);
+        reject(new ScrapperError());
       }
     });
+  });
+};
+
+const getImgResourceByUrl = async (url: string): Promise<string | undefined> => {
+  return new Promise((resolve, reject) => {
+    puppeteer
+      .launch()
+      .then(async (browser) => {
+        try {
+          const page = await browser.newPage();
+
+          const viewSource = await page.goto(url);
+
+          if (viewSource?.status() === 404) {
+            resolve(undefined);
+          }
+          const buffer = await viewSource?.buffer();
+
+          await page.close();
+
+          if (buffer) {
+            resolve(buffer?.toString('base64'));
+          }
+        } catch (error) {
+          reject(error);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        reject(new ScrapperError());
+      });
   });
 };
 

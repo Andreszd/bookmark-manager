@@ -5,23 +5,28 @@ import { ImgService } from './imgs.service';
 import { ScrapperService } from './scrapper.service';
 
 const getMetadata = async (url: string) => {
-  const fileName = `thumbnail-${new Date().getTime()}.png`;
-  let thumbnailUrl;
+  try {
+    const fileName = `thumbnail-${new Date().getTime()}.png`;
+    let thumbnailUrl;
 
-  let { name, url: urlBase64 } = await ScrapperService.captureTitleAndFaviconFromUrl(url);
+    let { name, url: urlBase64 } = await ScrapperService.captureTitleAndFaviconFromUrl(url);
 
-  if (!urlBase64) {
-    urlBase64 = await ScrapperService.takeSnapshootByUrl(url);
+    if (!urlBase64) {
+      urlBase64 = await ScrapperService.takeSnapshootByUrl(url);
+    }
+
+    if (urlBase64) {
+      thumbnailUrl = await ImgService.save(urlBase64, fileName);
+    }
+
+    return {
+      thumbnailUrl,
+      name,
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
-
-  if (urlBase64) {
-    thumbnailUrl = await ImgService.save(urlBase64, fileName);
-  }
-
-  return {
-    thumbnailUrl,
-    name,
-  };
 };
 
 const create = async (url: OmitGenData<Url>) => {

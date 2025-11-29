@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class PaginationService {
   private page = new BehaviorSubject<number>(1);
-  size: number = 50;
+  size: number = 20;
 
   private total = new BehaviorSubject<number>(0);
 

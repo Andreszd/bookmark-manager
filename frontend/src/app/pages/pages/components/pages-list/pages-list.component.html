@@ -1,4 +1,7 @@
-<div class="flex f-direction-col gap-1 flex-1 h-full">
+<div
+  class="flex f-direction-col flex-1 h-full"
+  [ngStyle]="{ overflow: 'auto' }"
+>
   <pages-list-heading></pages-list-heading>
 
   <div
@@ -15,7 +18,7 @@
 
   <drag-select-container
     *ngIf="(pageService.pages$ | async)?.length"
-    class="list-container gap-1 px-2"
+    class="list-container gap-1 px-2 py-2"
     [ngClass]="{ 'one-column': !(isGridLayout$ | async) }"
     (onDetectNodes)="pagesStateService.selectPages($event)"
   >

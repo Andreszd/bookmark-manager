@@ -6,6 +6,8 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 500px)); /* 4 equal columns */
   align-content: start;
+  overflow: auto;
+  flex: 1;
 }
 
 .one-column {

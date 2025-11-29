@@ -15,7 +15,7 @@ import { PageStateService } from './services/page-state.service';
   template: `
     <div class="flex f-direction-col pages-section h-full">
       <pages-section-heading></pages-section-heading>
-      <div class="flex f-direction-col flex-1">
+      <div class="flex f-direction-col flex-1" [ngStyle]="{ overflow: 'auto' }">
         <router-outlet></router-outlet>
       </div>
     </div>

@@ -1,5 +1,4 @@
-import { inject, Injectable } from '@angular/core';
-import { Group } from '../types';
+import { inject, Injectable, Injector } from '@angular/core';
 import { GroupApiService } from './group-api.service';
 import { finalize, map } from 'rxjs';
 import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service';
@@ -10,7 +9,9 @@ export class GroupService {
   private groupApiService = inject(GroupApiService);
   groupStateService = inject(GroupStateService);
   groups$ = this.groupStateService.groups$;
-  loadingFlagService = inject(LoadingFlagService);
+  loadingFlagService = Injector.create({
+    providers: [{ provide: LoadingFlagService, useClass: LoadingFlagService }],
+  }).get(LoadingFlagService);
   loading$ = this.loadingFlagService.$isLoading;
 
   getAll() {

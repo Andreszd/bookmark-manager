@@ -11,6 +11,7 @@ import { GroupApiService } from './services/group-api.service';
 import { RegisterGroupFormComponent } from './components/register-group-form/register-group-form.component';
 import { WarningMergeGroupDialogComponent } from './components/warning-merge-group-dialog/warning-merge-group-dialog.component';
 import { LoadingSpinnerComponent, SvgLoaderComponent } from 'libs/ui';
+import { LoadingFlagService } from 'src/app/shared/services/loading-flag.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { LoadingSpinnerComponent, SvgLoaderComponent } from 'libs/ui';
     RegisterGroupFormComponent,
     WarningMergeGroupDialogComponent,
   ],
-  providers: [GroupService, GroupApiService],
+  providers: [GroupService, GroupApiService, LoadingFlagService],
   exports: [GroupSidebarSectionComponent],
   imports: [
     CommonModule,

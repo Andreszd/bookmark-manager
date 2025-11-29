@@ -27,6 +27,10 @@ export class PagesListHeadingComponent implements OnInit {
   layout$ = this.pagesListLayoutService.layout$;
   refreshPagesService = inject(RefreshPagesService);
 
+  sortType$ = this.route.queryParamMap.pipe(
+    map((queryParams) => queryParams.get('createdAt'))
+  );
+
   constructor() {}
 
   ngOnInit(): void {}

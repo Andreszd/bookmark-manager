@@ -43,6 +43,7 @@ export class PageApiService {
     sortCreatedAt?: 'asc' | 'desc' | undefined;
     sortName?: 'asc' | 'desc' | undefined;
     page?: number;
+    size?: number;
   }) {
     return this.http.get<OGetAllPageDto<T>>(`url`, {
       params: {
@@ -55,13 +56,12 @@ export class PageApiService {
         ...(queries?.removed && {
           removed: queries.removed,
         }),
-        ...(queries?.sortCreatedAt && {
-          sortCreatedAt: queries.sortCreatedAt,
-        }),
         ...(queries?.sortName && {
           sortName: queries.sortName,
         }),
+        sortCreatedAt: queries?.sortCreatedAt ?? 'desc',
         page: queries?.page ?? 1,
+        size: queries?.size ?? 20,
       },
     });
   }

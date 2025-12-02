@@ -55,10 +55,11 @@ Each section highlights completed features, current work, and upcoming improveme
 - Groups section fully developed
 - Routing configured across the application
 - Authentication views created
+- Integration with backend APIs
+- Enable login with Google
 
 ### 🧩 In Progress / Upcoming
 
-- Integration with backend APIs
 - Bookmark import/export functionality
 - Unit and integration test coverage
 
@@ -73,9 +74,18 @@ Each section highlights completed features, current work, and upcoming improveme
 - Core models created
 - Codebase structured into logical layers (controllers, services, repositories, etc.)
 - CRUD APIs developed for Pages and Groups
+- Authentication and user management
+- Enable authentication with Google
+
+### 🧩 Chrome Extension
+
+### ✅ Completed
+
+- Authentication views created
+- Main views created
+- Integration with backend APIs
 
 ### 🧩 In Progress / Upcoming
 
-- Authentication and user management
 - Unit and integration testing
 - Deployment of a demo version

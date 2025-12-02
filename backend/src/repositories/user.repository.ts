@@ -6,8 +6,8 @@ import { OmitId } from '../types';
 
 const create = async (user: OmitId<User>) => {
   try {
-    const collection = await Database.operations?.collection('user');
-    const result = await collection?.insertOne(user);
+    const collection = await Database.operations?.collection<User>('user');
+    const result = await collection?.insertOne(user as User);
     if (result?.insertedId) {
       return { _id: result?.insertedId, ...user };
     }

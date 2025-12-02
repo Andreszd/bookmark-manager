@@ -9,12 +9,25 @@ const create = async (user: InputCreateUserDto) => {
 
     if (userWithSameEmail) throw new EmailRepeatedError();
 
-    const password = await bcrypt.hash(user.password, 10);
+    let passEnc;
 
-    return await UserRepository.create({ email: user.email, password, createdAt: new Date() });
+    if (user.password) {
+      passEnc = await bcrypt.hash(user.password, 10);
+    }
+
+    return await UserRepository.create({
+      email: user.email,
+      ...(passEnc && { password: passEnc }),
+      createdAt: new Date(),
+    });
   } catch (error) {
     throw error;
   }
+};
+
+const getByEmail = async (email: string) => {
+  const user = await UserRepository.getBy('email', email);
+  return user;
 };
 
 const getById = async (id: string) => {
@@ -25,4 +38,4 @@ const getById = async (id: string) => {
   }
 };
 
-export const UserService = { create, getById };
+export const UserService = { create, getById, getByEmail };

@@ -31,8 +31,17 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    component: AuthComponent,
     canActivate: [CanActivatePrivateRoutes],
+    children: [
+      {
+        path: '',
+        component: AuthComponent,
+      },
+      {
+        path: 'google',
+        component: AuthComponent,
+      },
+    ],
   },
 ];
 

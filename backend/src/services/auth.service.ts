@@ -1,6 +1,15 @@
 import { UserRepository } from '../repositories/user.repository';
 import bcrypt from 'bcryptjs';
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import { OAuthService } from './oaut.service';
+import { ObjectId } from 'mongodb';
+import { UserService } from './user.service';
+
+const genToken = (userId: ObjectId) => {
+  return jwt.sign({ _id: userId }, process.env.JWT_KEY as string, {
+    expiresIn: '1h',
+  });
+};
 
 const auth = async ({ email, password }: { email: string; password: string }) => {
   try {
@@ -8,13 +17,13 @@ const auth = async ({ email, password }: { email: string; password: string }) =>
 
     if (!user) throw { message: 'User not registered' };
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (user.password) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) throw { message: 'Incorrect password' };
+      if (!isPasswordValid) throw { message: 'Incorrect password' };
+    }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY as string, {
-      expiresIn: '1h',
-    });
+    const token = genToken(user._id);
 
     return token;
   } catch (error) {
@@ -33,4 +42,27 @@ const checkStatus = async (token: string) => {
   });
 };
 
-export const AuthService = { auth, checkStatus };
+const authGoogle = async (code: string) => {
+  try {
+    let userId;
+
+    const data = await OAuthService.auth(code);
+
+    const user = await UserService.getByEmail(data.email);
+
+    if (!user) {
+      const user = await UserService.create({ email: data.email });
+      userId = user?._id;
+    } else {
+      userId = user._id;
+    }
+
+    if (!userId) throw new Error('Authentication error');
+
+    return genToken(userId);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const AuthService = { auth, authGoogle, checkStatus };

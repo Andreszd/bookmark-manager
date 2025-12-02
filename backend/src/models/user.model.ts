@@ -3,19 +3,15 @@ import { ObjectId } from 'mongodb';
 export type User = {
   _id: ObjectId;
   email: string;
-  password: string;
+  password?: string;
   createdAt: Date;
 };
 
 export const jsonScheme = {
   title: 'User object validation',
-  required: ['email', 'password', 'createdAt'],
+  required: ['email', 'createdAt'],
   properties: {
     email: {
-      bsonType: 'string',
-      description: 'Must be a string',
-    },
-    password: {
       bsonType: 'string',
       description: 'Must be a string',
     },

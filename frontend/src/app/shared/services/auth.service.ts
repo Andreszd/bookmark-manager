@@ -30,6 +30,22 @@ export class AuthService {
     );
   }
 
+  authByCode(code: string) {
+    this.isAuthenticating = true;
+    return this.http
+      .post<{ data: { token: string } }>('auth/google', {
+        code,
+      })
+      .pipe(
+        tap((value) => {
+          window.localStorage.setItem('token', value?.data?.token);
+        }),
+        finalize(() => {
+          this.isAuthenticated = false;
+        })
+      );
+  }
+
   checkSession() {
     this.userState.set({ isLoading: true });
     return this.http

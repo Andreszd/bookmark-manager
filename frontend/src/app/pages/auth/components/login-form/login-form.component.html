@@ -28,8 +28,20 @@
         *ngIf="!authService.isAuthenticating"
         class="w-full text-align-center py-0"
       >
-        Iniciar sesion
+        Iniciar sesión
       </p>
     </button>
+    <div class="divider flex align-items-center gap-1">
+      <span></span>
+      ó
+      <span></span>
+    </div>
+    <a
+      [href]="signInMethodsService.getSignInUrl()"
+      class="button py-2 flex justify-content-center"
+    >
+      <svg-loader class="icon" src="assets/google-icon.svg"></svg-loader>
+      Inicia sesión con Google
+    </a>
   </form>
 </div>

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { environment } from 'src/environments/environment';
+import { SignInMethodsService } from '../../services/sign-in-methods.service';
 
 @Component({
   selector: 'login-form',
@@ -13,6 +14,7 @@ export class LoginFormComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
   route = inject(ActivatedRoute);
+  signInMethodsService = inject(SignInMethodsService);
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required]),

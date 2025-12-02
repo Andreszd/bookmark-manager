@@ -7,6 +7,14 @@ export const environment = {
   imgsBucketUrl: 'http://localhost:3000',
   apiUrl: 'http://localhost:3000/api',
   extensionId: 'bmhimodaabgndjeghigcgdijcgbpnhne',
+  googleOauthUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+  googleCallbackUrl: 'http://localhost:4200/auth/google',
+  clientId:
+    '538206183030-uscsvfh3nbskr41iipu2q9e9bk42kp2t.apps.googleusercontent.com',
+  oAuthScopes: [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+  ],
 };
 
 /*

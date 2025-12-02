@@ -5,6 +5,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent, SvgLoaderComponent } from 'libs/ui';
+import { SignInMethodsService } from './services/sign-in-methods.service';
 
 @NgModule({
   declarations: [AuthComponent, LoginFormComponent],
@@ -15,6 +16,6 @@ import { LoadingSpinnerComponent, SvgLoaderComponent } from 'libs/ui';
     LoadingSpinnerComponent,
   ],
   exports: [AuthComponent],
-  providers: [AuthService],
+  providers: [AuthService, SignInMethodsService],
 })
 export class AuthModule {}
